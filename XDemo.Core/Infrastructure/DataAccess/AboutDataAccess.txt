@@ -1,1 +1,2 @@
 ﻿All stuffs used for local database access, CRUD data (i.e: sqllite) will appear here!
+This mean "Repository"

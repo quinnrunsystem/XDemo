@@ -1,1 +1,3 @@
 ﻿This folder contains all things about network access: api call, socket...
+Current sysfx's repository definitions now is a part of services. And we call it "Proxy"
+"Repository" definitions were moved to DataAccess
