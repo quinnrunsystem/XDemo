@@ -13,7 +13,23 @@
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XDemo.Logic\XDemo.Logic.csproj" />
     <ProjectReference Include="..\XDemo.Core\XDemo.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Controls\" />
+    <Folder Include="Markup\" />
+    <Folder Include="Markup\Behaviors\" />
+    <Folder Include="Markup\Converters\" />
+    <Folder Include="Markup\Extensions\" />
+    <Folder Include="Markup\Effects\" />
+    <Folder Include="Models\" />
+    <Folder Include="Markup\Animations\" />
+    <Folder Include="Controls\" />
+    <Folder Include="Controls\ExtendedElements\" />
+    <Folder Include="Controls\GroupedElements\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="ViewModels\Base\" />
   </ItemGroup>
 </Project>

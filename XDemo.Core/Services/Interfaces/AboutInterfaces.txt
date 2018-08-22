@@ -1,0 +1,2 @@
+﻿Interfaces of services. Dev must use interface to progress logic only.
+their output/input dto store here too

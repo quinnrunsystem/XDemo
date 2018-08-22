@@ -90,6 +90,10 @@
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Implementations\" />
+    <Folder Include="Services\MockImplementations\" />
+    <Folder Include="Renderers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XDemo.UI\XDemo.UI.csproj">

@@ -1,0 +1,1 @@
+﻿Related base types of views

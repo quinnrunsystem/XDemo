@@ -1,0 +1,1 @@
+﻿Model definitions which used to show data in view. use another class (such as a dto) is not allowed!

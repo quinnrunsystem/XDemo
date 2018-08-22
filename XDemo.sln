@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XDemo.Core", "XDemo.Core\XD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{3FBB3661-71EC-477A-981B-F983CD5DAE6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XDemo.Logic", "XDemo.Logic\XDemo.Logic.csproj", "{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AE22DEF6-D982-4B96-A09D-3228EE0360B1}"
 	ProjectSection(SolutionItems) = preProject
 		AboutTest.txt = AboutTest.txt
@@ -94,22 +92,6 @@ Global
 		{DA1D58D5-D719-4B20-B13B-567FEE5B2536}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
 		{DA1D58D5-D719-4B20-B13B-567FEE5B2536}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
 		{DA1D58D5-D719-4B20-B13B-567FEE5B2536}.AppStore|iPhone.Build.0 = Debug|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Release|iPhone.Build.0 = Release|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.AppStore|iPhone.ActiveCfg = Release|Any CPU
-		{2AF6E4E3-7EB4-4B49-B11E-22C1A2370A78}.AppStore|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{266BD4B1-9235-4E51-BCE9-389242359A00} = {3FBB3661-71EC-477A-981B-F983CD5DAE6E}

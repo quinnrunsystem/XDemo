@@ -160,5 +160,11 @@
       <Name>XDemo.UI</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Services\Implementations\" />
+    <Folder Include="Services\MockImplementations\" />
+    <Folder Include="Renderers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
