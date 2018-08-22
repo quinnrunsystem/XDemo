@@ -1,0 +1,2 @@
+﻿This namespace store all stuffs that use for implement app storage (same with current sysfx StorageUtility).
+We can provide generic access method, base rule... for dev use this easily, but the underlayer tech can be changed over time.
