@@ -2,6 +2,8 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Prism;
+using Prism.Ioc;
 
 namespace XDemo.Droid
 {
@@ -15,7 +17,20 @@ namespace XDemo.Droid
 
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
+            LoadApplication(new App(new AndroidPlatformInitializer()));
+        }
+
+        public class AndroidPlatformInitializer : IPlatformInitializer
+        {
+            public void RegisterTypes(IContainerRegistry containerRegistry)
+            {
+                RegisterPlatformSpecifiedServices(containerRegistry);
+            }
+
+            void RegisterPlatformSpecifiedServices(IContainerRegistry containerRegistry)
+            {
+                //todo: register base on OS service, ie: TextToSpeechService...
+            }
         }
     }
 }

@@ -1,0 +1,1 @@
+﻿all stuffs use for controlling peripherals, such as: bluetooth, gps, nfc... will appear here!
