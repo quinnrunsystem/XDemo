@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using XDemo.UI.ViewModels.Base;
+using System.Threading.Tasks;
 
 namespace XDemo.UI.Views.Base
 {
@@ -11,7 +12,7 @@ namespace XDemo.UI.Views.Base
         //this event provide for code behind
         public event EventHandler<ScreenRotatedEventArg> ScreenRotated;
 
-        protected override async void OnSizeAllocated(double width, double height)
+        protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
             if (!_lastWidth.Equals(width) && !_lastHeight.Equals(height))
@@ -20,7 +21,7 @@ namespace XDemo.UI.Views.Base
                 ScreenRotated?.Invoke(this, new ScreenRotatedEventArg { Orientation = orientation });
                 //provide for viewmodel
                 var vm = this.BindingContext as ViewModelBase;
-                await vm?.OnScreenRotated(orientation);
+                vm?.OnScreenRotatedAsync(orientation);//todo: review
             }
 
             _lastWidth = width;

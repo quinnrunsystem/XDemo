@@ -17,11 +17,12 @@ namespace XDemo.UI
         public App(IPlatformInitializer initializer) : base(initializer)
         {
         }
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            RegisterNavigations(containerRegistry);
             RegisterServices(containerRegistry);
             RegisterMockServices(containerRegistry);
+            // about navigations registration: DO NOT REGISTER ANY NAVIGATION - YOU MUST NAME YOUR VIEWS AND VIEWMODELS MATCH NAMING CONVENTIONS
         }
 
         private void RegisterServices(IContainerRegistry containerRegistry)
@@ -30,11 +31,6 @@ namespace XDemo.UI
             containerRegistry.Register<IDataProxy, RestApi>();
             containerRegistry.Register<IStartupService, StartupService>();
             // todo: register logic services which using for app
-        }
-
-        private void RegisterNavigations(IContainerRegistry containerRegistry)
-        {
-            // todo: register for navigations
         }
 
         private void RegisterMockServices(IContainerRegistry containerRegistry)
