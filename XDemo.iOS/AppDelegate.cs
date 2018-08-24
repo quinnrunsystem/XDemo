@@ -1,6 +1,9 @@
 ﻿using Foundation;
 using UIKit;
 using XDemo.UI;
+using Prism;
+using Prism.Ioc;
+
 namespace XDemo.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
@@ -16,12 +19,25 @@ namespace XDemo.iOS
         //
         // You have 17 seconds to return from this method, or iOS will terminate your application.
         //
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+            LoadApplication(new App(new IOSPlatformInitializer()));
 
-            return base.FinishedLaunching(app, options);
+            return base.FinishedLaunching(uiApplication, launchOptions);
+        }
+
+        public class IOSPlatformInitializer : IPlatformInitializer
+        {
+            public void RegisterTypes(IContainerRegistry containerRegistry)
+            {
+                RegisterPlatformSpecifiedServices(containerRegistry);
+            }
+
+            void RegisterPlatformSpecifiedServices(IContainerRegistry containerRegistry)
+            {
+                //todo: register base on OS service, ie: TextToSpeechService...
+            }
         }
     }
 }
