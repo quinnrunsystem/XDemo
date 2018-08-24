@@ -19,6 +19,11 @@ namespace XDemo.UI.ViewModels.Base
         private readonly INavigationService _navigator;
         private readonly ILogger _logger;
 
+        protected ViewModelBase()
+        {
+
+        }
+
         protected ViewModelBase(INavigationService navigation, ILogger logger)
         {
             _navigator = navigation;
@@ -100,11 +105,12 @@ namespace XDemo.UI.ViewModels.Base
         {
             try
             {
+                //todo: provide a show 'busy indicator' parameter
                 await _semaphore.WaitAsync();
                 if (_wasGone)
                     return;
                 _wasGone = true;
-                _logger.Info($"Begin NavigateToAsync: {typeof(TViewModel).Name} - Navigation mode {parameters.GetNavigationMode()}");
+                _logger.Info($"Begin PushAsync: {typeof(TViewModel).Name}");
                 await _navigator.NavigateAsync(typeof(TViewModel).Name, parameters, animated: animated);
             }
             finally
@@ -117,11 +123,12 @@ namespace XDemo.UI.ViewModels.Base
         {
             try
             {
+                //todo: provide a show 'busy indicator' parameter
                 await _semaphore.WaitAsync();
                 if (_wasGone)
                     return;
                 _wasGone = true;
-                _logger.Info($"Begin NavigateToAsync: {typeof(TViewModel).Name} - Navigation mode {parameters.GetNavigationMode()}");
+                _logger.Info($"Begin PushModalAsync: {typeof(TViewModel).Name}");
                 await _navigator.NavigateAsync(typeof(TViewModel).Name, parameters, true, animated);
             }
             finally
@@ -145,7 +152,7 @@ namespace XDemo.UI.ViewModels.Base
                 if (_wasGone)
                     return false;
                 _wasGone = true;
-                _logger.Info($"Begin GoBackAsync from: {GetType().Name}");
+                _logger.Info($"Begin PopAsync from: {GetType().Name}");
                 return await _navigator.GoBackAsync(parameters, useModalNavigate, animated);
             }
             finally
@@ -172,5 +179,10 @@ namespace XDemo.UI.ViewModels.Base
         {
             return _navigator.GetNavigationUriPath();
         }
+    }
+
+    public class MyViewModel : ViewModelBase
+    {
+
     }
 }

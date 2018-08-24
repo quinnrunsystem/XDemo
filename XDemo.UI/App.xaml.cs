@@ -8,6 +8,12 @@ using XDemo.Core.Infrastructure.Networking.ApiGateway;
 using XDemo.Core.Infrastructure.Logging;
 using XDemo.Core.Services.Interfaces;
 using XDemo.Core.Services.Implementations;
+using Autofac;
+using Autofac.Core;
+using System.ComponentModel;
+using System.Reflection;
+using XDemo.UI.Views;
+using Prism.Navigation;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XDemo.UI
@@ -37,26 +43,27 @@ namespace XDemo.UI
         {
             // todo: register mock service for devs undependent develop
         }
+
+        private void RegisterNavigation(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterForNavigation<MainPage>();
+        }
+
         void PrepareMetaData()
         {
             // todo: prepare all our metadata here, such as: defauts values, enviroment...
         }
-
+        async void InitNavigation()
+        {
+            var navigationService = Container.Resolve<INavigationService>();
+            await navigationService.NavigateAsync(new Uri(nameof(MainPage), UriKind.Absolute));
+        }
         #region App lifecycle
         protected override void OnInitialized()
         {
             InitializeComponent();
             PrepareMetaData();
-            // todo: sample mainpage => to remove
-            MainPage = new ContentPage
-            {
-                Content = new Label
-                {
-                    Text = "Hello Xamarin.Forms!",
-                    HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center
-                }
-            };
+            InitNavigation();
         }
 
         protected override void OnStart()
