@@ -77,7 +77,10 @@ namespace XDemo.UI.ViewModels.Base
         /// occur whe user rotated the device
         /// </summary>
         /// <param name="orientation">Orientation.</param>
-        public virtual async Task OnScreenRotatedAsync(ScreenOrientation orientation) { }
+        public virtual async Task OnScreenRotatedAsync(ScreenOrientation orientation)
+        {
+            // todo: review
+        }
 
         /// <summary>
         /// The semaphore. <para/>
@@ -150,7 +153,7 @@ namespace XDemo.UI.ViewModels.Base
                 _semaphore.Release();
             }
         }
-       
+
         /// <summary>
         /// let's back to root
         /// </summary>

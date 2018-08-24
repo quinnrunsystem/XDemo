@@ -2,7 +2,7 @@
 using System.Windows.Input;
 namespace XDemo.Core.Infrastructure.Input
 {
-    public class SingletonCommand:ICommand
+    public class SingletonCommand : ICommand
     {
         readonly Func<object, bool> _canExecute;
         readonly Action<object> _execute;
