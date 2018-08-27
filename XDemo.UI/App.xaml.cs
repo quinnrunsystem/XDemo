@@ -13,6 +13,7 @@ using XDemo.Core.BusinessServices.Implementations.Common;
 using XDemo.Core.BusinessServices.Interfaces.Patients;
 using XDemo.Core.BusinessServices.Implementations.Patients;
 using XDemo.UI.Extensions;
+using Prism.Logging;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XDemo.UI
@@ -35,6 +36,7 @@ namespace XDemo.UI
 
         private void RegisterServices(IContainerRegistry containerRegistry)
         {
+            containerRegistry.Register<ILoggerFacade, DebugLogger>();//override the base EmptyLogger of Prism.Forms
             containerRegistry.Register<ILogger, Logger>();
             containerRegistry.Register<IDataProxy, RestApi>();
             containerRegistry.Register<IStartupService, StartupService>();
