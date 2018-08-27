@@ -1,20 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Class1.cs" />
+    <Compile Remove="Services\Interfaces\Common\IStartupService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\" />
     <Folder Include="Infrastructure\Networking\" />
     <Folder Include="Infrastructure\Storage\" />
-    <Folder Include="Services\" />
-    <Folder Include="Services\Implementations\" />
-    <Folder Include="Services\Interfaces\" />
-    <Folder Include="Services\MockImplementations\" />
+    <Folder Include="BusinessServices\" />
+    <Folder Include="BusinessServices\Implementations\" />
+    <Folder Include="BusinessServices\Interfaces\" />
+    <Folder Include="BusinessServices\MockImplementations\" />
     <Folder Include="Extensions\" />
     <Folder Include="Constants\" />
     <Folder Include="Infrastructure\DataAccess\" />

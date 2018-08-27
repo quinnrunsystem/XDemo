@@ -34,8 +34,28 @@
     <Folder Include="Controls\GroupedElements\" />
     <Folder Include="Views\Base\" />
     <Folder Include="ViewModels\Base\" />
+    <Folder Include="Models\Validations\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Views\Common\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="MyPage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Views\Common\HomePage.xaml" />
+    <None Include="Views\Common\LoginPage.xaml" />
+    <None Include="Views\Common\SettingPage.xaml" />
+    <None Include="Views\Common\TransactionPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\Common\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Common\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Common\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

@@ -20,7 +20,7 @@ namespace XDemo.iOS
             }
             catch (Exception ex)
             {
-                //todo: log it out for dev
+                // focused to this while debugging
                 throw ex;
             }
         }

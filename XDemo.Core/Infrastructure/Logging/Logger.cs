@@ -9,12 +9,12 @@ namespace XDemo.Core.Infrastructure.Logging
 
         public Logger(ILoggerFacade loggerFacade)
         {
-            //now we use prism built-in logger. In the future we can implement this by another
+            // todo: now we use prism built-in logger. In the future we can implement this by another
             _loggerFacade = loggerFacade;
         }
-        public void Info(string message)
+        public void Info(string message, Priority priority)
         {
-            _loggerFacade.Log(message, Category.Info, Priority.High);
+            _loggerFacade.Log(message, Category.Info, priority);
         }
 
         public void Error(string message)

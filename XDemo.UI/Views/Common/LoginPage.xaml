@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<base:ViewBase xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:base="clr-namespace:XDemo.UI.Views.Base;assembly=XDemo.UI"
+               x:Class="XDemo.UI.Views.Common.LoginPage">
+    <base:ViewBase.Content>
+         <Grid Grid.Row="0" Grid.Column="0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            
+            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" Text="User" Margin="5" HorizontalOptions="End"/>
+            <Entry Grid.Row="1" Grid.Column="2" Placeholder="Tên đăng nhập" Text="{Binding UserName, UpdateSourceEventName=TextChanged}" Margin="5" HorizontalOptions="Fill"/>
+
+            <Label Grid.Row="2" Grid.Column="1" VerticalOptions="Center" Text="Password" Margin="5" HorizontalOptions="End"/>
+            <Entry Grid.Row="2" Grid.Column="2" Placeholder="mật khẩu" Margin="5" IsPassword="true" Text="{Binding Password, UpdateSourceEventName=TextChanged}" HorizontalOptions="Fill"/>
+            <Button Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Command="{Binding LoginCommand}" Text="Đăng nhập" Margin="5" VerticalOptions="Fill" />
+            <ActivityIndicator Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
+        </Grid>
+    </base:ViewBase.Content>
+</base:ViewBase>
