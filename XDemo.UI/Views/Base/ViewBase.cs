@@ -2,12 +2,21 @@
 using Xamarin.Forms;
 using XDemo.UI.ViewModels.Base;
 using System.Threading.Tasks;
+using Prism.Mvvm;
 
 namespace XDemo.UI.Views.Base
 {
     public class ViewBase : ContentPage
     {
         private double _lastWidth, _lastHeight;
+
+        public ViewBase()
+        {
+            //binding the base property 'Title'
+            this.SetBinding(TitleProperty, nameof(ViewModelBase.Title), BindingMode.TwoWay);
+            //globle busy
+            this.SetBinding(IsBusyProperty, nameof(ViewModelBase.IsBusy), BindingMode.TwoWay);
+        }
 
         //this event provide for code behind
         public event EventHandler<ScreenRotatedEventArg> ScreenRotated;
@@ -21,7 +30,7 @@ namespace XDemo.UI.Views.Base
                 ScreenRotated?.Invoke(this, new ScreenRotatedEventArg { Orientation = orientation });
                 //provide for viewmodel
                 var vm = this.BindingContext as ViewModelBase;
-                vm?.OnScreenRotatedAsync(orientation);//todo: review
+                vm?.OnScreenRotated(orientation);
             }
 
             _lastWidth = width;
