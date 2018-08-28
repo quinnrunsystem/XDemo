@@ -1,30 +1,39 @@
 ﻿using System;
-using System.Diagnostics;
+#if DEBUG
 using Prism.Logging;
+using System.Diagnostics;
+#endif
+
 namespace XDemo.Core.Infrastructure.Logging
 {
     public class Logger : ILogger
     {
-        private readonly ILoggerFacade _loggerFacade;
-
-        public Logger(ILoggerFacade loggerFacade)
+        public void Info(string message)
         {
-            // todo: now we use prism built-in logger. In the future we can implement this by another
-            _loggerFacade = loggerFacade;
-        }
-        public void Info(string message, Priority priority)
-        {
-            _loggerFacade.Log(message, Category.Info, priority);
+#if DEBUG
+            Debug.WriteLine(BuidlMessage(message, Category.Info));
+#endif
         }
 
         public void Error(string message)
         {
-            _loggerFacade.Log(message, Category.Exception, Priority.High);
+#if DEBUG
+            Debug.WriteLine(BuidlMessage(message, Category.Exception));
+#endif
         }
 
         public void Error(Exception exception)
         {
+#if DEBUG
             Error(exception?.ToString());
+#endif
         }
+
+#if DEBUG
+        string BuidlMessage(string rawMsg, Category category)
+        {
+            return $"[{category.ToString().ToUpper()}][{DateTime.Now.ToString("HH:mm:ss")}] {(string.IsNullOrEmpty(rawMsg) ? "..." : rawMsg)}";
+        }
+#endif
     }
 }

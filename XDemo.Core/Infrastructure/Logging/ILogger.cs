@@ -1,11 +1,10 @@
 ﻿using System;
-using Prism.Logging;
 
 namespace XDemo.Core.Infrastructure.Logging
 {
     public interface ILogger
     {
-        void Info(string message, Priority priority = Priority.None);
+        void Info(string message);
 
         void Error(string errorMessage);
 

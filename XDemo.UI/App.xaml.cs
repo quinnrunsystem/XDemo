@@ -14,6 +14,11 @@ using XDemo.Core.BusinessServices.Interfaces.Patients;
 using XDemo.Core.BusinessServices.Implementations.Patients;
 using XDemo.UI.Extensions;
 using Prism.Logging;
+using System.Threading;
+using Prism.Mvvm;
+using System.Globalization;
+using System.Reflection;
+using System;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XDemo.UI
@@ -22,13 +27,13 @@ namespace XDemo.UI
     {
         public App(IPlatformInitializer initializer) : base(initializer)
         {
-            
+
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             IAutofacContainerExtension containerExtension = new AutofacContainerExtension(containerRegistry.GetBuilder());
-            
+
             RegisterNavigation(containerRegistry);
             RegisterServices(containerRegistry);
             RegisterMockServices(containerRegistry);
@@ -36,7 +41,7 @@ namespace XDemo.UI
 
         private void RegisterServices(IContainerRegistry containerRegistry)
         {
-            containerRegistry.Register<ILoggerFacade, DebugLogger>();//override the base EmptyLogger of Prism.Forms
+            //containerRegistry.Register<ILoggerFacade, DebugLogger>();//override the base EmptyLogger of Prism.Forms => poor loging, dont use.
             containerRegistry.Register<ILogger, Logger>();
             containerRegistry.Register<IDataProxy, RestApi>();
             containerRegistry.Register<IStartupService, StartupService>();
@@ -54,11 +59,14 @@ namespace XDemo.UI
 
         private void RegisterNavigation(IContainerRegistry containerRegistry)
         {
-            // about navigations registration: DO NOT REGISTER ANY NAVIGATION - YOU MUST NAME YOUR VIEWS AND VIEWMODELS MATCH NAMING CONVENTIONS
+            // about navigations registration: DO NOT REGISTER ANY NAVIGATION WITH EXPLICIT VIEWMODEL - YOU MUST NAME YOUR VIEWS AND VIEWMODELS MATCH NAMING CONVENTIONS
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<TabbedPage>();
-            
-            /* DONT REGISTER LIKE THIS: containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+
+            /* DEFAULT NAMING RULE: VIEW NAME 'YourViewName' -> will bind with view model name 'YourViewNameViewModel'
+             * EXAMPLE: view name is 'MainPage' will bind with view model 'MainPageViewModel'
+             * This rule can be re-config by calling the method 'ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(Func<Type, Type> viewTypeToViewModelTypeResolver)' when app startup
+             * DONT REGISTER LIKE THIS: containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
              * OR THIS: containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>("Navigation_Name_For_Main_Page");
              * JUST SIMPLIFIED LIKE THIS: containerRegistry.RegisterForNavigation<MainPage>();
              */
@@ -74,6 +82,7 @@ namespace XDemo.UI
         }
 
         #region App lifecycle
+
         protected override void OnInitialized()
         {
             InitializeComponent();
