@@ -5,6 +5,8 @@
   <ItemGroup>
     <Compile Remove="Class1.cs" />
     <Compile Remove="Services\Interfaces\Common\IStartupService.cs" />
+    <Compile Remove="Infrastructure\Networking\Temp\IDataProxy.cs" />
+    <Compile Remove="Infrastructure\Networking\Temp\RestApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\" />
@@ -20,15 +22,17 @@
     <Folder Include="Shared\" />
     <Folder Include="Infrastructure\Peripherals\" />
     <Folder Include="Infrastructure\Networking\Base\" />
-    <Folder Include="Infrastructure\Networking\ApiGateway\" />
     <Folder Include="Infrastructure\Logging\" />
     <Folder Include="Infrastructure\Input\" />
+    <Folder Include="BusinessServices\Interfaces\Photos\" />
+    <Folder Include="BusinessServices\Implementations\Photos\" />
+    <Folder Include="ApiDefinitions\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
     <PackageReference Include="Prism.Forms" Version="7.0.0.396" />
     <PackageReference Include="Prism.Autofac.Forms" Version="7.0.0.396" />
-    <PackageReference Include="Polly" Version="6.1.0" />
+    <PackageReference Include="Refit" Version="4.6.30" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Base\AboutBase.txt" />

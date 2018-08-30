@@ -37,6 +37,7 @@
     <Folder Include="Models\Validations\" />
     <Folder Include="Extensions\" />
     <Folder Include="Views\Common\" />
+    <Folder Include="Themes\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="MyPage.cs" />

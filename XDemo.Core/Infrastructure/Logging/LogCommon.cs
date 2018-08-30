@@ -6,23 +6,23 @@ using System.Diagnostics;
 
 namespace XDemo.Core.Infrastructure.Logging
 {
-    public class Logger : ILogger
+    public static class LogCommon
     {
-        public void Info(string message)
+        public static void Info(string message)
         {
 #if DEBUG
             Debug.WriteLine(BuidlMessage(message, Category.Info));
 #endif
         }
 
-        public void Error(string message)
+        public static void Error(string message)
         {
 #if DEBUG
             Debug.WriteLine(BuidlMessage(message, Category.Exception));
 #endif
         }
 
-        public void Error(Exception exception)
+        public static void Error(Exception exception)
         {
 #if DEBUG
             Error(exception?.ToString());
@@ -30,9 +30,9 @@ namespace XDemo.Core.Infrastructure.Logging
         }
 
 #if DEBUG
-        string BuidlMessage(string rawMsg, Category category)
+        static string BuidlMessage(string rawMsg, Category category)
         {
-            return $"[{category.ToString().ToUpper()}][{DateTime.Now.ToString("HH:mm:ss")}] {(string.IsNullOrEmpty(rawMsg) ? "..." : rawMsg)}";
+            return $"[{DateTime.Now.ToString("HH:mm:ss")}][{category.ToString().ToUpper()}] {(string.IsNullOrEmpty(rawMsg) ? "..." : rawMsg)}";
         }
 #endif
     }

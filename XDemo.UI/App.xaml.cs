@@ -2,7 +2,6 @@
 using Prism;
 using Prism.Autofac;
 using Prism.Ioc;
-using XDemo.Core.Infrastructure.Networking.ApiGateway;
 using XDemo.Core.Infrastructure.Logging;
 using Autofac;
 using Xamarin.Forms;
@@ -13,12 +12,8 @@ using XDemo.Core.BusinessServices.Implementations.Common;
 using XDemo.Core.BusinessServices.Interfaces.Patients;
 using XDemo.Core.BusinessServices.Implementations.Patients;
 using XDemo.UI.Extensions;
-using Prism.Logging;
-using System.Threading;
-using Prism.Mvvm;
-using System.Globalization;
-using System.Reflection;
-using System;
+using XDemo.Core.BusinessServices.Interfaces.Photos;
+using XDemo.Core.BusinessServices.Implementations.Photos;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XDemo.UI
@@ -41,13 +36,11 @@ namespace XDemo.UI
 
         private void RegisterServices(IContainerRegistry containerRegistry)
         {
-            //containerRegistry.Register<ILoggerFacade, DebugLogger>();//override the base EmptyLogger of Prism.Forms => poor loging, dont use.
-            containerRegistry.Register<ILogger, Logger>();
-            containerRegistry.Register<IDataProxy, RestApi>();
             containerRegistry.Register<IStartupService, StartupService>();
             containerRegistry.Register<ISecurityService, SecurityService>();
             containerRegistry.Register<IPatientService, PatientService>();
             containerRegistry.Register<ISecurityService, SecurityService>();
+            containerRegistry.Register<IPhotoService, PhotoService>();
             // todo: register logic services which using for app
             // ...
         }
