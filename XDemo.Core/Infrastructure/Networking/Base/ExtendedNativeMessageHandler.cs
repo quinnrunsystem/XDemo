@@ -1,7 +1,8 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System;
+using ModernHttpClient;
 #if DEBUG
 using System.Diagnostics;
 using XDemo.Core.Infrastructure.Logging;
@@ -9,7 +10,7 @@ using XDemo.Core.Infrastructure.Logging;
 
 namespace XDemo.Core.Infrastructure.Networking.Base
 {
-    public class ExtendedHttpClientHandler : HttpClientHandler
+    public class ExtendedNativeMessageHandler : NativeMessageHandler
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
@@ -25,11 +26,6 @@ namespace XDemo.Core.Infrastructure.Networking.Base
                 var response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
                 return response;
 #if DEBUG
-            }
-            catch (Exception ex)  
-            {
-                LogCommon.Error(ex);
-                return null;
             }
             finally
             {

@@ -8,6 +8,8 @@ using Prism.Services;
 using Prism.Navigation;
 using XDemo.Core.Infrastructure.Logging;
 using XDemo.UI.Extensions;
+using XDemo.Core.BusinessServices.Interfaces.Photos;
+using System.Threading;
 
 namespace XDemo.UI.ViewModels.Common
 {
@@ -16,9 +18,11 @@ namespace XDemo.UI.ViewModels.Common
         private readonly ISecurityService _securityService;
         private readonly IPageDialogService _pageDialogService;
         private readonly INavigationService _navigationService;
+        private readonly IPhotoService _photoService;
 
-        public LoginPageViewModel(ISecurityService securityService, IPageDialogService pageDialogService, INavigationService navigationService)
+        public LoginPageViewModel(ISecurityService securityService, IPageDialogService pageDialogService, INavigationService navigationService, IPhotoService photoService)
         {
+            _photoService = photoService;
             _securityService = securityService;
             _pageDialogService = pageDialogService;
             _navigationService = navigationService;
@@ -54,14 +58,18 @@ namespace XDemo.UI.ViewModels.Common
             try
             {
                 IsBusy = true;
-                var rs = await _securityService.Login(UserName, Password);
-                IsBusy = false;
-                if (!rs.IsValid)
-                {
-                    await _pageDialogService.DisplayAlertAsync("Warning", "Invalid username or password", "Ok");
-                    return;
-                }
-                await _navigationService.GoToMainPage();
+                var photos = await _photoService.Get(CancellationToken.None);
+                LogCommon.Info($"Photo count: {photos.Count}");
+                var pt = await _photoService.Get(3);
+                LogCommon.Info($"Photo id: {pt?.Id ?? 0}");
+                //var rs = await _securityService.Login(UserName, Password);
+                //IsBusy = false;
+                //if (!rs.IsValid)
+                //{
+                //    await _pageDialogService.DisplayAlertAsync("Warning", "Invalid username or password", "Ok");
+                //    return;
+                //}
+                //await _navigationService.GoToMainPage();
             }
             finally
             {

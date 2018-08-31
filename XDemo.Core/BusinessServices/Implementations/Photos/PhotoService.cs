@@ -1,26 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using XDemo.Core.BusinessServices.Interfaces.Photos;
 using XDemo.Core.Infrastructure.Networking;
 using XDemo.Core.ApiDefinitions;
 using System.Threading;
+using System;
+using XDemo.Core.Infrastructure.Networking.Base;
 namespace XDemo.Core.BusinessServices.Implementations.Photos
 {
     public class PhotoService : IPhotoService
     {
-        public async Task<List<PhotoDto>> Get()
+        private readonly IPhotoApi _photoApi;
+        public PhotoService()
         {
-            var api = RestServiceGenerator.For<IPhotoApi>();
-            var tcs = new CancellationTokenSource();
-            tcs.CancelAfter(10000);
-            return await api.Get(tcs.Token);
+            _photoApi = RestServiceBase.GetApi<IPhotoApi>();
+        }
+
+        public async Task<ListDtoBase<PhotoDto>> Get(CancellationToken extToken)
+        {
+            var api = RestServiceBase.GetApi<IPhotoApi>();
+            return await RestServiceBase.WrappedExecuteAsync(api.Get(extToken));
         }
 
         public async Task<PhotoDto> Get(int id)
         {
-            var api = RestServiceGenerator.For<IPhotoApi>();
-            return await api.Get(id);
+            var api = RestServiceBase.GetApi<IPhotoApi>();
+            return await RestServiceBase.WrappedExecuteAsync(api.Get(id), RetryMode.Confirmed);
         }
     }
 }

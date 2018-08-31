@@ -4,6 +4,8 @@ using XDemo.Core.BusinessServices.Interfaces.Photos;
 using System.Threading.Tasks;
 using Refit;
 using System.Threading;
+using System.Net.Http;
+using XDemo.Core.Infrastructure.Networking.Base;
 
 namespace XDemo.Core.ApiDefinitions
 {
@@ -11,7 +13,7 @@ namespace XDemo.Core.ApiDefinitions
     public interface IPhotoApi
     {
         [Get("/photos")]
-        Task<List<PhotoDto>> Get(CancellationToken token);
+        Task<ListDtoBase<PhotoDto>> Get(CancellationToken token);
 
         [Get("/photos/{id}")]
         Task<PhotoDto> Get(int id);

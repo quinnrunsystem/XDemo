@@ -1,9 +1,10 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using XDemo.Core.Infrastructure.Networking.Base;
 namespace XDemo.Core.BusinessServices.Interfaces.Photos
 {
-    public class PhotoDto
+    public class PhotoDto : DtoBase
     {
         [JsonProperty("albumId")]
         public int AlbumId { get; set; }
