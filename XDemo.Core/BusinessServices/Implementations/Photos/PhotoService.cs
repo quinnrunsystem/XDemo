@@ -13,19 +13,19 @@ namespace XDemo.Core.BusinessServices.Implementations.Photos
         private readonly IPhotoApi _photoApi;
         public PhotoService()
         {
-            _photoApi = RestServiceBase.GetApi<IPhotoApi>();
+            _photoApi = RestServiceHelper.GetApi<IPhotoApi>();
         }
 
         public async Task<ListDtoBase<PhotoDto>> Get(CancellationToken extToken)
         {
-            var api = RestServiceBase.GetApi<IPhotoApi>();
-            return await RestServiceBase.WrappedExecuteAsync(api.Get(extToken));
+            var api = RestServiceHelper.GetApi<IPhotoApi>();
+            return await RestServiceHelper.CallWithRetry(api.Get(extToken), RetryMode.Confirm);
         }
 
         public async Task<PhotoDto> Get(int id)
         {
-            var api = RestServiceBase.GetApi<IPhotoApi>();
-            return await RestServiceBase.WrappedExecuteAsync(api.Get(id), RetryMode.Confirmed);
+            var api = RestServiceHelper.GetApi<IPhotoApi>();
+            return await RestServiceHelper.CallWithRetry(api.Get(id), RetryMode.Confirm);
         }
     }
 }

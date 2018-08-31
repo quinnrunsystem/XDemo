@@ -59,7 +59,7 @@ namespace XDemo.UI.ViewModels.Common
             {
                 IsBusy = true;
                 var photos = await _photoService.Get(CancellationToken.None);
-                LogCommon.Info($"Photo count: {photos.Count}");
+                LogCommon.Info($"Photo count: {photos.Items.Count}");
                 var pt = await _photoService.Get(3);
                 LogCommon.Info($"Photo id: {pt?.Id ?? 0}");
                 //var rs = await _securityService.Login(UserName, Password);

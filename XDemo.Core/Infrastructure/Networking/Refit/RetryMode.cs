@@ -13,6 +13,6 @@
         /// <summary>
         /// confirmed then retry
         /// </summary>
-        Confirmed
+        Confirm
     }
 }
