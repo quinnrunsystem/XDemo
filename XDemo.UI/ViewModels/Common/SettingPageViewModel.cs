@@ -16,11 +16,9 @@ namespace XDemo.UI.ViewModels.Common
         private readonly ISecurityService _securityService;
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _pageDialogService;
-        readonly ILogger _logger;
 
-        public SettingPageViewModel(ISecurityService securityService, INavigationService navigationService, IPageDialogService pageDialogService, ILogger logger)
+        public SettingPageViewModel(ISecurityService securityService, INavigationService navigationService, IPageDialogService pageDialogService)
         {
-            _logger = logger;
             _securityService = securityService;
             _navigationService = navigationService;
             _pageDialogService = pageDialogService;
@@ -54,7 +52,7 @@ namespace XDemo.UI.ViewModels.Common
         public override void OnScreenRotated(ScreenOrientation orientation)
         {
             base.OnScreenRotated(orientation);
-            _logger.Info($"Screen rotated, new orientation: {orientation}");
+            LogCommon.Info($"Screen rotated, new orientation: {orientation}");
             var mainpage = Application.Current.MainPage;
         }
     }

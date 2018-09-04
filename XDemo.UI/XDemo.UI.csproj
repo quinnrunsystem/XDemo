@@ -14,6 +14,7 @@
     <PackageReference Include="Prism.Forms" Version="7.0.0.396" />
     <PackageReference Include="PropertyChanged.Fody" Version="2.5.9" />
     <PackageReference Include="Prism.Autofac.Forms" Version="7.0.0.396" />
+    <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XDemo.Core\XDemo.Core.csproj" />
@@ -37,6 +38,7 @@
     <Folder Include="Models\Validations\" />
     <Folder Include="Extensions\" />
     <Folder Include="Views\Common\" />
+    <Folder Include="Themes\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="MyPage.cs" />
