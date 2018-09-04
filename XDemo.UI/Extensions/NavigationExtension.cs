@@ -39,7 +39,7 @@ namespace XDemo.UI.Extensions
                 { KnownNavigationParameters.CreateTab, nameof(TransactionPage) },
                 { KnownNavigationParameters.CreateTab, nameof(SettingPage) }
             };
-            var query = $"/{nameof(NavigationPage)}/{nameof(TabbedPage)}{navParams.ToString()}";
+            var query = $"/{nameof(NavigationPage)}/{nameof(PrismTabbedPage)}{navParams.ToString()}";
             await navigationService.NavigateAsync(query);
         }
         #endregion
