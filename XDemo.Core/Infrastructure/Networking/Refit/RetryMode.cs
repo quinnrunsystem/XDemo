@@ -1,4 +1,4 @@
-﻿namespace XDemo.Core.Infrastructure.Networking
+﻿namespace XDemo.Core.Infrastructure.Networking.Refit
 {
     public enum RetryMode
     {

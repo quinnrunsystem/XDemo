@@ -1,17 +1,17 @@
-﻿using Refit;
-using System.Net.Http;
-using System;
-using XDemo.Core.Infrastructure.Networking.Base;
-using XDemo.Core.ApiDefinitions;
-using System.Threading.Tasks;
-using System.Threading;
-using Polly;
-using XDemo.Core.Infrastructure.Logging;
-using Xamarin.Forms;
-using Plugin.Connectivity;
+﻿using System;
 using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using Plugin.Connectivity;
+using Polly;
+using Refit;
+using Xamarin.Forms;
+using XDemo.Core.ApiDefinitions;
+using XDemo.Core.Infrastructure.Logging;
+using XDemo.Core.Infrastructure.Networking.Base;
 
-namespace XDemo.Core.Infrastructure.Networking
+namespace XDemo.Core.Infrastructure.Networking.Refit
 {
     public static class RestServiceHelper
     {

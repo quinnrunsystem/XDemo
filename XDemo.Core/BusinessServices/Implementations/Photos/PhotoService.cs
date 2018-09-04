@@ -4,6 +4,7 @@ using XDemo.Core.Infrastructure.Networking;
 using XDemo.Core.ApiDefinitions;
 using System.Threading;
 using XDemo.Core.Infrastructure.Networking.Base;
+using XDemo.Core.Infrastructure.Networking.Refit;
 
 namespace XDemo.Core.BusinessServices.Implementations.Photos
 {

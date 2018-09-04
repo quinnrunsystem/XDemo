@@ -21,7 +21,7 @@ namespace XDemo.Core.Infrastructure.Networking.Base
             {
 #endif
                 //default: charset utf-8; content-type: applicetion/json
-                //todo: provide authorization bear token if needed
+                //todo: provide authorization bearer token if needed
                 request.Headers.Add("Accept", "application/json");
                 var response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
                 return response;
