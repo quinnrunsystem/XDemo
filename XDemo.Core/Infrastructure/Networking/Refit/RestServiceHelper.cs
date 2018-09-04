@@ -5,13 +5,11 @@ using XDemo.Core.Infrastructure.Networking.Base;
 using XDemo.Core.ApiDefinitions;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Net;
 using Polly;
-using Plugin.Connectivity;
 using XDemo.Core.Infrastructure.Logging;
 using Xamarin.Forms;
-using System.Collections.Generic;
-using System.Linq;
+using Plugin.Connectivity;
+using System.Net;
 
 namespace XDemo.Core.Infrastructure.Networking
 {
@@ -27,19 +25,28 @@ namespace XDemo.Core.Infrastructure.Networking
                     NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
                 }
             };
-            var client = GetHttpClient();
-            return RestService.For<TApi>(client, defaultSettings);
+            return RestService.For<TApi>(GetHttpClient(), defaultSettings);
         }
 
-        public static async Task<T> CallWithRetry<T>(Task<T> apiTask, RetryMode retryMode = RetryMode.Confirm) where T : DtoBase, new()
+        /// <summary>
+        /// Calls the api task with retry.
+        /// </summary>
+        /// <returns>The with retry.</returns>
+        /// <param name="taskFac">Task factory. We have to use function instead of explicit task for dynamic retrieve new task when retry </param>
+        /// <param name="retryMode">Retry mode. default is <see cref="RetryMode.Confirm"/></param>
+        /// <typeparam name="T">The 1st type parameter.</typeparam>
+        public static async Task<T> CallWithRetry<T>(Func<Task<T>> taskFac, RetryMode retryMode = RetryMode.Confirm) where T : DtoBase, new()
         {
+            if (taskFac == null)
+                throw new ArgumentNullException(nameof(taskFac));
             var result = new T();
             switch (retryMode)
             {
                 case RetryMode.None:
+                    //execute the api task only
                     try
                     {
-                        result = await apiTask;
+                        result = await taskFac.Invoke();
                     }
                     catch (TaskCanceledException ex)
                     {
@@ -58,7 +65,7 @@ namespace XDemo.Core.Infrastructure.Networking
                         LogCommon.Error($"retry no {retryCount} - Exception msg: {exception.Message}");
                         await WarningOnMainThread();
                     });
-                    result = await warningRetryPolicy.ExecuteAsync(() => ActionSendAsync(apiTask));
+                    result = await warningRetryPolicy.ExecuteAsync(() => ActionSendAsync(taskFac));
                     break;
                 case RetryMode.Confirm:
                     var confirmRetryPolicy = Policy.Handle<Exception>().RetryForeverAsync(async (exception, retryCount, context) =>
@@ -67,15 +74,17 @@ namespace XDemo.Core.Infrastructure.Networking
                         var sure = await ConfirmOnMainThread();
                         if (!sure)
                         {
+                            //get the original tokensource passed in execution
                             var orgTcs = context["tokenSource"] as CancellationTokenSource;
+                            //cancel it!
                             orgTcs.Cancel();
                         }
                     });
                     var inputTcs = new CancellationTokenSource();
                     try
                     {
-                        //passed the token into it to cancel if the user dont choose retry
-                        result = await confirmRetryPolicy.ExecuteAsync((inputContext, token) => ActionSendAsync(apiTask), new Context { { "tokenSource", inputTcs } }, inputTcs.Token).ConfigureAwait(true);
+                        //passed the token into it to cancel if the user wont choose retry
+                        result = await confirmRetryPolicy.ExecuteAsync((inputContext, token) => ActionSendAsync(taskFac), new Context { { "tokenSource", inputTcs } }, inputTcs.Token).ConfigureAwait(true);
                     }
                     catch (OperationCanceledException ex)
                     {
@@ -94,7 +103,7 @@ namespace XDemo.Core.Infrastructure.Networking
         #region private methods, executor
         static HttpClient GetHttpClient()
         {
-            var src = new CancellationTokenSource();
+            //use native handler for better perfomance
             var handler = new ExtendedNativeMessageHandler();
             var toReturn = new HttpClient(handler)
             {
@@ -104,14 +113,15 @@ namespace XDemo.Core.Infrastructure.Networking
             return toReturn;
         }
 
-        static async Task<T> ActionSendAsync<T>(Task<T> task) where T : DtoBase, new()
+        static async Task<T> ActionSendAsync<T>(Func<Task<T>> taskFac) where T : DtoBase, new()
         {
             try
             {
                 //precondition by connectivity
                 if (!CrossConnectivity.Current.IsConnected)
                     throw new WebException("There's no internet connections!");
-                //undone: if the api task failed, its still faulted forever, how can we renew it?
+                // retrieve the api task from task factory
+                var task = taskFac.Invoke();
                 return await task;
             }
             catch (OperationCanceledException)
@@ -122,6 +132,7 @@ namespace XDemo.Core.Infrastructure.Networking
             catch (AggregateException ex)
             {
                 if (!(ex.InnerException is OperationCanceledException))
+                    //other exception => re-throw
                     throw ex;
                 return default(T);
             }
@@ -133,34 +144,32 @@ namespace XDemo.Core.Infrastructure.Networking
         }
 
         /// <summary>
-        /// Confirms the on main thread.
+        /// Warnings the on main thread. Awaitable
         /// </summary>
         /// <returns>The on main thread.</returns>
         private static Task WarningOnMainThread()
         {
-            // no async await.
+            // use a task completion source for awaitable
             var tcs = new TaskCompletionSource<bool>();
             Device.BeginInvokeOnMainThread(() =>
             {
-                var result = Application.Current.MainPage.DisplayAlert("Warning", "Warning message!", "Ok");
-                // Set result from MainThread to tcs.Task
+                var result = Application.Current.MainPage.DisplayAlert("Warning", "Warning message!", "Ok");//todo: resource
                 result.ContinueWith((sender) => tcs.SetResult(true));
             });
             return tcs.Task;
         }
 
         /// <summary>
-        /// Confirms the on main thread.
+        /// Confirms the on main thread. Awaitable
         /// </summary>
         /// <returns>The on main thread.</returns>
         private static Task<bool> ConfirmOnMainThread()
         {
-            // no async await.
+            // use a task completion source for awaitable
             var tcs = new TaskCompletionSource<bool>();
             Device.BeginInvokeOnMainThread(() =>
             {
-                var result = Application.Current.MainPage.DisplayAlert("confirm", "Confirm message?", "Ok", "Cancel");
-                // Set result from MainThread to tcs.Task
+                var result = Application.Current.MainPage.DisplayAlert("confirm", "Confirm message?", "Ok", "Cancel");//todo: resource
                 result.ContinueWith((sender) => tcs.SetResult(sender.Result));
             });
             return tcs.Task;
