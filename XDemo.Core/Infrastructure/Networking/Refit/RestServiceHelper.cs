@@ -35,7 +35,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
         /// <param name="taskFac">Task factory. We have to use function instead of explicit task for dynamic retrieve new task when retry </param>
         /// <param name="retryMode">Retry mode. default is <see cref="RetryMode.Confirm"/></param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static async Task<T> CallWithRetry<T>(Func<Task<T>> taskFac, RetryMode retryMode = RetryMode.Confirm) where T : DtoBase, new()
+        public static async Task<T> CallWithRetry<T>(Func<Task<T>> taskFac, RetryMode retryMode = RetryMode.Confirm) where T : new()
         {
             if (taskFac == null)
                 throw new ArgumentNullException(nameof(taskFac));
@@ -50,13 +50,15 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                     }
                     catch (TaskCanceledException ex)
                     {
-                        result.Result = ApiResult.Canceled;
-                        result.ErrorMessage = ex.Message;
+                        // todo:
+                        //result.Result = ApiResult.Canceled;
+                        //result.ErrorMessage = ex.Message;
                     }
                     catch (Exception ex)
                     {
-                        result.Result = ApiResult.Failed;
-                        result.ErrorMessage = ex.Message;
+                        // todo
+                        //result.Result = ApiResult.Failed;
+                        //result.ErrorMessage = ex.Message;
                     }
                     break;
                 case RetryMode.Warning:
@@ -113,7 +115,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
             return toReturn;
         }
 
-        static async Task<T> ActionSendAsync<T>(Func<Task<T>> taskFac) where T : DtoBase, new()
+        static async Task<T> ActionSendAsync<T>(Func<Task<T>> taskFac) where T : new()
         {
             try
             {

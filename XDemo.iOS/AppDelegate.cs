@@ -3,6 +3,7 @@ using UIKit;
 using XDemo.UI;
 using Prism;
 using Prism.Ioc;
+using FFImageLoading.Forms.Platform;
 
 namespace XDemo.iOS
 {
@@ -22,6 +23,7 @@ namespace XDemo.iOS
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
             global::Xamarin.Forms.Forms.Init();
+            CachedImageRenderer.Init();
             LoadApplication(new App(new IOSPlatformInitializer()));
 
             return base.FinishedLaunching(uiApplication, launchOptions);

@@ -4,6 +4,7 @@ using Android.Content.PM;
 using Android.OS;
 using Prism;
 using Prism.Ioc;
+using FFImageLoading.Forms.Platform;
 
 namespace XDemo.Droid
 {
@@ -17,6 +18,7 @@ namespace XDemo.Droid
 
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            CachedImageRenderer.Init(true);
             LoadApplication(new App(new AndroidPlatformInitializer()));
         }
 

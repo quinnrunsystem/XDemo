@@ -70,7 +70,6 @@ namespace XDemo.Droid.Renderers
             if (ViewGroup != null && ViewGroup.ChildCount > 0)
             {
                 _bottomNavigationMenuView = FindChildOfType<BottomNavigationMenuView>(ViewGroup);
-
                 if (_bottomNavigationMenuView != null)
                 {
                     var shiftMode = _bottomNavigationMenuView.Class.GetDeclaredField("mShiftingMode");

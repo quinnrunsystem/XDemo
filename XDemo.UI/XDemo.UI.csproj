@@ -15,6 +15,8 @@
     <PackageReference Include="PropertyChanged.Fody" Version="2.5.9" />
     <PackageReference Include="Prism.Autofac.Forms" Version="7.0.0.396" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.3.840" />
+    <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.3.840" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XDemo.Core\XDemo.Core.csproj" />
@@ -39,9 +41,11 @@
     <Folder Include="Extensions\" />
     <Folder Include="Views\Common\" />
     <Folder Include="Themes\" />
+    <Folder Include="Models\Photos\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="MyPage.cs" />
+    <Compile Remove="ViewModels\Common\PhotoDetailPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Common\HomePage.xaml" />
@@ -59,5 +63,10 @@
     <Compile Update="Views\Common\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Mono.framework\External\xbuild-frameworks\MonoAndroid\v8.1\Mono.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
