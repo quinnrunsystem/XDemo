@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using XDemo.Core.Infrastructure.Logging;
 
 namespace XDemo.iOS
 {
@@ -21,7 +22,8 @@ namespace XDemo.iOS
             catch (Exception ex)
             {
                 // focused to this while debugging
-                throw ex;
+                //throw ex;
+                LogCommon.Error(ex);
             }
         }
     }
