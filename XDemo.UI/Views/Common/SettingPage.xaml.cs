@@ -11,6 +11,7 @@ namespace XDemo.UI.Views.Common
         public SettingPage()
         {
             InitializeComponent();
+            Icon = "order_2";
         }
     }
 }

@@ -58,18 +58,18 @@ namespace XDemo.UI.ViewModels.Common
             try
             {
                 IsBusy = true;
-                var photos = await _photoService.Get(CancellationToken.None);
-                LogCommon.Info($"Photo count: {photos.Items.Count}");
-                var pt = await _photoService.Get(3);
-                LogCommon.Info($"Photo id: {pt?.Id ?? 0}");
-                //var rs = await _securityService.Login(UserName, Password);
-                //IsBusy = false;
-                //if (!rs.IsValid)
-                //{
-                //    await _pageDialogService.DisplayAlertAsync("Warning", "Invalid username or password", "Ok");
-                //    return;
-                //}
-                //await _navigationService.GoToMainPage();
+                //var photos = await _photoService.Get(CancellationToken.None);
+                //LogCommon.Info($"Photo count: {photos.Items.Count}");
+                //var pt = await _photoService.Get(3);
+                //LogCommon.Info($"Photo id: {pt?.Id ?? 0}");
+                var rs = await _securityService.Login(UserName, Password);
+                IsBusy = false;
+                if (!rs.IsValid)
+                {
+                    await _pageDialogService.DisplayAlertAsync("Warning", "Invalid username or password", "Ok");
+                    return;
+                }
+                await _navigationService.GoToMainPage();
             }
             finally
             {

@@ -11,6 +11,7 @@ namespace XDemo.UI.Views.Common
         public TransactionPage()
         {
             InitializeComponent();
+            Icon = "rate_2";
         }
     }
 }
