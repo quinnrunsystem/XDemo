@@ -95,6 +95,7 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderers\TabbedPageCustomRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -171,6 +172,37 @@
     <Folder Include="Services\Implementations\" />
     <Folder Include="Services\MockImplementations\" />
     <Folder Include="Renderers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Default.png" />
+    <BundleResource Include="Resources\Default%402x.png" />
+    <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="Resources\Default-Portrait.png" />
+    <BundleResource Include="Resources\Default-Portrait%402x.png" />
+    <BundleResource Include="Resources\card_2%402x.png" />
+    <BundleResource Include="Resources\card_2%403x.png" />
+    <BundleResource Include="Resources\card%402x.png" />
+    <BundleResource Include="Resources\card%403x.png" />
+    <BundleResource Include="Resources\chart_2%402x.png" />
+    <BundleResource Include="Resources\chart_2%403x.png" />
+    <BundleResource Include="Resources\chart%402x.png" />
+    <BundleResource Include="Resources\chart%403x.png" />
+    <BundleResource Include="Resources\login_2%402x.png" />
+    <BundleResource Include="Resources\login_2%403x.png" />
+    <BundleResource Include="Resources\login%402x.png" />
+    <BundleResource Include="Resources\login%403x.png" />
+    <BundleResource Include="Resources\market_2%402x.png" />
+    <BundleResource Include="Resources\market_2%403x.png" />
+    <BundleResource Include="Resources\market%402x.png" />
+    <BundleResource Include="Resources\market%403x.png" />
+    <BundleResource Include="Resources\order_2%402x.png" />
+    <BundleResource Include="Resources\order_2%403x.png" />
+    <BundleResource Include="Resources\order%402x.png" />
+    <BundleResource Include="Resources\order%403x.png" />
+    <BundleResource Include="Resources\rate_2%402x.png" />
+    <BundleResource Include="Resources\rate_2%403x.png" />
+    <BundleResource Include="Resources\rate%402x.png" />
+    <BundleResource Include="Resources\rate%403x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

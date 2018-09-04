@@ -56,7 +56,7 @@ namespace XDemo.UI
         {
             // about navigations registration: DO NOT REGISTER ANY NAVIGATION - YOU MUST NAME YOUR VIEWS AND VIEWMODELS MATCH NAMING CONVENTIONS
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<TabbedPage>();
+            containerRegistry.RegisterForNavigation<PrismTabbedPage>();
             
             /* DONT REGISTER LIKE THIS: containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
              * OR THIS: containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>("Navigation_Name_For_Main_Page");

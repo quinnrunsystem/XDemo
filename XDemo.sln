@@ -97,4 +97,17 @@ Global
 		{266BD4B1-9235-4E51-BCE9-389242359A00} = {3FBB3661-71EC-477A-981B-F983CD5DAE6E}
 		{C6449B95-7F27-4D43-BF26-332B7D49FB54} = {3FBB3661-71EC-477A-981B-F983CD5DAE6E}
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$0.TextStylePolicy = $2
+		$2.FileWidth = 80
+		$2.TabsToSpaces = True
+		$2.scope = application/xaml+xml
+		$0.XmlFormattingPolicy = $3
+		$3.DefaultFormat = $4
+		$4.AttributesInNewLine = True
+		$3.scope = application/xaml+xml
+	EndGlobalSection
 EndGlobal

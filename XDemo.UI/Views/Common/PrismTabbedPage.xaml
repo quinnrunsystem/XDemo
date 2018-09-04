@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<renderers:TabbedPageCustom
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Tabbed Page Renderer"
+    xmlns:renderers="clr-namespace:XDemo.UI.Controls.ExtendedElements"
+    BarBackgroundColor="Green"
+    TextColorUnselected="Gray"
+    TextColorSelected="White"
+    x:Class="XDemo.UI.Views.Common.PrismTabbedPage">
+    <!-- TODO: // Add Some Child Pages -->
+    
+</renderers:TabbedPageCustom>
