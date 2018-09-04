@@ -22,7 +22,7 @@ namespace XDemo.Core.Infrastructure.Networking.Base
 #endif
                 //default: charset utf-8; content-type: applicetion/json
                 //todo: provide authorization bearer token if needed
-                request.Headers.Add("Accept", "application/json");
+                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 var response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
                 return response;
 #if DEBUG
