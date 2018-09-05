@@ -109,5 +109,12 @@ Global
 		$3.DefaultFormat = $4
 		$4.AttributesInNewLine = True
 		$3.scope = application/xaml+xml
+		$0.TextStylePolicy = $5
+		$5.inheritsSet = null
+		$5.scope = application/xml
+		$0.XmlFormattingPolicy = $6
+		$6.DefaultFormat = $7
+		$7.AttributesInNewLine = True
+		$6.scope = application/xml
 	EndGlobalSection
 EndGlobal

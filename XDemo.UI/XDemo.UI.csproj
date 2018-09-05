@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="MyPage.cs" />
+    <Compile Remove="Views\MyView.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Common\HomePage.xaml" />

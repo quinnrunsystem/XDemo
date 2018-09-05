@@ -5,9 +5,8 @@
     Title="Tabbed Page Renderer"
     xmlns:renderers="clr-namespace:XDemo.UI.Controls.ExtendedElements"
     BarBackgroundColor="Green"
-    TextColorUnselected="Gray"
+    TextColorUnselected="Yellow"
     TextColorSelected="White"
     x:Class="XDemo.UI.Views.Common.PrismTabbedPage">
     <!-- TODO: // Add Some Child Pages -->
-    
 </renderers:TabbedPageCustom>

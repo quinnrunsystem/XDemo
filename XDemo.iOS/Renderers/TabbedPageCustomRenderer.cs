@@ -1,9 +1,12 @@
 ﻿using System;
+using CoreGraphics;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using XDemo.iOS.Helpers;
 using XDemo.iOS.Renderers;
 using XDemo.UI.Controls.ExtendedElements;
+using XDemo.UI.Views;
 
 [assembly: ExportRenderer(typeof(TabbedPageCustom), typeof(TabbedPageCustomRenderer))]
 namespace XDemo.iOS.Renderers
@@ -49,6 +52,88 @@ namespace XDemo.iOS.Renderers
                             TextColor = tabbedPage.TextColorUnselected.ToUIColor()
                         }, UIControlState.Selected);
                 }
+            }
+        }
+
+        UIView containerView;
+        UIButton zz;
+
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+
+            containerView = new UIView()
+            {
+                Frame = new CoreGraphics.CGRect(0, View.Frame.Height, View.Frame.Width, 0),
+                BackgroundColor = UIColor.Purple
+            };
+
+            zz = new UIButton
+            {
+                //Frame = new CoreGraphics.CGRect(View.Frame.Width - 45, this.containerView.Frame.Y - 45, 40, 20),
+                TranslatesAutoresizingMaskIntoConstraints = false
+            };
+
+            View.AddSubview(containerView);
+            View.AddSubview(zz);
+
+            zz.RightAnchor.ConstraintEqualTo(View.RightAnchor, new nfloat(-5)).Active = true;
+            zz.BottomAnchor.ConstraintEqualTo(TabBar.BottomAnchor, new nfloat(-10)).Active = true;
+            zz.WidthAnchor.ConstraintEqualTo(40).Active = true;
+            zz.HeightAnchor.ConstraintEqualTo(25).Active = true;
+
+            zz.SetBackgroundImage(new UIImage("arrow"), UIControlState.Normal);
+            //containerView.Frame = new CoreGraphics.CGRect(0, View.Frame.Height, View.Frame.Width, 0);
+            //zz.Frame = new CoreGraphics.CGRect(View.Frame.Width - 45, this.View.Frame.Height - 45, 40, 20);
+            containerView.Hidden = true;
+
+            zz.AddTarget(HandleEventHandler, UIControlEvent.TouchUpInside);
+        }
+
+        void HandleEventHandler(object sender, EventArgs e)
+        {
+            if (containerView.Hidden) // Show Animation
+            {
+                containerView.Hidden = false;
+                UIView.Animate(
+                    duration: 0.3,
+                    delay: 0,
+                    options: UIViewAnimationOptions.TransitionFlipFromBottom,
+                    animation: () =>
+                    {
+                        containerView.Frame = new CoreGraphics.CGRect(0, this.View.Frame.Height - 250, View.Frame.Width, 250);
+                        //zz.Frame = new CoreGraphics.CGRect(View.Frame.Width - 45, containerView.Frame.Y - 45, 40, 20);
+
+                        zz.BottomAnchor.ConstraintEqualTo(containerView.TopAnchor, new nfloat(-5)).Active = true;
+                        zz.Transform = CGAffineTransform.Rotate(zz.Transform, (nfloat)Math.PI * 180);
+                        zz.Transform = CGAffineTransform.Rotate(zz.Transform, (nfloat)Math.PI);
+
+                    },
+                    completion: () =>
+                    {
+                    }
+                );
+            }
+            else // Hide Animation
+            {
+                UIView.Animate(
+                    duration: 0.3,
+                    delay: 0,
+                    options: UIViewAnimationOptions.TransitionFlipFromTop,
+                    animation: () =>
+                    {
+                        containerView.Frame = new CoreGraphics.CGRect(0, View.Frame.Height, View.Frame.Width, 0);
+                        //zz.Frame = new CoreGraphics.CGRect(View.Frame.Width - 45, this.View.Frame.Height - 45, 40, 20);
+                        zz.BottomAnchor.ConstraintEqualTo(TabBar.BottomAnchor, new nfloat(-10)).Active = true;
+
+                        zz.Transform = CGAffineTransform.MakeIdentity();
+                    },
+                    completion: () =>
+                    {
+
+                        containerView.Hidden = true;
+                    }
+                );
             }
         }
 
