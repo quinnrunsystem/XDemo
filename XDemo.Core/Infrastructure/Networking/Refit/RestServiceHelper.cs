@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Plugin.Connectivity;
 using Polly;
 using Refit;
 using Xamarin.Forms;
@@ -119,9 +118,6 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
         {
             try
             {
-                //precondition by connectivity
-                if (!CrossConnectivity.Current.IsConnected)
-                    throw new WebException("There's no internet connections!");
                 // retrieve the api task from task factory
                 var task = taskFac.Invoke();
                 return await task;

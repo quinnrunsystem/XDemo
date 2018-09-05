@@ -15,6 +15,10 @@ using XDemo.UI.Extensions;
 using XDemo.Core.BusinessServices.Interfaces.Photos;
 using XDemo.Core.BusinessServices.Implementations.Photos;
 using XDemo.UI.ViewModels.Common;
+using System;
+using System.Reflection;
+using System.Globalization;
+using Prism.Mvvm;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XDemo.UI
@@ -53,14 +57,17 @@ namespace XDemo.UI
 
         private void RegisterNavigation(IContainerRegistry containerRegistry)
         {
+            //main navaigation container, dont has any viewmodels (especially)
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<PrismTabbedPage>();
 
-            containerRegistry.RegisterForNavigation<HomePage>();
-            containerRegistry.RegisterForNavigation<LoginPage>();
-            containerRegistry.RegisterForNavigation<SettingPage>();
-            containerRegistry.RegisterForNavigation<TransactionPage>();
-            containerRegistry.RegisterForNavigation<PhotoDetailPage, PhotoDetailPageViewModel>(nameof(PhotoDetailPageViewModel));
+            // as our team-convention: all pages used in app will be registerd with their explicit viewmodel's name
+            // use 'nameof' key word to restrict defined more constant string values
+            containerRegistry.RegisterForNavigation<HomePage>(nameof(HomePageViewModel));
+            containerRegistry.RegisterForNavigation<LoginPage>(nameof(LoginPageViewModel));
+            containerRegistry.RegisterForNavigation<SettingPage>(nameof(SettingPageViewModel));
+            containerRegistry.RegisterForNavigation<TransactionPage>(nameof(TransactionPageViewModel));
+            containerRegistry.RegisterForNavigation<PhotoDetailPage>(nameof(PhotoDetailPageViewModel));
         }
 
         async void InitNavigation()
@@ -78,10 +85,25 @@ namespace XDemo.UI
             startupService.PrepareMetaData();
             InitNavigation();
         }
+        /// <summary>
+        /// map viewType to viewmodel type (base on prism default)
+        /// </summary>
+        /// <returns>The type to view model type.</returns>
+        /// <param name="viewType">View type.</param>
+        Type ViewTypeToViewModelType(Type viewType)
+        {
+            var viewName = viewType.FullName;
+            viewName = viewName.Replace(".Views.", ".ViewModels.");
+            var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+            var suffix = viewName.EndsWith("View", StringComparison.Ordinal) ? "Model" : "ViewModel";
+            var viewModelName = String.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
+            return Type.GetType(viewModelName);
+        }
 
         protected override void OnStart()
         {
             // Handle when your app starts
+            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(ViewTypeToViewModelType);
         }
 
         protected override void OnSleep()
