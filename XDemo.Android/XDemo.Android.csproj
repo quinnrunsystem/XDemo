@@ -70,6 +70,9 @@
     <PackageReference Include="Xamarin.FFImageLoading.Transformations">
       <Version>2.4.3.840</Version>
     </PackageReference>
+    <PackageReference Include="akavache">
+      <Version>5.0.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />

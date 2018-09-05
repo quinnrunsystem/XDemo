@@ -93,6 +93,7 @@ namespace XDemo.UI
         {
             // Handle when your app resumes
         }
+
         #endregion
     }
 }
