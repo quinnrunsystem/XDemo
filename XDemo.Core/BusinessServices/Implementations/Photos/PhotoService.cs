@@ -5,6 +5,7 @@ using XDemo.Core.ApiDefinitions;
 using System.Threading;
 using XDemo.Core.Infrastructure.Networking.Base;
 using XDemo.Core.Infrastructure.Networking.Refit;
+using System.Collections.Generic;
 
 namespace XDemo.Core.BusinessServices.Implementations.Photos
 {
@@ -16,7 +17,7 @@ namespace XDemo.Core.BusinessServices.Implementations.Photos
             _photoApi = RestServiceHelper.GetApi<IPhotoApi>();
         }
 
-        public async Task<ListDtoBase<PhotoDto>> Get(CancellationToken extToken)
+        public async Task<List<PhotoDto>> Get(CancellationToken extToken)
         {
             return await RestServiceHelper.CallWithRetry(() => _photoApi.Get(extToken), RetryMode.Confirm);
         }

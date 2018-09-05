@@ -9,7 +9,7 @@ namespace XDemo.Core.BusinessServices.Interfaces.Photos
 {
     public interface IPhotoService
     {
-        Task<ListDtoBase<PhotoDto>> Get(CancellationToken extToken = default(CancellationToken));
+        Task<List<PhotoDto>> Get(CancellationToken extToken = default(CancellationToken));
 
         Task<PhotoDto> Get(int id);
     }

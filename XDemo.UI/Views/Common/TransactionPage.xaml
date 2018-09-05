@@ -1,7 +1,76 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<base:ViewBase xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-               xmlns:base="clr-namespace:XDemo.UI.Views.Base;assembly=XDemo.UI"
-               x:Class="XDemo.UI.Views.Common.TransactionPage">
+<?xml version="1.0" encoding="UTF-8"?>
+<base:ViewBase
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:XDemo.UI.Views.Base;assembly=XDemo.UI"
+    xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:behaviors="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+    x:Class="XDemo.UI.Views.Common.TransactionPage">
     <base:ViewBase.Content>
+        <ListView
+            CachingStrategy="RecycleElementAndDataTemplate"
+            ItemsSource="{Binding Photos}"
+            SelectedItem="{Binding SelectedPhoto}">
+            <ListView.Behaviors>
+                <!--EventArgsParameterPath="Item" mean: ItemTappedEventArgs.Item-->
+                <behaviors:EventToCommandBehavior
+                    EventName="ItemTapped"
+                    Command="{Binding SelectPhotoCommand}"
+                    EventArgsParameterPath="Item" />
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <Grid
+                                RowSpacing="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height="auto" />
+                                    <RowDefinition
+                                        Height="auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="auto" />
+                                    <ColumnDefinition
+                                        Width="auto" />
+                                    <ColumnDefinition
+                                        Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ff:CachedImage
+                                    Margin="3"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="0"
+                                    Source="{Binding ThumbnailUrl}"
+                                    WidthRequest="100"
+                                    HeightRequest="100"
+                                    Aspect="AspectFit">
+                                    <ff:CachedImage.Transformations>
+                                        <fftransformations:CircleTransformation />
+                                    </ff:CachedImage.Transformations>
+                                </ff:CachedImage>
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="2"
+                                    Text="{Binding Title, StringFormat='Title: {0}'}"
+                                    Style="{StaticResource HightLightTextStyle}" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Text="{Binding Id, StringFormat= 'Id: {0}'}" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Text="{Binding AlbumId, StringFormat= 'Album id: {0}'}" />
+                            </Grid>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </base:ViewBase.Content>
 </base:ViewBase>

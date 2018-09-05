@@ -9,7 +9,6 @@ namespace XDemo.UI.Views.Common
         public PrismTabbedPage()
         {
             InitializeComponent();
-
             // On Android
             this.On<Xamarin.Forms.PlatformConfiguration.Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
             this.On<Xamarin.Forms.PlatformConfiguration.Android>().SetIsSwipePagingEnabled(false);

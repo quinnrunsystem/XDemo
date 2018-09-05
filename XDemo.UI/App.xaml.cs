@@ -14,6 +14,7 @@ using XDemo.Core.BusinessServices.Implementations.Patients;
 using XDemo.UI.Extensions;
 using XDemo.Core.BusinessServices.Interfaces.Photos;
 using XDemo.Core.BusinessServices.Implementations.Photos;
+using XDemo.UI.ViewModels.Common;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XDemo.UI
@@ -52,21 +53,14 @@ namespace XDemo.UI
 
         private void RegisterNavigation(IContainerRegistry containerRegistry)
         {
-            // about navigations registration: DO NOT REGISTER ANY NAVIGATION WITH EXPLICIT VIEWMODEL - YOU MUST NAME YOUR VIEWS AND VIEWMODELS MATCH NAMING CONVENTIONS
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<PrismTabbedPage>();
 
-            /* DEFAULT NAMING RULE: VIEW NAME 'YourViewName' -> will bind with view model name 'YourViewNameViewModel'
-             * EXAMPLE: view name is 'MainPage' will bind with view model 'MainPageViewModel'
-             * This rule can be re-config by calling the method 'ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(Func<Type, Type> viewTypeToViewModelTypeResolver)' when app startup
-             * DONT REGISTER LIKE THIS: containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
-             * OR THIS: containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>("Navigation_Name_For_Main_Page");
-             * JUST SIMPLIFIED LIKE THIS: containerRegistry.RegisterForNavigation<MainPage>();
-             */
             containerRegistry.RegisterForNavigation<HomePage>();
             containerRegistry.RegisterForNavigation<LoginPage>();
             containerRegistry.RegisterForNavigation<SettingPage>();
             containerRegistry.RegisterForNavigation<TransactionPage>();
+            containerRegistry.RegisterForNavigation<PhotoDetailPage, PhotoDetailPageViewModel>(nameof(PhotoDetailPageViewModel));
         }
 
         async void InitNavigation()
@@ -99,6 +93,7 @@ namespace XDemo.UI
         {
             // Handle when your app resumes
         }
+
         #endregion
     }
 }
