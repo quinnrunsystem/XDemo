@@ -13,7 +13,7 @@ namespace XDemo.Core.ApiDefinitions
     public interface IPhotoApi
     {
         [Get("/photos")]
-        Task<ListDtoBase<PhotoDto>> Get(CancellationToken token);
+        Task<List<PhotoDto>> Get(CancellationToken token);
 
         [Get("/photos/{id}")]
         Task<PhotoDto> Get(int id);
