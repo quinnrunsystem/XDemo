@@ -107,7 +107,7 @@ namespace XDemo.UI
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+            // set default viewtype to viewmodel type resolver. In future, we can change the naming rule if needed
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(ViewTypeToViewModelType);
         }
 
