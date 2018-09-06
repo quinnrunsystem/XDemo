@@ -1,8 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
 using XDemo.UI.ViewModels.Base;
-using System.Threading.Tasks;
-using Prism.Mvvm;
 
 namespace XDemo.UI.Views.Base
 {
@@ -14,21 +12,19 @@ namespace XDemo.UI.Views.Base
         {
             //binding the base property 'Title'
             this.SetBinding(TitleProperty, nameof(ViewModelBase.Title), BindingMode.TwoWay);
-            //globle busy
+            //global busy
             this.SetBinding(IsBusyProperty, nameof(ViewModelBase.IsBusy), BindingMode.TwoWay);
         }
-
-        //this event provide for code behind
-        public event EventHandler<ScreenRotatedEventArg> ScreenRotated;
 
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
+            // restrict execute many times of built-in Page.OnSizeAllocated()
             if (!_lastWidth.Equals(width) && !_lastHeight.Equals(height))
             {
                 var orientation = width > height ? ScreenOrientation.LandScape : ScreenOrientation.Portrait;
                 ScreenRotated?.Invoke(this, new ScreenRotatedEventArg { Orientation = orientation });
-                //provide for viewmodel
+                //provide for viewmodel, it execute once
                 var vm = this.BindingContext as ViewModelBase;
                 vm?.OnScreenRotated(orientation);
             }
@@ -37,6 +33,9 @@ namespace XDemo.UI.Views.Base
             _lastHeight = height;
         }
 
-        // todo: implement other base logics of a view
+        //this event provide for code behind usage => only using this in a case of no more solutions within viewmodel
+        public event EventHandler<ScreenRotatedEventArg> ScreenRotated;
+
+        // todo: implement other base logics of a view, anythings you want.
     }
 }

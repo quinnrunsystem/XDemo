@@ -15,6 +15,12 @@ using XDemo.UI.Extensions;
 using XDemo.Core.BusinessServices.Interfaces.Photos;
 using XDemo.Core.BusinessServices.Implementations.Photos;
 using XDemo.UI.ViewModels.Common;
+using System;
+using System.Reflection;
+using System.Globalization;
+using Prism.Mvvm;
+using XDemo.Core.Shared;
+using System.Threading;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XDemo.UI
@@ -40,7 +46,6 @@ namespace XDemo.UI
             containerRegistry.Register<IStartupService, StartupService>();
             containerRegistry.Register<ISecurityService, SecurityService>();
             containerRegistry.Register<IPatientService, PatientService>();
-            containerRegistry.Register<ISecurityService, SecurityService>();
             containerRegistry.Register<IPhotoService, PhotoService>();
             // todo: register logic services which using for app
             // ...
@@ -53,14 +58,32 @@ namespace XDemo.UI
 
         private void RegisterNavigation(IContainerRegistry containerRegistry)
         {
+            //main navaigation container, dont has any viewmodels (especially)
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<PrismTabbedPage>();
 
-            containerRegistry.RegisterForNavigation<HomePage>();
-            containerRegistry.RegisterForNavigation<LoginPage>();
-            containerRegistry.RegisterForNavigation<SettingPage>();
-            containerRegistry.RegisterForNavigation<TransactionPage>();
-            containerRegistry.RegisterForNavigation<PhotoDetailPage, PhotoDetailPageViewModel>(nameof(PhotoDetailPageViewModel));
+            // as our team-convention: all pages used in app will be registerd with their explicit viewmodel's name instead of view's name
+            // use 'nameof' key word to restrict defined more constant string values
+            containerRegistry.RegisterForNavigation<HomePage>(nameof(HomePageViewModel));
+            containerRegistry.RegisterForNavigation<LoginPage>(nameof(LoginPageViewModel));
+            containerRegistry.RegisterForNavigation<SettingPage>(nameof(SettingPageViewModel));
+            containerRegistry.RegisterForNavigation<TransactionPage>(nameof(TransactionPageViewModel));
+            containerRegistry.RegisterForNavigation<PhotoDetailPage>(nameof(PhotoDetailPageViewModel));
+        }
+
+        /// <summary>
+        /// map viewType to viewmodel type (base on prism default)
+        /// </summary>
+        /// <returns>The type to view model type.</returns>
+        /// <param name="viewType">View type.</param>
+        Type ViewTypeToViewModelType(Type viewType)
+        {
+            var viewName = viewType.FullName;
+            viewName = viewName.Replace(".Views.", ".ViewModels.");
+            var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+            var suffix = viewName.EndsWith("View", StringComparison.Ordinal) ? "Model" : "ViewModel";
+            var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
+            return Type.GetType(viewModelName);
         }
 
         async void InitNavigation()
@@ -73,15 +96,19 @@ namespace XDemo.UI
         protected override void OnInitialized()
         {
             InitializeComponent();
-            //init metadata
+            //init the thread helper. store current uicontext for future use whole app
+            ThreadHelper.Init(SynchronizationContext.Current);
+            //resolve the startup service
             var startupService = Container.Resolve<IStartupService>();
+            //prepare all metadata using for our app
             startupService.PrepareMetaData();
             InitNavigation();
         }
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+            // set default viewtype to viewmodel type resolver. In future, we can change the naming rule if needed
+            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(ViewTypeToViewModelType);
         }
 
         protected override void OnSleep()
