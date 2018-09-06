@@ -1,18 +1,19 @@
 ﻿using XDemo.UI.Models.Validations.Base;
+using System.Linq;
 
 namespace XDemo.UI.Models.Validations.DefinedRules
 {
-    /// <summary>
-    /// [String] Is not null or empty rule.
-    /// </summary>
-    public class IsNotNullOrEmptyRule<T> : IValidationRule<T>
+    public class IsAllDigitRule<T> : IValidationRule<T>
     {
         public string ValidationMessage { get; set; }
 
         public bool Check(T value)
         {
             var str = value as string;
-            return !string.IsNullOrWhiteSpace(str);
+            if (string.IsNullOrWhiteSpace(str))
+                return false;
+            return str.All(c => char.IsDigit(c));
         }
     }
+
 }

@@ -1,5 +1,4 @@
-﻿
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using XDemo.UI.Models.Validations.Base;
 
 namespace XDemo.UI.Models.Validations.DefinedRules
