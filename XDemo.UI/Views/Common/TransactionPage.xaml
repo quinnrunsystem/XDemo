@@ -8,8 +8,8 @@
     xmlns:behaviors="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
     x:Class="XDemo.UI.Views.Common.TransactionPage">
     <base:ViewBase.Content>
-        <ListView
-            CachingStrategy="RecycleElementAndDataTemplate"
+        <ListView SelectionMode="None"
+            CachingStrategy="RecycleElement"
             ItemsSource="{Binding Photos}"
             SelectedItem="{Binding SelectedPhoto}">
             <ListView.Behaviors>

@@ -21,7 +21,7 @@ namespace XDemo.UI.Extensions
         {
             if (navigationService == null)
                 throw new ArgumentNullException(nameof(navigationService));
-            await navigationService.NavigateAsync($"/{nameof(LoginPage)}");
+            await navigationService.NavigateAsync($"/{nameof(LoginPageViewModel)}");
         }
 
         /// <summary>
@@ -35,9 +35,9 @@ namespace XDemo.UI.Extensions
                 throw new ArgumentNullException(nameof(navigationService));
             var navParams = new NavigationParameters
             {
-                { KnownNavigationParameters.CreateTab, nameof(HomePage) },
-                { KnownNavigationParameters.CreateTab, nameof(TransactionPage) },
-                { KnownNavigationParameters.CreateTab, nameof(SettingPage) }
+                { KnownNavigationParameters.CreateTab, nameof(HomePageViewModel) },
+                { KnownNavigationParameters.CreateTab, nameof(TransactionPageViewModel) },
+                { KnownNavigationParameters.CreateTab, nameof(SettingPageViewModel) }
             };
             var query = $"/{nameof(NavigationPage)}/{nameof(PrismTabbedPage)}{navParams.ToString()}";
             await navigationService.NavigateAsync(query);
@@ -67,18 +67,21 @@ namespace XDemo.UI.Extensions
         /// <typeparam name="TViewModel">The 1st type parameter.</typeparam>
         public static async Task PushAsync<TViewModel>(this INavigationService navigationService, NavigationParameters parameters, bool animated = true) where TViewModel : ViewModelBase
         {
+            //todo: provide a show 'busy indicator' parameter
             try
             {
+                //dont allow null of navigation service sender => throw managed exception
                 if (navigationService == null)
                     throw new ArgumentNullException(nameof(navigationService));
-                //todo: provide a show 'busy indicator' parameter
+                // async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+                // attentions: the semaphore always released each call, but the field '_wasGone' does not!
                 await _semaphore.WaitAsync();
                 if (_wasGone)
                     return;
                 _wasGone = true;
                 await navigationService.NavigateAsync(typeof(TViewModel).Name, parameters, animated: animated);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _wasGone = false;
                 throw ex;
@@ -88,7 +91,13 @@ namespace XDemo.UI.Extensions
                 _semaphore.Release();
             }
         }
-
+        /// <summary>
+        /// navigate to a viewmodel async without navigation parameters
+        /// </summary>
+        /// <returns>The async.</returns>
+        /// <param name="navigationService">Navigation service.</param>
+        /// <param name="animated">If set to <c>true</c> animated.</param>
+        /// <typeparam name="TViewModel">The 1st type parameter.</typeparam>
         public static async Task PushAsync<TViewModel>(this INavigationService navigationService, bool animated = true) where TViewModel : ViewModelBase
         {
             await navigationService.PushAsync<TViewModel>(null, animated);
@@ -96,13 +105,23 @@ namespace XDemo.UI.Extensions
         #endregion
 
         #region push modal
+        /// <summary>
+        /// Navigate to a view model with modal mode
+        /// </summary>
+        /// <returns>The modal async.</returns>
+        /// <param name="navigationService">Navigation service.</param>
+        /// <param name="parameters">Parameters.</param>
+        /// <param name="animated">If set to <c>true</c> animated.</param>
+        /// <typeparam name="TViewModel">The 1st type parameter.</typeparam>
         public static async Task PushModalAsync<TViewModel>(this INavigationService navigationService, NavigationParameters parameters, bool animated = true) where TViewModel : ViewModelBase
         {
+            //todo: provide a show 'busy indicator' parameter
             try
             {
                 if (navigationService == null)
                     throw new ArgumentNullException(nameof(navigationService));
-                //todo: provide a show 'busy indicator' parameter
+                // async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+                // attentions: the semaphore always released each call, but the field '_wasGone' does not!
                 await _semaphore.WaitAsync();
                 if (_wasGone)
                     return;
@@ -119,7 +138,13 @@ namespace XDemo.UI.Extensions
                 _semaphore.Release();
             }
         }
-
+        /// <summary>
+        /// Navigate to a view model with modal mode, without any navigation parameters
+        /// </summary>
+        /// <returns>The modal async.</returns>
+        /// <param name="navigationService">Navigation service.</param>
+        /// <param name="animated">If set to <c>true</c> animated.</param>
+        /// <typeparam name="TViewModel">The 1st type parameter.</typeparam>
         public static async Task PushModalAsync<TViewModel>(this INavigationService navigationService, bool animated = true) where TViewModel : ViewModelBase
         {
             await navigationService.PushModalAsync<TViewModel>(null, animated);
@@ -139,10 +164,11 @@ namespace XDemo.UI.Extensions
             {
                 if (navigationService == null)
                     throw new ArgumentNullException(nameof(navigationService));
+                // async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+                // attentions: the semaphore always released each call, but the field '_wasGone' does not!
                 await _semaphore.WaitAsync();
                 if (_wasGone)
                     return false;
-                _wasGone = true;
                 return await navigationService.GoBackAsync(parameters, useModalNavigate, animated);
             }
             catch (Exception ex)

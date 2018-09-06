@@ -3,13 +3,13 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Plugin.Connectivity;
 using Polly;
 using Refit;
 using Xamarin.Forms;
 using XDemo.Core.ApiDefinitions;
 using XDemo.Core.Infrastructure.Logging;
 using XDemo.Core.Infrastructure.Networking.Base;
+using XDemo.Core.Shared;
 
 namespace XDemo.Core.Infrastructure.Networking.Refit
 {
@@ -48,24 +48,18 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                     {
                         result = await taskFac.Invoke();
                     }
-                    catch (TaskCanceledException ex)
-                    {
-                        // todo:
-                        //result.Result = ApiResult.Canceled;
-                        //result.ErrorMessage = ex.Message;
-                    }
                     catch (Exception ex)
                     {
                         // todo
-                        //result.Result = ApiResult.Failed;
-                        //result.ErrorMessage = ex.Message;
+                        LogCommon.Error(ex);
                     }
                     break;
                 case RetryMode.Warning:
                     var warningRetryPolicy = Policy.Handle<Exception>().RetryForeverAsync(async (exception, retryCount, context) =>
                     {
                         LogCommon.Error($"retry no {retryCount} - Exception msg: {exception.Message}");
-                        await WarningOnMainThread();
+                        //todo: resource
+                        await ThreadHelper.RunOnUIThreadAsync(() => Application.Current.MainPage.DisplayAlert("Warning", "Warning message!", "Ok"));
                     });
                     result = await warningRetryPolicy.ExecuteAsync(() => ActionSendAsync(taskFac));
                     break;
@@ -73,7 +67,8 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                     var confirmRetryPolicy = Policy.Handle<Exception>().RetryForeverAsync(async (exception, retryCount, context) =>
                     {
                         LogCommon.Error($"retry no {retryCount} - Exception msg: {exception.Message}");
-                        var sure = await ConfirmOnMainThread();
+                        //todo: resource
+                        var sure = await ThreadHelper.RunOnUIThreadAsync(() => Application.Current.MainPage.DisplayAlert("confirm", "Confirm message?", "Ok", "Cancel"));
                         if (!sure)
                         {
                             //get the original tokensource passed in execution
@@ -119,9 +114,6 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
         {
             try
             {
-                //precondition by connectivity
-                if (!CrossConnectivity.Current.IsConnected)
-                    throw new WebException("There's no internet connections!");
                 // retrieve the api task from task factory
                 var task = taskFac.Invoke();
                 return await task;
@@ -143,38 +135,6 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                 //rethrown the exception
                 throw ex;
             }
-        }
-
-        /// <summary>
-        /// Warnings the on main thread. Awaitable
-        /// </summary>
-        /// <returns>The on main thread.</returns>
-        private static Task WarningOnMainThread()
-        {
-            // use a task completion source for awaitable
-            var tcs = new TaskCompletionSource<bool>();
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                var result = Application.Current.MainPage.DisplayAlert("Warning", "Warning message!", "Ok");//todo: resource
-                result.ContinueWith((sender) => tcs.SetResult(true));
-            });
-            return tcs.Task;
-        }
-
-        /// <summary>
-        /// Confirms the on main thread. Awaitable
-        /// </summary>
-        /// <returns>The on main thread.</returns>
-        private static Task<bool> ConfirmOnMainThread()
-        {
-            // use a task completion source for awaitable
-            var tcs = new TaskCompletionSource<bool>();
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                var result = Application.Current.MainPage.DisplayAlert("confirm", "Confirm message?", "Ok", "Cancel");//todo: resource
-                result.ContinueWith((sender) => tcs.SetResult(sender.Result));
-            });
-            return tcs.Task;
         }
         #endregion
     }

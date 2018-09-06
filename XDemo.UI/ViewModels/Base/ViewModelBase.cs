@@ -63,7 +63,7 @@ namespace XDemo.UI.ViewModels.Base
         /// <summary>
         /// occur whe user rotated the device
         /// </summary>
-        /// <param name="orientation">Orientation.</param>
+        /// <param name="orientation">Current orientation of device.</param>
         public virtual void OnScreenRotated(ScreenOrientation orientation)
         {
         }
