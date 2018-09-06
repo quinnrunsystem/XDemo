@@ -39,7 +39,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
         {
             if (taskFac == null)
                 throw new ArgumentNullException(nameof(taskFac));
-            var result = new T();
+            var result = default(T);
             switch (retryMode)
             {
                 case RetryMode.None:
@@ -74,7 +74,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                             //get the original tokensource passed in execution
                             var orgTcs = context["tokenSource"] as CancellationTokenSource;
                             //cancel it!
-                            orgTcs.Cancel();
+                            orgTcs?.Cancel();
                         }
                     });
                     var inputTcs = new CancellationTokenSource();
@@ -101,7 +101,13 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
         static HttpClient GetHttpClient()
         {
             //use native handler for better perfomance
-            var handler = new ExtendedNativeMessageHandler();
+            var handler = new ExtendedNativeMessageHandler()
+            {
+                // from SYSFX experience: dont allow api call store cache data (request/response) in cache db. b/c of security
+                // if caching was enabled: our data can be read from outside!
+                // we have to use this package to avoid some deadlock cases of built-in httpclient
+                DisableCaching = true
+            };
             var toReturn = new HttpClient(handler)
             {
                 BaseAddress = new Uri(ApiHosts.MainHost),
@@ -127,7 +133,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
             {
                 if (!(ex.InnerException is OperationCanceledException))
                     //other exception => re-throw
-                    throw ex;
+                    throw;
                 return default(T);
             }
             catch (Exception ex)
