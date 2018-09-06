@@ -9,7 +9,7 @@
     x:Class="XDemo.UI.Views.Common.TransactionPage">
     <base:ViewBase.Content>
         <ListView SelectionMode="None"
-            CachingStrategy="RecycleElementAndDataTemplate"
+            CachingStrategy="RecycleElement"
             ItemsSource="{Binding Photos}"
             SelectedItem="{Binding SelectedPhoto}">
             <ListView.Behaviors>

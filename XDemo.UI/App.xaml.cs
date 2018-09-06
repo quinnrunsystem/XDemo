@@ -19,6 +19,8 @@ using System;
 using System.Reflection;
 using System.Globalization;
 using Prism.Mvvm;
+using XDemo.Core.Shared;
+using System.Threading;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XDemo.UI
@@ -94,8 +96,11 @@ namespace XDemo.UI
         protected override void OnInitialized()
         {
             InitializeComponent();
-            //init metadata
+            //init the thread helper. store current uicontext for future use whole app
+            ThreadHelper.Init(SynchronizationContext.Current);
+            //resolve the startup service
             var startupService = Container.Resolve<IStartupService>();
+            //prepare all metadata using for our app
             startupService.PrepareMetaData();
             InitNavigation();
         }
