@@ -44,7 +44,6 @@ namespace XDemo.UI
             containerRegistry.Register<IStartupService, StartupService>();
             containerRegistry.Register<ISecurityService, SecurityService>();
             containerRegistry.Register<IPatientService, PatientService>();
-            containerRegistry.Register<ISecurityService, SecurityService>();
             containerRegistry.Register<IPhotoService, PhotoService>();
             // todo: register logic services which using for app
             // ...
@@ -61,13 +60,28 @@ namespace XDemo.UI
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<PrismTabbedPage>();
 
-            // as our team-convention: all pages used in app will be registerd with their explicit viewmodel's name
+            // as our team-convention: all pages used in app will be registerd with their explicit viewmodel's name instead of view's name
             // use 'nameof' key word to restrict defined more constant string values
             containerRegistry.RegisterForNavigation<HomePage>(nameof(HomePageViewModel));
             containerRegistry.RegisterForNavigation<LoginPage>(nameof(LoginPageViewModel));
             containerRegistry.RegisterForNavigation<SettingPage>(nameof(SettingPageViewModel));
             containerRegistry.RegisterForNavigation<TransactionPage>(nameof(TransactionPageViewModel));
             containerRegistry.RegisterForNavigation<PhotoDetailPage>(nameof(PhotoDetailPageViewModel));
+        }
+
+        /// <summary>
+        /// map viewType to viewmodel type (base on prism default)
+        /// </summary>
+        /// <returns>The type to view model type.</returns>
+        /// <param name="viewType">View type.</param>
+        Type ViewTypeToViewModelType(Type viewType)
+        {
+            var viewName = viewType.FullName;
+            viewName = viewName.Replace(".Views.", ".ViewModels.");
+            var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+            var suffix = viewName.EndsWith("View", StringComparison.Ordinal) ? "Model" : "ViewModel";
+            var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
+            return Type.GetType(viewModelName);
         }
 
         async void InitNavigation()
@@ -84,20 +98,6 @@ namespace XDemo.UI
             var startupService = Container.Resolve<IStartupService>();
             startupService.PrepareMetaData();
             InitNavigation();
-        }
-        /// <summary>
-        /// map viewType to viewmodel type (base on prism default)
-        /// </summary>
-        /// <returns>The type to view model type.</returns>
-        /// <param name="viewType">View type.</param>
-        Type ViewTypeToViewModelType(Type viewType)
-        {
-            var viewName = viewType.FullName;
-            viewName = viewName.Replace(".Views.", ".ViewModels.");
-            var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-            var suffix = viewName.EndsWith("View", StringComparison.Ordinal) ? "Model" : "ViewModel";
-            var viewModelName = String.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
-            return Type.GetType(viewModelName);
         }
 
         protected override void OnStart()
