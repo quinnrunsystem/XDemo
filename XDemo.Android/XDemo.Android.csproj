@@ -111,8 +111,7 @@
     <AndroidResource Include="Resources\drawable\order.png" />
     <AndroidResource Include="Resources\drawable\rate_2.png" />
     <AndroidResource Include="Resources\drawable\rate.png" />
-    <AndroidResource Include="Resources\drawable\icon_tab.xml" />
-    <AndroidResource Include="Resources\drawable\text_color_tab.xml" />
+    <AndroidResource Include="Resources\drawable\hamburger.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

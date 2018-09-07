@@ -47,6 +47,7 @@
     <Compile Remove="MyPage.cs" />
     <Compile Remove="Views\MyView.xaml.cs" />
     <Compile Remove="ViewModels\Common\PhotoDetailPage.cs" />
+    <Compile Remove="ViewModels\PrismNavigationPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Common\HomePage.xaml" />
