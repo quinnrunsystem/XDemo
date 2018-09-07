@@ -14,7 +14,7 @@ namespace XDemo.UI.Models.Validations.Base
 
         public T Value { get; set; }
 
-        public bool IsValid { get; set; }
+        public bool IsValid { get; private set; }
 
         public ValidatableObject()
         {

@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using XDemo.Core.Shared;
 using XDemo.UI.Models.Validations.Base;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace XDemo.UI.Models.Validations.DefinedRules
 {
