@@ -39,6 +39,9 @@ namespace XDemo.UI.Extensions
                 { KnownNavigationParameters.CreateTab, nameof(TransactionPageViewModel) },
                 { KnownNavigationParameters.CreateTab, nameof(SettingPageViewModel) }
             };
+            /* ==================================================================================================
+             * using query string instead of navigation parameters, bc of this prism version limitation!
+             * ================================================================================================*/
             var query = $"/{nameof(NavigationPage)}/{nameof(PrismTabbedPage)}{navParams.ToString()}";
             await navigationService.NavigateAsync(query);
         }
@@ -70,11 +73,16 @@ namespace XDemo.UI.Extensions
             //todo: provide a show 'busy indicator' parameter
             try
             {
-                //dont allow null of navigation service sender => throw managed exception
+                /* ==================================================================================================
+                 * Dont allow null of navigation service sender => throw a managed exception
+                 * ================================================================================================*/
                 if (navigationService == null)
                     throw new ArgumentNullException(nameof(navigationService));
-                // async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
-                // attentions: the semaphore always released each call, but the field '_wasGone' does not!
+
+                /* ==================================================================================================
+                 * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+                 * attentions: the semaphore always released each call, but the field '_wasGone' does not!
+                 * ================================================================================================*/
                 await _semaphore.WaitAsync();
                 if (_wasGone)
                     return;
@@ -91,6 +99,7 @@ namespace XDemo.UI.Extensions
                 _semaphore.Release();
             }
         }
+
         /// <summary>
         /// navigate to a viewmodel async without navigation parameters
         /// </summary>
@@ -118,10 +127,16 @@ namespace XDemo.UI.Extensions
             //todo: provide a show 'busy indicator' parameter
             try
             {
+                /* ==================================================================================================
+                 * Dont allow null of navigation service sender => throw a managed exception
+                 * ================================================================================================*/
                 if (navigationService == null)
                     throw new ArgumentNullException(nameof(navigationService));
-                // async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
-                // attentions: the semaphore always released each call, but the field '_wasGone' does not!
+
+                /* ==================================================================================================
+                 * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+                 * attentions: the semaphore always released each call, but the field '_wasGone' does not!
+                 * ================================================================================================*/
                 await _semaphore.WaitAsync();
                 if (_wasGone)
                     return;
@@ -162,10 +177,16 @@ namespace XDemo.UI.Extensions
         {
             try
             {
+                /* ==================================================================================================
+                * Dont allow null of navigation service sender => throw a managed exception
+                * ================================================================================================*/
                 if (navigationService == null)
                     throw new ArgumentNullException(nameof(navigationService));
-                // async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
-                // attentions: the semaphore always released each call, but the field '_wasGone' does not!
+
+                /* ==================================================================================================
+                 * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+                 * attentions: the semaphore always released each call, but the field '_wasGone' does not!
+                 * ================================================================================================*/
                 await _semaphore.WaitAsync();
                 if (_wasGone)
                     return false;
@@ -182,6 +203,13 @@ namespace XDemo.UI.Extensions
             }
         }
 
+        /// <summary>
+        /// let's back
+        /// </summary>
+        /// <returns>The async.</returns>
+        /// <param name="navigationService">Navigation service.</param>
+        /// <param name="useModalNavigate">Use modal navigate.</param>
+        /// <param name="animated">If set to <c>true</c> animated.</param>
         public static Task<bool> PopAsync(this INavigationService navigationService, bool? useModalNavigate = null, bool animated = true)
         {
             return navigationService.PopAsync(null, useModalNavigate, animated);

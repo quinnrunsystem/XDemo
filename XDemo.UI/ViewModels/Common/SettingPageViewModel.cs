@@ -27,7 +27,7 @@ namespace XDemo.UI.ViewModels.Common
         public override void OnNavigatingTo(NavigationParameters parameters)
         {
             Title = "Settings";
-            CurrentUser = _securityService.CurrentUser();
+            CurrentUser = _securityService.CurrentUser;
             base.OnNavigatingTo(parameters);
         }
         #region LogoutCommand

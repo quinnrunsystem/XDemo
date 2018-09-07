@@ -9,6 +9,9 @@ using XDemo.UI.Extensions;
 
 namespace XDemo.UI.ViewModels.Base
 {
+    /* ==================================================================================================
+     * use this attribute for simplier property define in all our viewmodels
+     * ================================================================================================*/
     [AddINotifyPropertyChangedInterface]
     public abstract class ViewModelBase : BindableObject, INavigationAware, IPageLifecycleAware, IApplicationLifecycleAware, IDestructible
     {

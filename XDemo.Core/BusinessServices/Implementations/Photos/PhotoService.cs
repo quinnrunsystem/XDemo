@@ -14,6 +14,10 @@ namespace XDemo.Core.BusinessServices.Implementations.Photos
         private readonly IPhotoApi _photoApi;
         public PhotoService()
         {
+            /* ==================================================================================================
+             * Resolve the api gateway manually.
+             * todo: improve by using DI
+             * ================================================================================================*/
             _photoApi = RestServiceHelper.GetApi<IPhotoApi>();
         }
 

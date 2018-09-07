@@ -17,7 +17,10 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
     {
         public static TApi GetApi<TApi>()
         {
-            // set default refit setting
+            /* ==================================================================================================
+             * set default refit setting
+             * ie: ignore null field from json string
+             * ================================================================================================*/
             var defaultSettings = new RefitSettings
             {
                 JsonSerializerSettings = new Newtonsoft.Json.JsonSerializerSettings
@@ -39,18 +42,19 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
         {
             if (taskFac == null)
                 throw new ArgumentNullException(nameof(taskFac));
-            var result = new T();
+            var result = default(T);
             switch (retryMode)
             {
                 case RetryMode.None:
-                    //execute the api task only
                     try
                     {
+                        /* ==================================================================================================
+                         * execute the api task only, but dont thrown any exception
+                         * ================================================================================================*/
                         result = await taskFac.Invoke();
                     }
                     catch (Exception ex)
                     {
-                        // todo
                         LogCommon.Error(ex);
                     }
                     break;
@@ -58,7 +62,10 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                     var warningRetryPolicy = Policy.Handle<Exception>().RetryForeverAsync(async (exception, retryCount, context) =>
                     {
                         LogCommon.Error($"retry no {retryCount} - Exception msg: {exception.Message}");
-                        //todo: resource
+                        /* ==================================================================================================
+                         * In some case, we need to call api in background. So, we need to call UIThread display alert message
+                         * todo: using resource for alert message
+                         * ================================================================================================*/
                         await ThreadHelper.RunOnUIThreadAsync(() => Application.Current.MainPage.DisplayAlert("Warning", "Warning message!", "Ok"));
                     });
                     result = await warningRetryPolicy.ExecuteAsync(() => ActionSendAsync(taskFac));
@@ -67,29 +74,40 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                     var confirmRetryPolicy = Policy.Handle<Exception>().RetryForeverAsync(async (exception, retryCount, context) =>
                     {
                         LogCommon.Error($"retry no {retryCount} - Exception msg: {exception.Message}");
-                        //todo: resource
+                        /* ==================================================================================================
+                         * In some case, we need to call api in background. So, we need to call UIThread display alert message
+                         * todo: using resource for alert message
+                         * ================================================================================================*/
                         var sure = await ThreadHelper.RunOnUIThreadAsync(() => Application.Current.MainPage.DisplayAlert("confirm", "Confirm message?", "Ok", "Cancel"));
                         if (!sure)
                         {
-                            //get the original tokensource passed in execution
+                            /* ==================================================================================================
+                             * get the original tokensource passed in execution before and cancel it to break the retry cycle!
+                             * ================================================================================================*/
                             var orgTcs = context["tokenSource"] as CancellationTokenSource;
-                            //cancel it!
-                            orgTcs.Cancel();
+                            orgTcs?.Cancel();
                         }
                     });
                     var inputTcs = new CancellationTokenSource();
                     try
                     {
-                        //passed the token into it to cancel if the user wont choose retry
+                        /* ==================================================================================================
+                         * passed the token into it to cancel if the user wont choose 'retry'
+                         * ================================================================================================*/
                         result = await confirmRetryPolicy.ExecuteAsync((inputContext, token) => ActionSendAsync(taskFac), new Context { { "tokenSource", inputTcs } }, inputTcs.Token).ConfigureAwait(true);
                     }
                     catch (OperationCanceledException ex)
                     {
-                        //ignore: the retry circle broken
+                        /* ==================================================================================================
+                         * ignore: the retry cycle broken
+                         * ================================================================================================*/
                         LogCommon.Error(ex);
                     }
                     break;
                 default:
+                    /* ==================================================================================================
+                     * the retry mode is not support yet!
+                     * ================================================================================================*/
                     throw new ArgumentOutOfRangeException(nameof(retryMode), $"The retry mode '{retryMode}' is not supported yet!");
             }
 
@@ -100,8 +118,19 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
         #region private methods, executor
         static HttpClient GetHttpClient()
         {
-            //use native handler for better perfomance
-            var handler = new ExtendedNativeMessageHandler();
+            /* ==================================================================================================
+             * use native handler for better perfomance
+             * ================================================================================================*/
+            var handler = new ExtendedNativeMessageHandler()
+            {
+                /* ==================================================================================================
+                 * from SYSFX experience: dont allow api call store cache data (request/response) in cache db.
+                 * if caching was enabled: our data can be read from outside!
+                 * we have to use this package to avoid some deadlock cases of built-in httpclient
+                 * ================================================================================================*/
+                DisableCaching = true
+            };
+
             var toReturn = new HttpClient(handler)
             {
                 BaseAddress = new Uri(ApiHosts.MainHost),
@@ -109,30 +138,43 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
             };
             return toReturn;
         }
-
+        /* ==================================================================================================
+         * Why use Func<Task<T>> instead of an implicit task?
+         * => 
+         * In case of the api task failed by network connection lost, its still has faulted status forever.
+         * Use an Func<> to retrieve a new task for each retry
+         * ================================================================================================*/
         static async Task<T> ActionSendAsync<T>(Func<Task<T>> taskFac) where T : new()
         {
             try
             {
-                // retrieve the api task from task factory
+                /* ==================================================================================================
+                 * retrieve the api task from task factory
+                 * ================================================================================================*/
                 var task = taskFac.Invoke();
                 return await task;
             }
             catch (OperationCanceledException)
             {
-                //ignored: the api inner call canceled by user
+                /* ==================================================================================================
+                 * ignored: the api inner call canceled by user
+                 * ================================================================================================*/
                 return default(T);
             }
             catch (AggregateException ex)
             {
                 if (!(ex.InnerException is OperationCanceledException))
-                    //other exception => re-throw
-                    throw ex;
+                    /* ==================================================================================================
+                     * other exception => re-thrown
+                     * ================================================================================================*/
+                    throw;
                 return default(T);
             }
             catch (Exception ex)
             {
-                //rethrown the exception
+                /* ==================================================================================================
+                 * rethrown the exception
+                 * ================================================================================================*/
                 throw ex;
             }
         }
