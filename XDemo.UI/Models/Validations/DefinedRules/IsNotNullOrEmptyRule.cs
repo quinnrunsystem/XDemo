@@ -1,18 +1,15 @@
-﻿using System.Collections;
+﻿using XDemo.UI.Models.Validations.Base;
+using System.Collections;
 using XDemo.Core.Shared;
-using XDemo.UI.Models.Validations.Base;
+using System;
 
 namespace XDemo.UI.Models.Validations.DefinedRules
 {
-    public class MinLengthRule<T> : IValidationRule<T>
+    /// <summary>
+    /// [String | Collection] Is not null or empty rule.
+    /// </summary>
+    public class IsNotNullOrEmptyRule<T> : IValidationRule<T>
     {
-        private readonly int _minLength;
-
-        public MinLengthRule(int minLength)
-        {
-            _minLength = minLength;
-        }
-
         public string ValidationMessage { get; set; }
 
         public bool Check(T value)
@@ -24,7 +21,7 @@ namespace XDemo.UI.Models.Validations.DefinedRules
             if (inputType == typeof(string))
             {
                 var str = value as string;
-                return str != null && str.Length >= _minLength;
+                return !string.IsNullOrWhiteSpace(str);
             }
 
             /* ==================================================================================================
@@ -33,7 +30,15 @@ namespace XDemo.UI.Models.Validations.DefinedRules
             if (TypeHelper.IsEnumerableType(inputType))
             {
                 var enumerable = value as IEnumerable;
-                return enumerable != null && TypeHelper.Count(enumerable) >= _minLength;
+                var enumerator = enumerable.GetEnumerator();
+                var toReturn = enumerator.MoveNext();
+                /* ==================================================================================================
+                 * Cleanup. We can not use 'using' directly here. Just manual cast
+                 * bc IEnumberable does not implement IDisposable like IEnumerable<>
+                 * ================================================================================================*/
+                var disposable = enumerator as IDisposable;
+                disposable?.Dispose();
+                return toReturn;
             }
             /* ==================================================================================================
              * other wise => false
@@ -41,5 +46,4 @@ namespace XDemo.UI.Models.Validations.DefinedRules
             return false;
         }
     }
-
 }
