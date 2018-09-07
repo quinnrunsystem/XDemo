@@ -46,12 +46,6 @@
     <Folder Include="Models\Validations\DefinedRules\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="MyPage.cs" />
-    <Compile Remove="Views\MyView.xaml.cs" />
-    <Compile Remove="ViewModels\Common\PhotoDetailPage.cs" />
-    <Compile Remove="ViewModels\PrismNavigationPageViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Views\Common\HomePage.xaml" />
     <None Include="Views\Common\LoginPage.xaml" />
     <None Include="Views\Common\SettingPage.xaml" />
