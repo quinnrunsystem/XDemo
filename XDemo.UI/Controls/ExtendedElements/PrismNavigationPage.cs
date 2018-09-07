@@ -4,6 +4,7 @@ using Xamarin.Forms;
 
 namespace XDemo.UI.Controls.ExtendedElements
 {
+    //todo: rename
     public class PrismNavigationPage : NavigationPage
     {
         public PrismNavigationPage()
