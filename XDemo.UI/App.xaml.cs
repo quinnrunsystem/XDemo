@@ -21,6 +21,10 @@ using System.Globalization;
 using Prism.Mvvm;
 using XDemo.Core.Shared;
 using System.Threading;
+using XDemo.UI.ViewModels;
+using XDemo.UI.Views;
+using XDemo.UI.Views.Base;
+using XDemo.UI.Controls.ExtendedElements;
 using Akavache;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -76,8 +80,9 @@ namespace XDemo.UI
              * Main navaigation containers, dont has any viewmodels. 
              * Especially, we register without the viewmodel's name, it's implicit use view name.
              * ================================================================================================*/
-            containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<PrismTabbedPage>();
+            containerRegistry.RegisterForNavigation<PrismNavigationPage>(nameof(NavigationPage));
+            containerRegistry.RegisterForNavigation<BottomTabPage, BottomTabPageViewModel>(nameof(BottomTabPageViewModel));
+            containerRegistry.RegisterForNavigation<MenuPage, MenuPageViewModel>(nameof(MenuPageViewModel));
 
             /* ==================================================================================================
              * As our team-convention: all pages used in app will be registerd with their explicit 
@@ -89,6 +94,8 @@ namespace XDemo.UI
             containerRegistry.RegisterForNavigation<SettingPage>(nameof(SettingPageViewModel));
             containerRegistry.RegisterForNavigation<TransactionPage>(nameof(TransactionPageViewModel));
             containerRegistry.RegisterForNavigation<PhotoDetailPage>(nameof(PhotoDetailPageViewModel));
+            containerRegistry.RegisterForNavigation<DetailAPage, DetailAPageViewModel>(nameof(DetailAPageViewModel));
+            containerRegistry.RegisterForNavigation<DetailBPage, DetailBPageViewModel>(nameof(DetailBPageViewModel));
         }
 
         /// <summary>

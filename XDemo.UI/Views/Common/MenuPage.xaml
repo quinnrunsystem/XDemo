@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MasterDetailPage
+    IsGestureEnabled="true"
+    MasterBehavior="Default"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="{Binding Title}"
+    x:Class="XDemo.UI.Views.Common.MenuPage">
+    <MasterDetailPage.Master>
+        <ContentPage
+            Icon="hamburger"
+            Title="Menu">
+            <ContentPage.Resources>
+                <ResourceDictionary>
+                    <Color
+                        x:Key="PrimaryDark">#000066</Color>
+                </ResourceDictionary>
+            </ContentPage.Resources>
+            <ScrollView
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Orientation="Vertical">
+                <Grid
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    BackgroundColor="Gray"
+                    RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="100" />
+                        <RowDefinition
+                            Height="1" />
+                        <RowDefinition
+                            Height="100" />
+                        <RowDefinition
+                            Height="1" />
+                        <RowDefinition
+                            Height="*" />
+                    </Grid.RowDefinitions>
+                    <Button
+                        Grid.Row="0"
+                        Text="Go to View A"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="DetailAPageViewModel" />
+                    <BoxView
+                        Grid.Row="1"
+                        BackgroundColor="{StaticResource PrimaryDark}" />
+                    <Button
+                        Grid.Row="2"
+                        Text="Go to View B"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="DetailBPageViewModel" />
+                    <BoxView
+                        Grid.Row="3"
+                        BackgroundColor="{StaticResource PrimaryDark}" />
+                </Grid>
+            </ScrollView>
+        </ContentPage>
+    </MasterDetailPage.Master>
+</MasterDetailPage>

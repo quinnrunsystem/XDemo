@@ -4,9 +4,9 @@ using XDemo.UI.Controls.ExtendedElements;
 
 namespace XDemo.UI.Views.Common
 {
-    public partial class PrismTabbedPage : TabbedPageCustom
+    public partial class BottomTabPage : TabbedPageCustom
     {
-        public PrismTabbedPage()
+        public BottomTabPage()
         {
             InitializeComponent();
             // On Android
