@@ -99,7 +99,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                     catch (OperationCanceledException ex)
                     {
                         /* ==================================================================================================
-                         * ignore: the cycle circle broken
+                         * ignore: the retry cycle broken
                          * ================================================================================================*/
                         LogCommon.Error(ex);
                     }
