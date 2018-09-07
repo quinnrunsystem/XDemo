@@ -15,7 +15,7 @@ namespace XDemo.UI.Controls.ExtendedElements
         {
             if (Application.Current.MainPage is MasterDetailPage master)
             {
-                // Disable swipe menu when has opened the detail page
+                // Enable swipe menu at tabbed page
                 master.IsGestureEnabled = true;
             }
 
