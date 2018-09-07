@@ -2,14 +2,17 @@
 using System.Windows.Input;
 namespace XDemo.Core.Infrastructure.Input
 {
-    public class SingletonCommand : ICommand
+    /// <summary>
+    /// BETA!
+    /// </summary>
+    public class RefCommand : ICommand
     {
         readonly Func<object, bool> _canExecute;
         readonly Action<object> _execute;
         volatile bool _inProgress;
         private event EventHandler _canExecuteChangedHandler;
 
-        public SingletonCommand(Action<object> execute, Func<object, bool> canExecute = null)
+        public RefCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
             // main ctor
             // dont allow null
@@ -18,7 +21,7 @@ namespace XDemo.Core.Infrastructure.Input
             _canExecute = canExecute;
         }
 
-        public SingletonCommand(Action execute, Func<bool> canExecute = null) : this(obj => execute(), obj => canExecute())
+        public RefCommand(Action execute, Func<bool> canExecute = null) : this(obj => execute(), obj => canExecute())
         {
         }
 
@@ -72,9 +75,12 @@ namespace XDemo.Core.Infrastructure.Input
         }
     }
 
-    public class SingletonCommand<T> : SingletonCommand
+    /// <summary>
+    /// BETA
+    /// </summary>
+    public class RefCommand<T> : RefCommand
     {
-        public SingletonCommand(Action<T> execute, Func<T, bool> canExecute = null) : base(obj => execute((T)obj), obj => canExecute((T)obj))
+        public RefCommand(Action<T> execute, Func<T, bool> canExecute = null) : base(obj => execute((T)obj), obj => canExecute((T)obj))
         {
         }
     }

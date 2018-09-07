@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-//based on Exrin thread helper with some improvements
+/* ==================================================================================================
+ * based on Exrin thread helper with some improvements
+ * ================================================================================================*/
 namespace XDemo.Core.Shared
 {
     public static class ThreadHelper

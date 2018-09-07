@@ -2,6 +2,8 @@
 {
     public abstract class RequestBase
     {
-        //todo: implement base properties, such as: login token, session id...
+        /* ==================================================================================================
+         * todo: implement base properties, such as: login token, session id...
+         * ================================================================================================*/
     }
 }

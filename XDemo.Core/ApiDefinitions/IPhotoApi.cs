@@ -4,18 +4,23 @@ using XDemo.Core.BusinessServices.Interfaces.Photos;
 using System.Threading.Tasks;
 using Refit;
 using System.Threading;
-using System.Net.Http;
-using XDemo.Core.Infrastructure.Networking.Base;
 
 namespace XDemo.Core.ApiDefinitions
 {
-    //[Headers("Content-Type: application/json; charset=UTF-8")]
     public interface IPhotoApi
     {
+        /* ==================================================================================================
+         * Example for using an api call with a cancellation token
+         * Just pass only 1 cancellation parameter into this.
+         * ================================================================================================*/
         [Get("/photos")]
         Task<List<PhotoDto>> Get(CancellationToken token);
 
+        /* ==================================================================================================
+         * Example for simple GET method
+         * ================================================================================================*/
         [Get("/photos/{id}")]
         Task<PhotoDto> Get(int id);
+
     }
 }

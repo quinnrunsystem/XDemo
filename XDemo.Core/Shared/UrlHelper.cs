@@ -4,6 +4,11 @@ namespace XDemo.Core.Shared
 {
     public static class UrlHelper
     {
+        /// <summary>
+        /// Combine the specified relativeResource with mainhost config in <see cref="ApiHosts.MainHost"/>.
+        /// </summary>
+        /// <returns>The combine.</returns>
+        /// <param name="relativeResource">Relative resource.</param>
         public static string Combine(string relativeResource)
         {
             if (relativeResource == null)
