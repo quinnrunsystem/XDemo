@@ -7,7 +7,7 @@ namespace XDemo.Core.BusinessServices.Implementations.Common
     {
         public Task<LoginResultDto> Login(string userName, string password)
         {
-            _currentUser = null;
+            CurrentUser = null;
             return Task.FromResult(new LoginResultDto
             {
                 IsValid = true,
@@ -18,14 +18,12 @@ namespace XDemo.Core.BusinessServices.Implementations.Common
 
         public void Logout()
         {
-            _currentUser = null;
+            CurrentUser = null;
         }
 
-        private LoginResultDto _currentUser;
-        public LoginResultDto CurrentUser()
-        {
-            //example for storing data within a service
-            return _currentUser;
-        }
+        /* ==================================================================================================
+         * example for storing data within a service
+         * ================================================================================================*/
+        public LoginResultDto CurrentUser { get; private set; }
     }
 }

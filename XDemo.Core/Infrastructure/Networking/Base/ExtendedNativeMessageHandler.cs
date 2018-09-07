@@ -20,8 +20,9 @@ namespace XDemo.Core.Infrastructure.Networking.Base
             try
             {
 #endif
-                //default: charset utf-8; content-type: applicetion/json
-                //todo: provide authorization bearer token if needed
+                /* ==================================================================================================
+                 * todo: provide authorization bearer token if needed
+                 * ================================================================================================*/
                 request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 var response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
                 return response;

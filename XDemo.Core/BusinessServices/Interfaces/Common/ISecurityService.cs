@@ -6,6 +6,6 @@ namespace XDemo.Core.BusinessServices.Interfaces.Common
     {
         Task<LoginResultDto> Login(string userName, string password);
         void Logout();
-        LoginResultDto CurrentUser();
+        LoginResultDto CurrentUser { get; }
     }
 }

@@ -42,6 +42,8 @@
     <Folder Include="Views\Common\" />
     <Folder Include="Themes\" />
     <Folder Include="Models\Photos\" />
+    <Folder Include="Models\Validations\Base\" />
+    <Folder Include="Models\Validations\DefinedRules\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="MyPage.cs" />
