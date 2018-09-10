@@ -130,6 +130,11 @@
                     Value="Bold">
                 </Setter>
             </Style>
+            <Style TargetType="Label" x:Key="ValidationMessageStyle">
+                <Setter Property="TextColor" Value="{StaticResource HightlightColorPrimary}"/>
+                <Setter Property="FontAttributes" Value="Italic"/>
+                <Setter Property="FontSize" Value="Micro"/>
+            </Style>
         </ResourceDictionary>
     </prism:PrismApplication.Resources>
 </prism:PrismApplication>

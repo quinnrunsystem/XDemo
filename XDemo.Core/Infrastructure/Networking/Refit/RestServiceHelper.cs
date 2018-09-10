@@ -10,6 +10,7 @@ using XDemo.Core.ApiDefinitions;
 using XDemo.Core.Infrastructure.Logging;
 using XDemo.Core.Infrastructure.Networking.Base;
 using XDemo.Core.Shared;
+using Prism.Services;
 
 namespace XDemo.Core.Infrastructure.Networking.Refit
 {
@@ -66,7 +67,8 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                          * In some case, we need to call api in background. So, we need to call UIThread display alert message
                          * todo: using resource for alert message
                          * ================================================================================================*/
-                        await ThreadHelper.RunOnUIThreadAsync(() => Application.Current.MainPage.DisplayAlert("Warning", "Warning message!", "Ok"));
+                        var dialogService = DependencyContext.Current.Resolve<IPageDialogService>();
+                        await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("Warning", "Warning message!", "Ok"));
                     });
                     result = await warningRetryPolicy.ExecuteAsync(() => ActionSendAsync(taskFac));
                     break;
@@ -78,7 +80,8 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                          * In some case, we need to call api in background. So, we need to call UIThread display alert message
                          * todo: using resource for alert message
                          * ================================================================================================*/
-                        var sure = await ThreadHelper.RunOnUIThreadAsync(() => Application.Current.MainPage.DisplayAlert("confirm", "Confirm message?", "Ok", "Cancel"));
+                        var dialogService = DependencyContext.Current.Resolve<IPageDialogService>();
+                        var sure = await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("confirm", "Confirm message?", "Ok", "Cancel"));
                         if (!sure)
                         {
                             /* ==================================================================================================

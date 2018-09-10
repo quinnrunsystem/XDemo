@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Xamarin.Forms;
+using System.Collections;
 
 namespace XDemo.UI.Markup.Converters
 {

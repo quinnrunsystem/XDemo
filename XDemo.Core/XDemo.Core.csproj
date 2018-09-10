@@ -13,6 +13,7 @@
     <Compile Remove="Infrastructure\Networking\ApisStuffs\IApiManager.cs" />
     <Compile Remove="Infrastructure\Networking\IRestClient.cs" />
     <Compile Remove="Infrastructure\Networking\Classic\IDataProxy.cs" />
+    <Compile Remove="Infrastructure\Input\TaskCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\" />
@@ -28,7 +29,6 @@
     <Folder Include="Infrastructure\Peripherals\" />
     <Folder Include="Infrastructure\Networking\Base\" />
     <Folder Include="Infrastructure\Logging\" />
-    <Folder Include="Infrastructure\Input\" />
     <Folder Include="BusinessServices\Interfaces\Photos\" />
     <Folder Include="BusinessServices\Implementations\Photos\" />
     <Folder Include="ApiDefinitions\" />

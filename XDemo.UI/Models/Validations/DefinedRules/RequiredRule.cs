@@ -8,7 +8,7 @@ namespace XDemo.UI.Models.Validations.DefinedRules
     /// <summary>
     /// [String | Collection] Is not null or empty rule.
     /// </summary>
-    public class IsNotNullOrEmptyRule<T> : IValidationRule<T>
+    public class RequiredRule<T> : IValidationRule<T>
     {
         public string ValidationMessage { get; set; }
 
