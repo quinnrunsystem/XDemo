@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Windows.Input;
+using System.Threading.Tasks;
 namespace XDemo.Core.Infrastructure.Input
 {
     /// <summary>
     /// BETA!
     /// </summary>
-    public class RefCommand : ICommand
+    public class TaskCommand : ICommand
     {
         readonly Func<object, bool> _canExecute;
         readonly Action<object> _execute;
         volatile bool _inProgress;
         private event EventHandler _canExecuteChangedHandler;
 
-        public RefCommand(Action<object> execute, Func<object, bool> canExecute = null)
+        public TaskCommand(Task<object> execute, Func<object, bool> canExecute = null)
+        {
+
+        }
+        public TaskCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
             // main ctor
             // dont allow null
@@ -21,7 +26,7 @@ namespace XDemo.Core.Infrastructure.Input
             _canExecute = canExecute;
         }
 
-        public RefCommand(Action execute, Func<bool> canExecute = null) : this(obj => execute(), obj => canExecute())
+        public TaskCommand(Action execute, Func<bool> canExecute = null) : this(obj => execute(), obj => canExecute())
         {
         }
 
@@ -72,16 +77,6 @@ namespace XDemo.Core.Infrastructure.Input
         void ChangeCanExecute()
         {
             _canExecuteChangedHandler?.Invoke(this, EventArgs.Empty);
-        }
-    }
-
-    /// <summary>
-    /// BETA
-    /// </summary>
-    public class RefCommand<T> : RefCommand
-    {
-        public RefCommand(Action<T> execute, Func<T, bool> canExecute = null) : base(obj => execute((T)obj), obj => canExecute((T)obj))
-        {
         }
     }
 }

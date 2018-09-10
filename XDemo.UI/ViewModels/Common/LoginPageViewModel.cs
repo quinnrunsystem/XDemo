@@ -2,15 +2,16 @@
 using System.Windows.Input;
 using Xamarin.Forms;
 using XDemo.Core.BusinessServices.Interfaces.Common;
-using XDemo.Core.Extensions;
 using XDemo.UI.ViewModels.Base;
 using Prism.Services;
 using Prism.Navigation;
-using XDemo.Core.Infrastructure.Logging;
 using XDemo.UI.Extensions;
 using XDemo.Core.BusinessServices.Interfaces.Photos;
-using System.Threading;
 using XDemo.Core.Storage;
+using XDemo.UI.Models.Validations.Base;
+using XDemo.UI.Models.Validations.DefinedRules;
+using XDemo.Core.Infrastructure.Input;
+using Prism.Commands;
 
 namespace XDemo.UI.ViewModels.Common
 {
@@ -29,10 +30,7 @@ namespace XDemo.UI.ViewModels.Common
             _navigationService = navigationService;
 
             Title = "Login";
-#if DEBUG
-            UserName = "nv1";
-            Password = "123456";
-#endif
+            AddValidations();
         }
 
         public override void OnNavigatedTo(NavigationParameters parameters)
@@ -41,15 +39,19 @@ namespace XDemo.UI.ViewModels.Common
             //get value from storage settings
             var setting = StorageContext.Current.LoginSetting;
             //example using local setting
-            UserName = setting.SavedUserId;
-            Password = setting.SavedPassword;
-            //DONT USE LIKE THIS => BC THE SETTING VALUE WILL BE READ MANY TIMES (NOT GOOD)
-            //UserName = StorageContext.Current.LoginSetting.SavedUserId;
+            UserName.Value = setting.SavedUserId;
+            Password.Value = setting.SavedPassword;
+
+            /* ==================================================================================================
+             * DONT USE LIKE THIS => BC THE SETTING VALUE WILL BE READ MANY TIMES (NOT GOOD)
+             * UserName = StorageContext.Current.LoginSetting.SavedUserId;
+             * ================================================================================================*/
         }
 
-        public string UserName { get; set; }
+        public ValidableObject<string> UserName { get; set; } = new ValidableObject<string>();
 
-        public string Password { get; set; }
+        public ValidableObject<string> Password { get; set; } = new ValidableObject<string>();
+
 
         #region LoginCommand
         private ICommand _loginCommand;
@@ -60,7 +62,7 @@ namespace XDemo.UI.ViewModels.Common
 
         private bool CanExecuteLoginCommand()
         {
-            return !UserName.IsNullOrEmpty() && !Password.IsNullOrEmpty() && !IsBusy;
+            return true;
         }
 
         /// <summary>
@@ -74,11 +76,11 @@ namespace XDemo.UI.ViewModels.Common
                 //refetch current setting
                 var setting = StorageContext.Current.LoginSetting;
                 //update setting values
-                setting.SavedUserId = UserName;
-                setting.SavedPassword = Password;
+                setting.SavedUserId = UserName.Value;
+                setting.SavedPassword = Password.Value;
                 //save the new setting values
                 StorageContext.Current.LoginSetting = setting;
-                var rs = await _securityService.Login(UserName, Password);
+                var rs = await _securityService.Login(UserName.Value, Password.Value);
                 IsBusy = false;
                 if (!rs.IsValid)
                 {
@@ -94,5 +96,39 @@ namespace XDemo.UI.ViewModels.Common
         }
         #endregion
 
+        #region ValidateCommand
+
+        private ICommand _validateCommand;
+
+        public ICommand ValidateCommand => _validateCommand ?? (_validateCommand = new Command(ValidateCommandExecute));
+
+        private void ValidateCommandExecute()
+        {
+            UserName.Validate();
+            Password.Validate();
+        }
+
+        #endregion
+
+        #region private methods
+        void AddValidations()
+        {
+            /* ==================================================================================================
+             * exmple for combining two or more rules for one property
+             * ================================================================================================*/
+            UserName.Rules.AddRange(new IValidationRule<string>[]
+            {
+                new RequiredRule<string> { ValidationMessage = "User name can not be blank!" },
+                new MinLengthRule<string>(6) { ValidationMessage = "User name is at least 6 characters!" },
+                new MaxLengthRule<string>(12) { ValidationMessage = "User name max length is 12 characters!" }
+            });
+
+            Password.Rules.AddRange(new IValidationRule<string>[]
+            {
+                new RequiredRule<string> { ValidationMessage = "Please enter your password!" },
+                new MinLengthRule<string>(6) { ValidationMessage = "Password is at least 6 characters" }
+            });
+         }
+        #endregion
     }
 }
