@@ -2,7 +2,6 @@
 using Prism;
 using Prism.Autofac;
 using Prism.Ioc;
-using XDemo.Core.Infrastructure.Logging;
 using Autofac;
 using Xamarin.Forms;
 using XDemo.Core.BusinessServices.Implementations;
@@ -38,8 +37,6 @@ namespace XDemo.UI
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            IAutofacContainerExtension containerExtension = new AutofacContainerExtension(containerRegistry.GetBuilder());
-
             RegisterNavigation(containerRegistry);
             /* ==================================================================================================
              * Register real services first
