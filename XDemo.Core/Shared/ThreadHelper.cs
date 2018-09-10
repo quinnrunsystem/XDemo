@@ -39,7 +39,7 @@ namespace XDemo.Core.Shared
         public static async Task RunOnUIThreadAsync(Func<Task> action)
         {
             if (_uiContext == null)
-                throw new Exception("You must call ThreadHelper.Init(context) before calling this method.");
+                throw new Exception($"You must call {nameof(ThreadHelper)}.{nameof(Init)}(context) before calling this method.");
 
             if (SynchronizationContext.Current == _uiContext || SynchronizationContext.Current is ExclusiveSynchronizationContext)
                 await action();
@@ -55,7 +55,7 @@ namespace XDemo.Core.Shared
         public static async Task<T> RunOnUIThreadAsync<T>(Func<Task<T>> action)
         {
             if (_uiContext == null)
-                throw new Exception("You must call ThreadHelper.Init(context) before calling this method.");
+                throw new Exception($"You must call {nameof(ThreadHelper)}.{nameof(Init)}(context) before calling this method.");
 
             return SynchronizationContext.Current == _uiContext || SynchronizationContext.Current is ExclusiveSynchronizationContext
                 ? await action()
@@ -69,7 +69,7 @@ namespace XDemo.Core.Shared
         public static void RunOnUIThread(Action action)
         {
             if (_uiContext == null)
-                throw new Exception("You must call ThreadHelper.Init(context) before calling this method.");
+                throw new Exception($"You must call {nameof(ThreadHelper)}.{nameof(Init)}(context) before calling this method.");
 
             if (SynchronizationContext.Current == _uiContext || SynchronizationContext.Current is ExclusiveSynchronizationContext)
                 action();
@@ -85,7 +85,7 @@ namespace XDemo.Core.Shared
         public static void RunOnUIThread(Func<Task> action)
         {
             if (_uiContext == null)
-                throw new Exception("You must call ThreadHelper.Init(context) before calling this method.");
+                throw new Exception($"You must call {nameof(ThreadHelper)}.{nameof(Init)}(context) before calling this method.");
 
             if (SynchronizationContext.Current == _uiContext || SynchronizationContext.Current is ExclusiveSynchronizationContext)
             {
@@ -118,7 +118,6 @@ namespace XDemo.Core.Shared
         private static Task RunOnUIThreadHelper(Func<Task> action)
         {
             var tcs = new TaskCompletionSource<bool>();
-
             _uiContext.Post((e) =>
             {
                 try

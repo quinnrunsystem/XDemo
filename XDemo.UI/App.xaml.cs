@@ -23,7 +23,6 @@ using XDemo.Core.Shared;
 using System.Threading;
 using XDemo.UI.ViewModels;
 using XDemo.UI.Views;
-using XDemo.UI.Views.Base;
 using XDemo.UI.Controls.ExtendedElements;
 using Akavache;
 
@@ -48,6 +47,11 @@ namespace XDemo.UI
              * ================================================================================================*/
             RegisterServices(containerRegistry);
             RegisterMockServices(containerRegistry);
+
+            /* ==================================================================================================
+             * Init the dependency helper for us to resolve service manually
+             * ================================================================================================*/
+            DependencyContext.Current.Init(Container);
         }
 
         /// <summary>
@@ -81,14 +85,14 @@ namespace XDemo.UI
              * Especially, we register without the viewmodel's name, it's implicit use view name.
              * ================================================================================================*/
             containerRegistry.RegisterForNavigation<PrismNavigationPage>(nameof(NavigationPage));
-            containerRegistry.RegisterForNavigation<BottomTabPage, BottomTabPageViewModel>(nameof(BottomTabPageViewModel));
-            containerRegistry.RegisterForNavigation<MenuPage, MenuPageViewModel>(nameof(MenuPageViewModel));
 
             /* ==================================================================================================
-             * As our team-convention: all pages used in app will be registerd with their explicit 
+             * As our team-rule: all pages used in app will be registerd with their explicit 
              * viewmodel's name instead of view's name.
              * Using 'nameof' key word to restrict defined more constant string values
              * ================================================================================================*/
+            containerRegistry.RegisterForNavigation<MenuPage, MenuPageViewModel>(nameof(MenuPageViewModel));
+            containerRegistry.RegisterForNavigation<BottomTabPage, BottomTabPageViewModel>(nameof(BottomTabPageViewModel));
             containerRegistry.RegisterForNavigation<HomePage>(nameof(HomePageViewModel));
             containerRegistry.RegisterForNavigation<LoginPage>(nameof(LoginPageViewModel));
             containerRegistry.RegisterForNavigation<SettingPage>(nameof(SettingPageViewModel));
