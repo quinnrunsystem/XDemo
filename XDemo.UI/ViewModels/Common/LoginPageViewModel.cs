@@ -10,9 +10,6 @@ using XDemo.Core.BusinessServices.Interfaces.Photos;
 using XDemo.Core.Storage;
 using XDemo.UI.Models.Validations.Base;
 using XDemo.UI.Models.Validations.DefinedRules;
-using XDemo.Core.Infrastructure.Input;
-using Prism.Commands;
-using XDemo.Core.Shared;
 
 namespace XDemo.UI.ViewModels.Common
 {
