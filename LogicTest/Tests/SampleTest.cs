@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 namespace LogicTest.Tests
 {
     [TestFixture]
-    public class SampleTest
+    public class SampleTest : SettingUp
     {
         private IPhotoService _service;
-        [SetUp]
-        public void SettingUp()
+
+        protected override void SetUp()
         {
+            base.SetUp();
             TestContext.WriteLine("SettingUp");
+            //todo: inject
             _service = new PhotoService();
         }
 
@@ -24,6 +26,7 @@ namespace LogicTest.Tests
             var photos = await _service.Get();
             Assert.IsTrue(photos.Any(), "photos.Any()");
         }
+
         [Test]
         public async Task GetAPhotoTest()
         {

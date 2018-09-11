@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tests\SampleTest.cs" />
+    <Compile Include="SettingUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

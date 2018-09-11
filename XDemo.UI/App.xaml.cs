@@ -32,7 +32,6 @@ namespace XDemo.UI
     {
         public App(IPlatformInitializer initializer) : base(initializer)
         {
-
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
