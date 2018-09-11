@@ -6,7 +6,9 @@ namespace XDemo.Core.BusinessServices.Implementations
     {
         public void PrepareMetaData()
         {
-            // todo: prepare all our metadata here, such as: defauts values, enviroment...
+            /* ==================================================================================================
+             * todo: prepare all our metadata here, such as: defauts values, enviroment...
+             * ================================================================================================*/
         }
     }
 }

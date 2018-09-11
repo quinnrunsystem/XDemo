@@ -30,28 +30,24 @@ namespace XDemo.UI
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            //var builder = containerRegistry.GetBuilder();
-            //var container = containerRegistry.GetContainer();//null
-            //var container2= builder.Build();
-            //container = containerRegistry.GetContainer();//null
-            //RegisterServices(new AutofacContainerExtension(builder));
+            /* ==================================================================================================
+             * Register for app navigation
+             * ================================================================================================*/
             RegisterNavigation(containerRegistry);
 
-            var containerExtension = containerRegistry as IContainerExtension;
-            //var registry = containerExtension as IContainerRegistry;
-            //var provider = containerExtension as IContainerProvider;
-
-            DependencyRegistrar.Current.Init(containerExtension);
-
             /* ==================================================================================================
-             * Init the dependency helper for us to resolve service manually
+             * Register for serivices which used in app
+             * This moved to inner call of project for Logic test.
              * ================================================================================================*/
-            //DependencyRegistrar.Current.SetProvider(Container);
+            DependencyRegistrar.Current.Init(containerRegistry as IContainerExtension);
         }
-
 
         private void RegisterNavigation(IContainerRegistry containerRegistry)
         {
+            /* ==================================================================================================
+             * todo: moved to of UI project inner call => for future UI test
+             * ================================================================================================*/
+
             /* ==================================================================================================
              * Main navaigation containers, dont has any viewmodels. 
              * Especially, we register without the viewmodel's name, it's implicit use view name.
@@ -94,6 +90,9 @@ namespace XDemo.UI
 
         async void InitNavigation()
         {
+            /* ==================================================================================================
+             * Init the first navigation of our app
+             * ================================================================================================*/
             await NavigationService.GoToLoginPageAsync();
         }
 
