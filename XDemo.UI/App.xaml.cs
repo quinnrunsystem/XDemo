@@ -81,7 +81,7 @@ namespace XDemo.UI
              * Main navaigation containers, dont has any viewmodels. 
              * Especially, we register without the viewmodel's name, it's implicit use view name.
              * ================================================================================================*/
-            containerRegistry.RegisterForNavigation<PrismNavigationPage>(nameof(NavigationPage));
+            containerRegistry.RegisterForNavigation<PrismLifeCycleNavigationPage>(nameof(NavigationPage));
 
             /* ==================================================================================================
              * As our team-rule: all pages used in app will be registerd with their explicit 

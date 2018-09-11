@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AE22DEF6-D
 		AboutTest.txt = AboutTest.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicTest", "LogicTest\LogicTest.csproj", "{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,10 +94,27 @@ Global
 		{DA1D58D5-D719-4B20-B13B-567FEE5B2536}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
 		{DA1D58D5-D719-4B20-B13B-567FEE5B2536}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
 		{DA1D58D5-D719-4B20-B13B-567FEE5B2536}.AppStore|iPhone.Build.0 = Debug|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Release|iPhone.Build.0 = Release|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73}.AppStore|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{266BD4B1-9235-4E51-BCE9-389242359A00} = {3FBB3661-71EC-477A-981B-F983CD5DAE6E}
 		{C6449B95-7F27-4D43-BF26-332B7D49FB54} = {3FBB3661-71EC-477A-981B-F983CD5DAE6E}
+		{0DA9B1ED-99FB-41CF-95D8-5F2FBFE02F73} = {AE22DEF6-D982-4B96-A09D-3228EE0360B1}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

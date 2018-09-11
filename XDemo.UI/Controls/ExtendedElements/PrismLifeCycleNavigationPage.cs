@@ -1,13 +1,14 @@
 ﻿using System;
 using Prism.Common;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace XDemo.UI.Controls.ExtendedElements
 {
     //todo: rename
-    public class PrismNavigationPage : NavigationPage
+    public class PrismLifeCycleNavigationPage : NavigationPage
     {
-        public PrismNavigationPage()
+        public PrismLifeCycleNavigationPage()
         {
             this.Popped += OnPopped;
         }
@@ -19,7 +20,6 @@ namespace XDemo.UI.Controls.ExtendedElements
                 // Enable swipe menu at tabbed page
                 master.IsGestureEnabled = true;
             }
-
             // useModalNavigation = false, because in app used Navigate of Prism useModalNavigation = false
             Page previousPage = PageUtilities.GetOnNavigatedToTarget(e.Page, Application.Current.MainPage, false);
             // Because if use Navigation.PushModalAsync, then Swipe back not call OnNavigatedTo in ViewModel

@@ -20,7 +20,7 @@
             <!--images-->
             <!--global styles-->
             <Style
-                TargetType="renderers:PrismNavigationPage">
+                TargetType="renderers:PrismLifeCycleNavigationPage">
                 <Setter
                     Property="BarBackgroundColor"
                     Value="{StaticResource NavigationBackgroundPrimary}" />

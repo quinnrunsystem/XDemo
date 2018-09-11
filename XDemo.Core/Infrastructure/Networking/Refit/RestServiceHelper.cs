@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Polly;
 using Refit;
-using Xamarin.Forms;
 using XDemo.Core.ApiDefinitions;
 using XDemo.Core.Infrastructure.Logging;
 using XDemo.Core.Infrastructure.Networking.Base;
