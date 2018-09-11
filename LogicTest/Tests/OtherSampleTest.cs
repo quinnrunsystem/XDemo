@@ -1,15 +1,12 @@
-﻿using System.Linq;
-using NUnit.Framework;
-using XDemo.Core.BusinessServices.Interfaces.Photos;
-using System.Threading.Tasks;
+﻿using XDemo.Core.BusinessServices.Interfaces.Photos;
 using XDemo.Core.Shared;
+using System.Threading.Tasks;
+using NUnit.Framework;
+using System.Linq;
 
 namespace LogicTest.Tests
 {
-    /* ==================================================================================================
-     * inherit SettingUp base class to make your class known as a test class
-     * ================================================================================================*/
-    public class SampleTest : SettingUp
+    public class OtherSampleTest : SettingUp
     {
         private IPhotoService _service;
 
@@ -28,29 +25,23 @@ namespace LogicTest.Tests
             _service = DependencyRegistrar.Current.Resolve<IPhotoService>();
         }
 
-        /* ==================================================================================================
-         * Mark your method with a TestAttribute for NUnit known its a test method
-         * ================================================================================================*/
         [Test]
-        public async Task GetPhotosTest()
+        public async Task AnotherTestMethod()
         {
-            TestContext.WriteLine("GetPhotosTest");
             var photos = await _service.Get();
+            var idToGet = 25;
+            var photo = await _service.Get(idToGet);
+            var firstPhoto = photos.FirstOrDefault(arg => arg.Id == idToGet);
+            var equalOnValues = (photo == null && firstPhoto == null)
+               || (photo.Id == firstPhoto.Id
+                   && photo.AlbumId == firstPhoto.AlbumId
+                   && photo.Title == firstPhoto.Title
+                   && photo.Url == firstPhoto.Url
+                   && photo.ThumbnailUrl == firstPhoto.ThumbnailUrl);
             /* ==================================================================================================
             * The message if assert failed should be plain text from your expression
             * ================================================================================================*/
-            Assert.IsTrue(photos.Any(), "photos.Any()");
-        }
-
-        [Test]
-        public async Task GetAPhotoTest()
-        {
-            int idToGet = 3;
-            var photo = await _service.Get(idToGet);
-            /* ==================================================================================================
-             * The message if assert failed should be plain text from your expression
-             * ================================================================================================*/
-            Assert.IsTrue(photo != null && photo.Id == idToGet, "photo != null && photo.Id == idToGet");
+            Assert.IsTrue(photo.Id == idToGet && equalOnValues, "photo.Id == idToGet && equalOnValues");
         }
     }
 }

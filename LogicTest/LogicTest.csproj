@@ -63,10 +63,26 @@
     <Reference Include="Prism.Forms">
       <HintPath>..\packages\Prism.Forms.7.0.0.396\lib\netstandard2.0\Prism.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Prism.Autofac.Forms">
+      <HintPath>..\packages\Prism.Autofac.Forms.7.0.0.396\lib\netstandard2.0\Prism.Autofac.Forms.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tests\SampleTest.cs" />
     <Compile Include="SettingUp.cs" />
+    <Compile Include="Tests\OtherSampleTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

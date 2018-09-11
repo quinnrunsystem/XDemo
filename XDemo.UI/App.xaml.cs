@@ -4,15 +4,9 @@ using Prism.Autofac;
 using Prism.Ioc;
 using Autofac;
 using Xamarin.Forms;
-using XDemo.Core.BusinessServices.Implementations;
 using XDemo.Core.BusinessServices.Interfaces.Common;
 using XDemo.UI.Views.Common;
-using XDemo.Core.BusinessServices.Implementations.Common;
-using XDemo.Core.BusinessServices.Interfaces.Patients;
-using XDemo.Core.BusinessServices.Implementations.Patients;
 using XDemo.UI.Extensions;
-using XDemo.Core.BusinessServices.Interfaces.Photos;
-using XDemo.Core.BusinessServices.Implementations.Photos;
 using XDemo.UI.ViewModels.Common;
 using System;
 using System.Reflection;
@@ -36,43 +30,25 @@ namespace XDemo.UI
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            //var builder = containerRegistry.GetBuilder();
+            //var container = containerRegistry.GetContainer();//null
+            //var container2= builder.Build();
+            //container = containerRegistry.GetContainer();//null
+            //RegisterServices(new AutofacContainerExtension(builder));
             RegisterNavigation(containerRegistry);
-            /* ==================================================================================================
-             * Register real services first
-             * Then register mock. the service with mock implementation overwrite the real implementation
-             * ================================================================================================*/
-            RegisterServices(containerRegistry);
-            RegisterMockServices(containerRegistry);
+
+            var containerExtension = containerRegistry as IContainerExtension;
+            //var registry = containerExtension as IContainerRegistry;
+            //var provider = containerExtension as IContainerProvider;
+
+            DependencyRegistrar.Current.Init(containerExtension);
 
             /* ==================================================================================================
              * Init the dependency helper for us to resolve service manually
              * ================================================================================================*/
-            DependencyContext.Current.Init(Container);
+            //DependencyRegistrar.Current.SetProvider(Container);
         }
 
-        /// <summary>
-        /// Register all service with its implementation
-        /// </summary>
-        /// <param name="containerRegistry">Container registry.</param>
-        private void RegisterServices(IContainerRegistry containerRegistry)
-        {
-            containerRegistry.Register<IStartupService, StartupService>();
-            containerRegistry.Register<ISecurityService, SecurityService>();
-            containerRegistry.Register<IPatientService, PatientService>();
-            containerRegistry.Register<IPhotoService, PhotoService>();
-
-            /* ==================================================================================================
-             * todo: register logic services which using for app
-             * ...
-             * ================================================================================================*/
-        }
-
-        private void RegisterMockServices(IContainerRegistry containerRegistry)
-        {
-            /* ==================================================================================================
-             * todo: register mock service for devs undependent develop
-             * ================================================================================================*/
-        }
 
         private void RegisterNavigation(IContainerRegistry containerRegistry)
         {

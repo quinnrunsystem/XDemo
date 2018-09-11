@@ -65,7 +65,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                          * In some case, we need to call api in background. So, we need to call UIThread display alert message
                          * todo: using resource for alert message
                          * ================================================================================================*/
-                        var dialogService = DependencyContext.Current.Resolve<IPageDialogService>();
+                        var dialogService = DependencyRegistrar.Current.Resolve<IPageDialogService>();
                         await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("Warning", "Warning message!", "Ok"));
                     });
                     result = await warningRetryPolicy.ExecuteAsync(() => ActionSendAsync(taskFac));
@@ -78,7 +78,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                          * In some case, we need to call api in background. So, we need to call UIThread display alert message
                          * todo: using resource for alert message
                          * ================================================================================================*/
-                        var dialogService = DependencyContext.Current.Resolve<IPageDialogService>();
+                        var dialogService = DependencyRegistrar.Current.Resolve<IPageDialogService>();
                         var sure = await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("confirm", "Confirm message?", "Ok", "Cancel"));
                         if (!sure)
                         {
