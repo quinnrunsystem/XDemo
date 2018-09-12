@@ -5,6 +5,7 @@ using Prism.Autofac;
 using Prism.Services;
 using Prism.Behaviors;
 using XDemo.Core.Shared;
+using LogicTest.MockSerivces;
 
 namespace LogicTest
 {
@@ -45,8 +46,10 @@ namespace LogicTest
         {
             containerRegistry.RegisterInstance(_containerExtension);
             containerRegistry.RegisterSingleton<IDependencyService, DependencyService>();
-            containerRegistry.RegisterSingleton<IPageDialogService, PageDialogService>();
-            containerRegistry.RegisterSingleton<IPageBehaviorFactory, PageBehaviorFactory>();
+            /* ==================================================================================================
+             * use mock service to handle expected reaction
+             * ================================================================================================*/
+            containerRegistry.RegisterSingleton<IPageDialogService, MockPageDialogService>();
 
             /* ==================================================================================================
              * todo: register other prism built-in types if needed
