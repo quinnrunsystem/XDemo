@@ -46,9 +46,9 @@ namespace XDemo.UI.ViewModels.Common
              * ================================================================================================*/
         }
 
-        public ValidableObject<string> UserName { get; set; } = new ValidableObject<string>();
+        public ValidatableObject<string> UserName { get; set; } = new ValidatableObject<string>();
 
-        public ValidableObject<string> Password { get; set; } = new ValidableObject<string>();
+        public ValidatableObject<string> Password { get; set; } = new ValidatableObject<string>();
 
 
         #region LoginCommand

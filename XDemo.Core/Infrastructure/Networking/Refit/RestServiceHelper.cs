@@ -9,6 +9,7 @@ using XDemo.Core.Infrastructure.Logging;
 using XDemo.Core.Infrastructure.Networking.Base;
 using XDemo.Core.Shared;
 using Prism.Services;
+using Xamarin.Forms;
 
 namespace XDemo.Core.Infrastructure.Networking.Refit
 {
@@ -117,13 +118,11 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
         }
 
         #region private methods, executor
-        /* ==================================================================================================
-         * Todo: review Android v4.4 vs ModernHttp compability
-         * ================================================================================================*/
         static HttpClient GetHttpClient()
         {
             /* ==================================================================================================
-             * use native handler for better perfomance
+             * Use native handler for better perfomance
+             * For Android v4.4 vs ModernHttp compability => Work as expected on this version
              * ================================================================================================*/
             var handler = new ExtendedNativeMessageHandler()
             {
