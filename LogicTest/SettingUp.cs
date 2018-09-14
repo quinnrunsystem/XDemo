@@ -5,6 +5,9 @@ using Prism.Autofac;
 using Prism.Services;
 using Prism.Behaviors;
 using XDemo.Core.Shared;
+using LogicTest.MockSerivces;
+using AutoMapper;
+using XDemo.Core.BusinessServices;
 
 namespace LogicTest
 {
@@ -16,6 +19,11 @@ namespace LogicTest
         [SetUp]
         protected virtual void SetUp()
         {
+            /* ==================================================================================================
+             * setting up auto mapper
+             * ================================================================================================*/
+            AutoMapperSettup();
+
             /* ==================================================================================================
              * Init container (use Autofac)
              * ================================================================================================*/
@@ -45,13 +53,20 @@ namespace LogicTest
         {
             containerRegistry.RegisterInstance(_containerExtension);
             containerRegistry.RegisterSingleton<IDependencyService, DependencyService>();
-            containerRegistry.RegisterSingleton<IPageDialogService, PageDialogService>();
-            containerRegistry.RegisterSingleton<IPageBehaviorFactory, PageBehaviorFactory>();
+            /* ==================================================================================================
+             * use mock service to handle expected reaction
+             * ================================================================================================*/
+            containerRegistry.RegisterSingleton<IPageDialogService, MockPageDialogService>();
 
             /* ==================================================================================================
              * todo: register other prism built-in types if needed
              * ....
              * ================================================================================================*/
+        }
+
+        void AutoMapperSettup()
+        {
+            Mapper.Initialize(cfg => cfg.AddProfile<AutoMapperCoreProfile>());
         }
     }
 }
