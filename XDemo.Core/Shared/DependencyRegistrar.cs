@@ -8,6 +8,8 @@ using XDemo.Core.BusinessServices.Interfaces.Common;
 using XDemo.Core.BusinessServices.Interfaces.Patients;
 using XDemo.Core.BusinessServices.Interfaces.Photos;
 using Prism.Autofac;
+using AutoMapper;
+using XDemo.Core.BusinessServices;
 
 namespace XDemo.Core.Shared
 {

@@ -18,6 +18,9 @@ using XDemo.UI.ViewModels;
 using XDemo.UI.Views;
 using XDemo.UI.Controls.ExtendedElements;
 using Akavache;
+using AutoMapper;
+using XDemo.UI.Models;
+using XDemo.Core.BusinessServices;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XDemo.UI
@@ -34,7 +37,10 @@ namespace XDemo.UI
              * Register for app navigation
              * ================================================================================================*/
             RegisterNavigation(containerRegistry);
-
+            /* ==================================================================================================
+             * Init config auto mapper for UI level
+             * ================================================================================================*/
+            UIMapperSettup();
             /* ==================================================================================================
              * Register for serivices which used in app
              * This moved to inner call of project for Logic test.
@@ -104,6 +110,14 @@ namespace XDemo.UI
              * ================================================================================================*/
             BlobCache.ApplicationName = "XDemo";
             BlobCache.EnsureInitialized();
+        }
+
+        void UIMapperSettup()
+        {
+            Mapper.Initialize(cfg => {
+                cfg.AddProfile<AutoMapperUIProfile>();
+                cfg.AddProfile<AutoMapperCoreProfile>();
+            });
         }
 
         #region App lifecycle

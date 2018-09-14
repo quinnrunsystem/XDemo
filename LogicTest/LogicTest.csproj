@@ -78,6 +78,12 @@
     <Reference Include="Prism.Autofac.Forms">
       <HintPath>..\packages\Prism.Autofac.Forms.7.0.0.396\lib\netstandard2.0\Prism.Autofac.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tests\SampleTest.cs" />

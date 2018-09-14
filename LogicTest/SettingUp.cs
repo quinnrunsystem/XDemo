@@ -6,6 +6,8 @@ using Prism.Services;
 using Prism.Behaviors;
 using XDemo.Core.Shared;
 using LogicTest.MockSerivces;
+using AutoMapper;
+using XDemo.Core.BusinessServices;
 
 namespace LogicTest
 {
@@ -17,6 +19,11 @@ namespace LogicTest
         [SetUp]
         protected virtual void SetUp()
         {
+            /* ==================================================================================================
+             * setting up auto mapper
+             * ================================================================================================*/
+            AutoMapperSettup();
+
             /* ==================================================================================================
              * Init container (use Autofac)
              * ================================================================================================*/
@@ -55,6 +62,11 @@ namespace LogicTest
              * todo: register other prism built-in types if needed
              * ....
              * ================================================================================================*/
+        }
+
+        void AutoMapperSettup()
+        {
+            Mapper.Initialize(cfg => cfg.AddProfile<AutoMapperCoreProfile>());
         }
     }
 }
