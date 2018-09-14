@@ -36,6 +36,7 @@
     <Folder Include="Infrastructure\PushNotifications\" />
     <Folder Include="Storage\" />
     <Folder Include="Storage\Settings\" />
+    <Folder Include="BusinessServices\Dtos\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />

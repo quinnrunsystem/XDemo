@@ -117,6 +117,9 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
         }
 
         #region private methods, executor
+        /* ==================================================================================================
+         * Todo: review Android v4.4 vs ModernHttp compability
+         * ================================================================================================*/
         static HttpClient GetHttpClient()
         {
             /* ==================================================================================================

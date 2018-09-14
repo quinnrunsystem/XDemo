@@ -17,13 +17,14 @@ namespace XDemo.Core.Shared
     public sealed class DependencyRegistrar
     {
         private static readonly Lazy<DependencyRegistrar> Lazy = new Lazy<DependencyRegistrar>(() => new DependencyRegistrar());
-        private IContainerProvider _containerProvider;
 
         public static DependencyRegistrar Current => Lazy.Value;
+
         /* ==================================================================================================
          * use Pris,.Ioc.IContainerProvider instead of Autofac.IContainer.
          * BC in future, we can change dependency container easier, such as: Unity, DryIoc...
          * ================================================================================================*/
+        private IContainerProvider _containerProvider;
 
         private DependencyRegistrar()
         {
