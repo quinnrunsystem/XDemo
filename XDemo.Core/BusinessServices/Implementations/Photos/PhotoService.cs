@@ -12,13 +12,15 @@ namespace XDemo.Core.BusinessServices.Implementations.Photos
     public class PhotoService : IPhotoService
     {
         private readonly IPhotoApi _photoApi;
-        public PhotoService()
+        public PhotoService(IPhotoApi photoApi)
         {
             /* ==================================================================================================
              * Resolve the api gateway manually.
              * todo: improve by using DI
              * ================================================================================================*/
-            _photoApi = RestServiceHelper.GetApi<IPhotoApi>();
+            // _photoApi = RestServiceHelper.GetApi<IPhotoApi>();
+            _photoApi = photoApi;
+            IPhotoService x = new PhotoService(_photoApi);
         }
 
         public async Task<List<PhotoDto>> Get(CancellationToken extToken)
