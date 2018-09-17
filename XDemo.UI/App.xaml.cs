@@ -21,6 +21,7 @@ using Akavache;
 using AutoMapper;
 using XDemo.UI.Models;
 using XDemo.Core.BusinessServices;
+using Xamarin.Forms.Internals;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XDemo.UI
@@ -114,7 +115,8 @@ namespace XDemo.UI
 
         void UIMapperSettup()
         {
-            Mapper.Initialize(cfg => {
+            Mapper.Initialize(cfg =>
+            {
                 cfg.AddProfile<AutoMapperUIProfile>();
                 cfg.AddProfile<AutoMapperCoreProfile>();
             });

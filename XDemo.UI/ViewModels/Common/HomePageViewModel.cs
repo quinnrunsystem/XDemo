@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Navigation;
 using Xamarin.Forms;
+using XDemo.Core.BusinessServices.Dtos.Patients;
 using XDemo.Core.BusinessServices.Interfaces.Patients;
 using XDemo.Core.Extensions;
 using XDemo.UI.Extensions;

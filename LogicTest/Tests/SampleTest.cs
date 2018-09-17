@@ -3,6 +3,8 @@ using NUnit.Framework;
 using XDemo.Core.BusinessServices.Interfaces.Photos;
 using System.Threading.Tasks;
 using XDemo.Core.Shared;
+using System.Collections.Generic;
+using XDemo.Core.BusinessServices.Dtos.Photos;
 
 namespace LogicTest.Tests
 {
@@ -35,11 +37,21 @@ namespace LogicTest.Tests
         public async Task GetPhotosTest()
         {
             TestContext.WriteLine("GetPhotosTest");
-            var photos = await _service.Get();
+            await _service.Get(OnSuccess, OnFailed);
             /* ==================================================================================================
             * The message if assert failed should be plain text from your expression
             * ================================================================================================*/
-            Assert.IsTrue(photos.Any(), "photos.Any()");
+            Assert.IsTrue(_getSucceeded, "_getSucceeded");
+        }
+        private bool _getSucceeded = false;
+        void OnFailed()
+        {
+            _getSucceeded = false;
+        }
+
+        private void OnSuccess(List<PhotoDto> photoDtos)
+        {
+            _getSucceeded = true;
         }
 
         [Test]

@@ -3,6 +3,8 @@ using XDemo.Core.Shared;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using System.Linq;
+using System.Collections.Generic;
+using XDemo.Core.BusinessServices.Dtos.Photos;
 
 namespace LogicTest.Tests
 {
@@ -24,14 +26,14 @@ namespace LogicTest.Tests
              * ================================================================================================*/
             _service = DependencyRegistrar.Current.Resolve<IPhotoService>();
         }
-
+        private List<PhotoDto> _photoDtos = new List<PhotoDto>();
         [Test]
         public async Task AnotherTestMethod()
         {
-            var photos = await _service.Get();
+            await _service.Get(OnSuccess, OnFailed);
             var idToGet = 25;
             var photo = await _service.Get(idToGet);
-            var firstPhoto = photos.FirstOrDefault(arg => arg.Id == idToGet);
+            var firstPhoto = _photoDtos.FirstOrDefault(arg => arg.Id == idToGet);
             var equalOnValues = (photo == null && firstPhoto == null)
                || (photo.Id == firstPhoto.Id
                    && photo.AlbumId == firstPhoto.AlbumId
@@ -43,5 +45,16 @@ namespace LogicTest.Tests
             * ================================================================================================*/
             Assert.IsTrue(photo.Id == idToGet && equalOnValues, "photo.Id == idToGet && equalOnValues");
         }
+
+        void OnFailed()
+        {
+            _photoDtos = new List<PhotoDto>();
+        }
+
+        private void OnSuccess(List<PhotoDto> photoDtos)
+        {
+            _photoDtos = photoDtos;
+        }
+
     }
 }

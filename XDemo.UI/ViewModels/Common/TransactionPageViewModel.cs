@@ -11,6 +11,8 @@ using Xamarin.Forms;
 using Prism.Navigation;
 using XDemo.UI.Extensions;
 using XDemo.Core.Extensions;
+using XDemo.Core.BusinessServices.Dtos.Photos;
+using System.Threading;
 
 namespace XDemo.UI.ViewModels.Common
 {
@@ -41,7 +43,18 @@ namespace XDemo.UI.ViewModels.Common
             base.OnAppearing();
             if (_initialized)
                 return;
-            var photoDtos = await _photoService.Get();
+   
+            await _photoService.Get(OnSuccess, OnFailed);
+            _initialized = true;
+        }
+
+        void OnFailed()
+        {
+            Photos = new List<Photo>();
+        }
+
+        private void OnSuccess(List<PhotoDto> photoDtos)
+        {
             /* ==================================================================================================
              * Manual data type casting
              * ==================================================================================================
@@ -55,12 +68,10 @@ namespace XDemo.UI.ViewModels.Common
              * }).ToList();
              * ================================================================================================*/
 
-
             /* ==================================================================================================
              * Auto mapper usage
              * ================================================================================================*/
             Photos = photoDtos.MapTo<Photo>();
-            _initialized = true;
         }
 
         #region SelectPhotoCommand

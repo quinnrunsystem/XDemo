@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XDemo.Core.BusinessServices.Dtos.Patients;
 using XDemo.Core.BusinessServices.Interfaces.Common;
 using XDemo.Core.BusinessServices.Interfaces.Patients;
 using XDemo.Core.Extensions;
