@@ -32,17 +32,19 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
         }
 
         /// <summary>
-        /// Calls the api task with retry.
+        /// Calls the api task with retry. <para/>
+        /// MainResult: the expected result of api call <para/>
+        /// ExtendedResult: the extended result of api call, use this for your manual logic handler
         /// </summary>
         /// <returns>The with retry.</returns>
         /// <param name="taskFac">Task factory. We have to use function instead of explicit task for dynamic retrieve new task when retry </param>
         /// <param name="retryMode">Retry mode. default is <see cref="RetryMode.Confirm"/></param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static async Task<T> CallWithRetry<T>(Func<Task<T>> taskFac, RetryMode retryMode = RetryMode.Confirm) where T : new()
+        public static async Task<(T MainResult, ResponseBase ExtendedResult)> CallWithRetry<T>(Func<Task<T>> taskFac, RetryMode retryMode = RetryMode.Confirm) where T : new()
         {
             if (taskFac == null)
                 throw new ArgumentNullException(nameof(taskFac));
-            var result = default(T);
+
             switch (retryMode)
             {
                 case RetryMode.None:
@@ -51,13 +53,23 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                         /* ==================================================================================================
                          * execute the api task only, but dont thrown any exception
                          * ================================================================================================*/
-                        result = await taskFac.Invoke();
+                        var mainResult = await taskFac.Invoke();
+                        return (mainResult, ResponseBase.Ok());
+                    }
+                    catch (OperationCanceledException ex)
+                    {
+                        /* ==================================================================================================
+                         * ignored: the api inner call canceled by the passed token
+                         * Return a new instance of T to avoid another NullReferenceException!
+                         * ================================================================================================*/
+                        LogCommon.Error(ex);
+                        return (new T(), ResponseBase.Canceled());
                     }
                     catch (Exception ex)
                     {
                         LogCommon.Error(ex);
+                        return (new T(), ResponseBase.Failed(ex.Message));
                     }
-                    break;
                 case RetryMode.Warning:
                     var warningRetryPolicy = Policy.Handle<Exception>().RetryForeverAsync(async (exception, retryCount, context) =>
                     {
@@ -69,8 +81,8 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                         var dialogService = DependencyRegistrar.Current.Resolve<IPageDialogService>();
                         await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("Warning", "Warning message!", "Ok"));
                     });
-                    result = await warningRetryPolicy.ExecuteAsync(() => ActionSendAsync(taskFac));
-                    break;
+                    var result = await warningRetryPolicy.ExecuteAsync(() => ActionSendAsync(taskFac));
+                    return result;
                 case RetryMode.Confirm:
                     var confirmRetryPolicy = Policy.Handle<Exception>().RetryForeverAsync(async (exception, retryCount, context) =>
                     {
@@ -96,25 +108,23 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                         /* ==================================================================================================
                          * passed the token into it to cancel if the user wont choose 'retry'
                          * ================================================================================================*/
-                        result = await confirmRetryPolicy.ExecuteAsync((inputContext, token) => ActionSendAsync(taskFac), new Context { { "tokenSource", inputTcs } }, inputTcs.Token).ConfigureAwait(true);
+                        var toReturn = await confirmRetryPolicy.ExecuteAsync((inputContext, token) => ActionSendAsync(taskFac), new Context { { "tokenSource", inputTcs } }, inputTcs.Token).ConfigureAwait(false);
+                        return toReturn;
                     }
                     catch (OperationCanceledException ex)
                     {
                         /* ==================================================================================================
-                         * ignore: the retry cycle broken
+                         * ignore: the retry cycle broken bc the user didn't retry => return as a failed result
                          * ================================================================================================*/
                         LogCommon.Error(ex);
+                        return (new T(), ResponseBase.Failed("User dont want to retry anymore!"));
                     }
-                    break;
                 default:
                     /* ==================================================================================================
                      * the retry mode is not support yet!
                      * ================================================================================================*/
                     throw new ArgumentOutOfRangeException(nameof(retryMode), $"The retry mode '{retryMode}' is not supported yet!");
             }
-
-            //finish up
-            return result;
         }
 
         #region private methods, executor
@@ -147,7 +157,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
          * In case of the api task failed by network connection lost, its still has faulted status forever.
          * Use an Func<> to retrieve a new task for each retry
          * ================================================================================================*/
-        static async Task<T> ActionSendAsync<T>(Func<Task<T>> taskFac) where T : new()
+        static async Task<(T MainResult, ResponseBase ExtendedResult)> ActionSendAsync<T>(Func<Task<T>> taskFac) where T : new()
         {
             try
             {
@@ -155,28 +165,31 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                  * retrieve the api task from task factory
                  * ================================================================================================*/
                 var task = taskFac.Invoke();
-                return await task;
+                var mainResult = await task;
+                return (mainResult, ResponseBase.Ok());
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ex)
             {
+                LogCommon.Error(ex);
                 /* ==================================================================================================
-                 * ignored: the api inner call canceled by user
+                 * ignored: the api inner call canceled by the passed token of api task
                  * ================================================================================================*/
-                return default(T);
+                return (new T(), ResponseBase.Canceled());
             }
             catch (AggregateException ex)
             {
                 if (!(ex.InnerException is OperationCanceledException))
                     /* ==================================================================================================
-                     * other exception => re-thrown
+                     * other exception => re-thrown for polly handler
                      * ================================================================================================*/
                     throw;
-                return default(T);
+
+                return (new T(), ResponseBase.Canceled());
             }
             catch (Exception ex)
             {
                 /* ==================================================================================================
-                 * rethrown the exception
+                 * rethrown the exception for polly handler
                  * ================================================================================================*/
                 throw ex;
             }

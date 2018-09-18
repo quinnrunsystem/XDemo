@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using XDemo.Core.BusinessServices.Interfaces.Common;
 using XDemo.UI.ViewModels.Base;
 using Prism.Services;
+using XDemo.Core.BusinessServices.Dtos.Common;
 using XDemo.UI.Extensions;
 using XDemo.UI.Views.Base;
 using XDemo.Core.Infrastructure.Logging;

@@ -2,6 +2,9 @@
 using AutoMapper;
 namespace XDemo.Core.BusinessServices
 {
+    /// <summary>
+    /// Auto mapper between types in core project, not include UI types
+    /// </summary>
     public class AutoMapperCoreProfile : Profile
     {
         public AutoMapperCoreProfile()

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XDemo.Core.BusinessServices.Interfaces.Patients
+namespace XDemo.Core.BusinessServices.Dtos.Patients
 {
     public class PatientDto
     {

@@ -114,10 +114,24 @@ namespace XDemo.UI
 
         void UIMapperSettup()
         {
-            Mapper.Initialize(cfg => {
-                cfg.AddProfile<AutoMapperUIProfile>();
-                cfg.AddProfile<AutoMapperCoreProfile>();
-            });
+            try
+            {
+                /* ==================================================================================================
+                 * detect the auto mapper intialized. if not initialized, it will throw InvalidOperationException
+                 * ================================================================================================*/
+                Mapper.AssertConfigurationIsValid();
+            }
+            catch (InvalidOperationException)
+            {
+                /* ==================================================================================================
+                 * decent hack: auto mapper had not been initialized
+                 * ================================================================================================*/
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.AddProfile<AutoMapperUIProfile>();
+                    cfg.AddProfile<AutoMapperCoreProfile>();
+                });
+            }
         }
 
         #region App lifecycle

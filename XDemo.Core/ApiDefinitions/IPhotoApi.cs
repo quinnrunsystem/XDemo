@@ -4,6 +4,7 @@ using XDemo.Core.BusinessServices.Interfaces.Photos;
 using System.Threading.Tasks;
 using Refit;
 using System.Threading;
+using XDemo.Core.BusinessServices.Dtos.Photos;
 
 namespace XDemo.Core.ApiDefinitions
 {

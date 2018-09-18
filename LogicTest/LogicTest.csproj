@@ -90,6 +90,7 @@
     <Compile Include="SettingUp.cs" />
     <Compile Include="Tests\OtherSampleTest.cs" />
     <Compile Include="MockSerivces\MockPageDialogService.cs" />
+    <Compile Include="Tests\ApiInjectionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -29,7 +29,6 @@
     <Folder Include="Markup\" />
     <Folder Include="Markup\Behaviors\" />
     <Folder Include="Markup\Converters\" />
-    <Folder Include="Markup\Extensions\" />
     <Folder Include="Markup\Effects\" />
     <Folder Include="Models\" />
     <Folder Include="Markup\Animations\" />
