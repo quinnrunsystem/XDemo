@@ -52,22 +52,22 @@ namespace XDemo.UI
              * Main navaigation containers, dont has any viewmodels. 
              * Especially, we register without the viewmodel's name, it's implicit use view name.
              * ================================================================================================*/
-            containerRegistry.RegisterForNavigation<PrismLifeCycleNavigationPage>(nameof(NavigationPage));
+            containerRegistry.RegisterForNavigation<PrismLifeCycleNavigationPage>();
 
             /* ==================================================================================================
              * As our team-rule: all pages used in app will be registerd with their explicit 
              * viewmodel's name instead of view's name.
              * Using 'nameof' key word to restrict defined more constant string values
              * ================================================================================================*/
-            containerRegistry.RegisterForNavigation<MenuPage, MenuPageViewModel>(nameof(MenuPageViewModel));
-            containerRegistry.RegisterForNavigation<BottomTabPage, BottomTabPageViewModel>(nameof(BottomTabPageViewModel));
             containerRegistry.RegisterForNavigation<HomePage>(nameof(HomePageViewModel));
             containerRegistry.RegisterForNavigation<LoginPage>(nameof(LoginPageViewModel));
             containerRegistry.RegisterForNavigation<SettingPage>(nameof(SettingPageViewModel));
             containerRegistry.RegisterForNavigation<TransactionPage>(nameof(TransactionPageViewModel));
             containerRegistry.RegisterForNavigation<PhotoDetailPage>(nameof(PhotoDetailPageViewModel));
-            containerRegistry.RegisterForNavigation<DetailAPage, DetailAPageViewModel>(nameof(DetailAPageViewModel));
-            containerRegistry.RegisterForNavigation<DetailBPage, DetailBPageViewModel>(nameof(DetailBPageViewModel));
+            containerRegistry.RegisterForNavigation<DetailAPage>(nameof(DetailAPageViewModel));
+            containerRegistry.RegisterForNavigation<DetailBPage>(nameof(DetailBPageViewModel));
+            containerRegistry.RegisterForNavigation<MenuPage>(nameof(MenuPageViewModel));
+            containerRegistry.RegisterForNavigation<BottomTabPage>(nameof(BottomTabPageViewModel));
         }
 
         /// <summary>

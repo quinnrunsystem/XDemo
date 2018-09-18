@@ -10,6 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Markup\Animations\**" />
+    <Compile Remove="Markup\Extensions\**" />
+    <EmbeddedResource Remove="Markup\Animations\**" />
+    <EmbeddedResource Remove="Markup\Extensions\**" />
+    <None Remove="Markup\Animations\**" />
+    <None Remove="Markup\Extensions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
     <PackageReference Include="Prism.Forms" Version="7.0.0.396" />
     <PackageReference Include="PropertyChanged.Fody" Version="2.5.9" />
@@ -28,10 +37,8 @@
     <Folder Include="Markup\" />
     <Folder Include="Markup\Behaviors\" />
     <Folder Include="Markup\Converters\" />
-    <Folder Include="Markup\Extensions\" />
     <Folder Include="Markup\Effects\" />
     <Folder Include="Models\" />
-    <Folder Include="Markup\Animations\" />
     <Folder Include="Controls\" />
     <Folder Include="Controls\ExtendedElements\" />
     <Folder Include="Controls\GroupedElements\" />

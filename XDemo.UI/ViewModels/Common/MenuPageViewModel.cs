@@ -3,7 +3,7 @@ using Prism.Navigation;
 using XDemo.UI.ViewModels.Base;
 using XDemo.UI.Extensions;
 
-namespace XDemo.UI.ViewModels
+namespace XDemo.UI.ViewModels.Common
 {
     public class MenuPageViewModel : ViewModelBase
     {

@@ -11,7 +11,6 @@
             </Grid.RowDefinitions>
             <SearchBar Grid.Row="0" Placeholder="Enter patient name" HorizontalOptions="Fill" SearchCommand="{Binding SearchCommand}" Text="{Binding SearchPatientCode}" />
             <ListView Grid.Row="1" ItemsSource="{Binding Patients}" SelectedItem="{Binding SelectedPatient}" HasUnevenRows="true">
-                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
