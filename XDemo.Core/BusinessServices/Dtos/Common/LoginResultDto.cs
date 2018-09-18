@@ -1,4 +1,4 @@
-﻿namespace XDemo.Core.BusinessServices.Interfaces.Common
+﻿namespace XDemo.Core.BusinessServices.Dtos.Common
 {
     public class LoginResultDto
     {

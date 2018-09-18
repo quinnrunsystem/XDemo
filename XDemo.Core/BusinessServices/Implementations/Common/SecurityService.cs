@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using XDemo.Core.BusinessServices.Dtos.Common;
 using XDemo.Core.BusinessServices.Interfaces.Common;
 
 namespace XDemo.Core.BusinessServices.Implementations.Common

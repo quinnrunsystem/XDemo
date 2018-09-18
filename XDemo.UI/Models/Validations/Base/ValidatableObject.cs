@@ -5,10 +5,13 @@ using PropertyChanged;
 
 namespace XDemo.UI.Models.Validations.Base
 {
+    /* ==================================================================================================
+     *  todo: move to Core
+     * ================================================================================================*/
     [AddINotifyPropertyChangedInterface]
-    public class ValidableObject<T> : BindableObject, IValidity
+    public class ValidatableObject<T> : BindableObject, IValidity
     {
-        public ValidableObject()
+        public ValidatableObject()
         {
             IsValid = true;
             Errors = new List<string>();

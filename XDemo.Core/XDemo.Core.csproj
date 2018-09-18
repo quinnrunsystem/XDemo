@@ -7,7 +7,6 @@
     <Compile Remove="Services\Interfaces\Common\IStartupService.cs" />
     <Compile Remove="Infrastructure\Networking\Temp\IDataProxy.cs" />
     <Compile Remove="Infrastructure\Networking\Temp\RestApi.cs" />
-    <Compile Remove="Infrastructure\Networking\Base\ResponseBase.cs" />
     <Compile Remove="Infrastructure\Networking\ApisStuffs\ApiService.cs" />
     <Compile Remove="Infrastructure\Networking\ApisStuffs\ApiManager.cs" />
     <Compile Remove="Infrastructure\Networking\ApisStuffs\IApiManager.cs" />
@@ -36,6 +35,10 @@
     <Folder Include="Infrastructure\PushNotifications\" />
     <Folder Include="Storage\" />
     <Folder Include="Storage\Settings\" />
+    <Folder Include="BusinessServices\Dtos\" />
+    <Folder Include="BusinessServices\Dtos\Photos\" />
+    <Folder Include="BusinessServices\Dtos\Common\" />
+    <Folder Include="BusinessServices\Dtos\Patients\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
@@ -45,6 +48,7 @@
     <PackageReference Include="modernhttpclient" Version="2.4.2" />
     <PackageReference Include="Polly" Version="6.1.0" />
     <PackageReference Include="akavache" Version="5.0.0" />
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Base\AboutBase.txt" />

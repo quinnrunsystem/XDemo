@@ -78,11 +78,19 @@
     <Reference Include="Prism.Autofac.Forms">
       <HintPath>..\packages\Prism.Autofac.Forms.7.0.0.396\lib\netstandard2.0\Prism.Autofac.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tests\SampleTest.cs" />
     <Compile Include="SettingUp.cs" />
     <Compile Include="Tests\OtherSampleTest.cs" />
+    <Compile Include="MockSerivces\MockPageDialogService.cs" />
+    <Compile Include="Tests\ApiInjectionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -95,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tests\" />
+    <Folder Include="MockSerivces\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Refit.4.6.30\build\net461\refit.targets" Condition="Exists('..\packages\Refit.4.6.30\build\net461\refit.targets')" />

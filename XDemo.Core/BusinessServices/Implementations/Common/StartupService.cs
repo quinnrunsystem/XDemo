@@ -1,6 +1,6 @@
 ﻿using XDemo.Core.BusinessServices.Interfaces.Common;
 
-namespace XDemo.Core.BusinessServices.Implementations
+namespace XDemo.Core.BusinessServices.Implementations.Common
 {
     public class StartupService : IStartupService
     {
