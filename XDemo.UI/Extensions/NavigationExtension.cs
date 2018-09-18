@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using XDemo.UI.ViewModels.Base;
 using System.Threading;
 using XDemo.UI.ViewModels;
+using XDemo.UI.Controls.ExtendedElements;
 
 namespace XDemo.UI.Extensions
 {
@@ -44,7 +45,7 @@ namespace XDemo.UI.Extensions
             /* ==================================================================================================
              * using query string instead of navigation parameters, bc of this prism version limitation!
              * ================================================================================================*/
-            var query = $"/{nameof(MenuPageViewModel)}/{nameof(NavigationPage)}/{nameof(BottomTabPageViewModel)}{navParams.ToString()}";
+            var query = $"/{nameof(MenuPageViewModel)}/{nameof(PrismLifeCycleNavigationPage)}/{nameof(BottomTabPageViewModel)}{navParams.ToString()}";
             await navigationService.NavigateAsync(query);
         }
 
