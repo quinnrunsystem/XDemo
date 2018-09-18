@@ -21,7 +21,6 @@ using Akavache;
 using AutoMapper;
 using XDemo.UI.Models;
 using XDemo.Core.BusinessServices;
-using Xamarin.Forms.Internals;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XDemo.UI
@@ -115,11 +114,24 @@ namespace XDemo.UI
 
         void UIMapperSettup()
         {
-            Mapper.Initialize(cfg =>
+            try
             {
-                cfg.AddProfile<AutoMapperUIProfile>();
-                cfg.AddProfile<AutoMapperCoreProfile>();
-            });
+                /* ==================================================================================================
+                 * detect the auto mapper intialized. if not initialized, it will throw InvalidOperationException
+                 * ================================================================================================*/
+                Mapper.AssertConfigurationIsValid();
+            }
+            catch (InvalidOperationException)
+            {
+                /* ==================================================================================================
+                 * decent hack: auto mapper had not been initialized
+                 * ================================================================================================*/
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.AddProfile<AutoMapperUIProfile>();
+                    cfg.AddProfile<AutoMapperCoreProfile>();
+                });
+            }
         }
 
         #region App lifecycle

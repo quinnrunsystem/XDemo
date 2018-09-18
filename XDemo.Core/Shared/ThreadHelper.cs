@@ -11,13 +11,9 @@ namespace XDemo.Core.Shared
     public static class ThreadHelper
     {
         private static SynchronizationContext _uiContext = null;
-        private static bool _initialized = false;
         public static void Init(SynchronizationContext uiContext)
         {
-            if(_initialized)
-                throw new InvalidOperationException("You must call ThreadHelper.Init(context) once.");
             _uiContext = uiContext;
-            _initialized = true;
         }
 
         /// <summary>
