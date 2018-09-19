@@ -63,7 +63,7 @@ namespace LogicTest.Tests
         public async Task CreatePhotoTest()
         {
             var token = "newToken";
-            RequestBase.SetToken(token);
+            RequestBase.SessionId(token);
             var req = new CreatePostRequest
             {
                 Title = "title of post",
