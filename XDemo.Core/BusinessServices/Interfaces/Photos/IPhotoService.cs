@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Net;
 using XDemo.Core.BusinessServices.Dtos.Photos;
-using XDemo.Core.Infrastructure.Networking.Base;
 
 namespace XDemo.Core.BusinessServices.Interfaces.Photos
 {

@@ -22,6 +22,5 @@ namespace XDemo.Core.ApiDefinitions
          * ================================================================================================*/
         [Get("/photos/{id}")]
         Task<PhotoDto> Get(int id);
-
     }
 }

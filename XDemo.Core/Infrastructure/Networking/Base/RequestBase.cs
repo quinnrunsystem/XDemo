@@ -3,7 +3,18 @@
     public abstract class RequestBase
     {
         /* ==================================================================================================
-         * todo: implement base properties, such as: login token, session id...
+         * sample usage of base property 'Token'
+         * Readonly mode
          * ================================================================================================*/
+        public string Token => _token;
+
+        private static string _token;
+        public static void SetToken(string token)
+        {
+            /* ==================================================================================================
+             * store the token in a backing static store
+             * ================================================================================================*/
+            _token = token;
+        }
     }
 }
