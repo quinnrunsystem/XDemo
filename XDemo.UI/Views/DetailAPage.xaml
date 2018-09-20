@@ -3,6 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:XDemo.UI.Markup.Effects"
+    xmlns:local1="clr-namespace:XDemo.UI.Markup.Behaviors"
     Title="{Binding Title}"
     x:Class="XDemo.UI.Views.DetailAPage">
     <StackLayout>
@@ -13,6 +14,14 @@
                 <local:UnderlineEffect />
             </Label.Effects>
         </Label>
+        
+        <Label Text="Red when the number isn't valid" FontSize="Small" />
+        <Entry Placeholder="Enter a System.Double">
+            <Entry.Behaviors>
+                <local1:NumericValidationBehavior />
+            </Entry.Behaviors>
+        </Entry>
+        
         <Button
             Text="Back 1"
             Command="{Binding btnBack}" />
