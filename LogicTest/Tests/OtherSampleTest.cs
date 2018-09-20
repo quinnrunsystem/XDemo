@@ -60,7 +60,7 @@ namespace LogicTest.Tests
         }
 
         [Test]
-        public async Task CreatePhotoTest()
+        public async Task CreateAPostTest()
         {
             var token = "newToken";
             RequestBase.SessionId(token);
@@ -73,7 +73,8 @@ namespace LogicTest.Tests
             Assert.IsTrue(req.Token == token, "req.Token == token");
 
             var createRs = await _postsService.CreatePost(req);
-            Assert.IsTrue(createRs.Id > 0, "createRs.Id > 0");
+            Assert.IsTrue(createRs.Id > 0 && createRs.Title == req.Title && createRs.Body == req.Body && createRs.UserId == req.UserId,
+                          "createRs.Id > 0 && createRs.Title == req.Title && createRs.Body == req.Body && createRs.UserId == req.UserId");
         }
     }
 }

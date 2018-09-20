@@ -41,6 +41,7 @@
     <Folder Include="BusinessServices\Dtos\Patients\" />
     <Folder Include="BusinessServices\Interfaces\Posts\" />
     <Folder Include="BusinessServices\Implementations\Posts\" />
+    <Folder Include="BusinessServices\Dtos\Posts\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
