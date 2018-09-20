@@ -7,6 +7,6 @@ namespace XDemo.Core.BusinessServices.Interfaces.Posts
 {
     public interface IPostService
     {
-        Task<PostDto> CreatePost(CreatePostRequest request);
+        Task<PostDto> CreatePost(PostDto dto);
     }
 }

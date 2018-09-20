@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using XDemo.Core.BusinessServices.Dtos.Photos;
 using XDemo.Core.Infrastructure.Networking.Base;
 using XDemo.Core.BusinessServices.Interfaces.Posts;
+using XDemo.Core.BusinessServices.Dtos.Posts;
+using XDemo.Core.Extensions;
 
 namespace LogicTest.Tests
 {
@@ -64,15 +66,16 @@ namespace LogicTest.Tests
         {
             var token = "newToken";
             RequestBase.SessionId(token);
-            var req = new CreatePostRequest
+            var dto = new PostDto
             {
                 Title = "title of post",
                 Body = "body",
                 UserId = 1
             };
+            var req = dto.MapTo<CreatePostRequest>();
             Assert.IsTrue(req.Token == token, "req.Token == token");
 
-            var createRs = await _postsService.CreatePost(req);
+            var createRs = await _postsService.CreatePost(dto);
             Assert.IsTrue(createRs.Id > 0 && createRs.Title == req.Title && createRs.Body == req.Body && createRs.UserId == req.UserId,
                           "createRs.Id > 0 && createRs.Title == req.Title && createRs.Body == req.Body && createRs.UserId == req.UserId");
         }

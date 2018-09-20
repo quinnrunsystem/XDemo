@@ -1,5 +1,7 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
+using XDemo.Core.BusinessServices.Dtos.Photos;
+using XDemo.Core.BusinessServices.Dtos.Posts;
+
 namespace XDemo.Core.BusinessServices
 {
     /// <summary>
@@ -13,7 +15,7 @@ namespace XDemo.Core.BusinessServices
             * todo: Register mapping type on Core level within this ctor
             * ie: map input dto -> request for api
             * ================================================================================================*/
-
+            CreateMap<PostDto, CreatePostRequest>();
         }
     }
 }
