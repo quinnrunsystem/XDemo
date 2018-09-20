@@ -12,6 +12,8 @@ using AutoMapper;
 using XDemo.Core.BusinessServices;
 using XDemo.Core.ApiDefinitions;
 using XDemo.Core.Infrastructure.Networking.Refit;
+using XDemo.Core.BusinessServices.Interfaces.Posts;
+using XDemo.Core.BusinessServices.Implementations.Posts;
 
 namespace XDemo.Core.Shared
 {
@@ -91,11 +93,13 @@ namespace XDemo.Core.Shared
             containerRegistry.Register<ISecurityService, SecurityService>();
             containerRegistry.Register<IPatientService, PatientService>();
             containerRegistry.Register<IPhotoService, PhotoService>();
+            containerRegistry.Register<IPostService, PostService>();
 
             /* ==================================================================================================
              * Register for api gateway, use register instance
              * ================================================================================================*/
             containerRegistry.RegisterInstance(RestServiceHelper.GetApi<IPhotoApi>());
+            containerRegistry.RegisterInstance(RestServiceHelper.GetApi<IPostsApi>());
 
             /* ==================================================================================================
              * todo: register logic services which using for app

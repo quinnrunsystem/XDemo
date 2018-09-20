@@ -1,12 +1,9 @@
 ﻿using XDemo.UI.ViewModels.Base;
 using XDemo.Core.BusinessServices.Interfaces.Photos;
-using XDemo.Core.Infrastructure.Networking.Base;
 using XDemo.UI.Models.Photos;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using System.Threading.Tasks;
-using System;
 using Xamarin.Forms;
 using Prism.Navigation;
 using XDemo.UI.Extensions;
@@ -20,6 +17,7 @@ namespace XDemo.UI.ViewModels.Common
     {
         private readonly IPhotoService _photoService;
         private readonly INavigationService _navigationService;
+        private CancellationTokenSource _tcs;
 
         public TransactionPageViewModel(IPhotoService photoService, INavigationService navigationService)
         {
@@ -27,8 +25,6 @@ namespace XDemo.UI.ViewModels.Common
             _photoService = photoService;
             _navigationService = navigationService;
         }
-
-        private bool _initialized = false;
 
         public List<Photo> Photos { get; private set; }
 
@@ -41,11 +37,20 @@ namespace XDemo.UI.ViewModels.Common
         public override async void OnAppearing()
         {
             base.OnAppearing();
-            if (_initialized)
-                return;
-   
-            await _photoService.Get(OnSuccess, OnFailed);
-            _initialized = true;
+            /* ==================================================================================================
+             * renew the token source, then pass the token through the api gateway
+             * ================================================================================================*/
+            _tcs = new CancellationTokenSource();
+            await _photoService.Get(OnSuccess, OnFailed, _tcs.Token);
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            /* ==================================================================================================
+             * in case of user navigate to other places => cancel current api call operator and do nothing for UI
+             * ================================================================================================*/
+            _tcs?.Cancel();
         }
 
         void OnFailed()

@@ -5,13 +5,15 @@ using NUnit.Framework;
 using System.Linq;
 using System.Collections.Generic;
 using XDemo.Core.BusinessServices.Dtos.Photos;
+using XDemo.Core.Infrastructure.Networking.Base;
+using XDemo.Core.BusinessServices.Interfaces.Posts;
 
 namespace LogicTest.Tests
 {
     public class OtherSampleTest : SettingUp
     {
         private IPhotoService _service;
-
+        private IPostService _postsService;
         /* ==================================================================================================
          * over this method to prepare your stuffs
          * ================================================================================================*/
@@ -25,6 +27,7 @@ namespace LogicTest.Tests
              * resolve the service
              * ================================================================================================*/
             _service = DependencyRegistrar.Current.Resolve<IPhotoService>();
+            _postsService = DependencyRegistrar.Current.Resolve<IPostService>();
         }
         private List<PhotoDto> _photoDtos = new List<PhotoDto>();
         [Test]
@@ -56,5 +59,22 @@ namespace LogicTest.Tests
             _photoDtos = photoDtos;
         }
 
+        [Test]
+        public async Task CreateAPostTest()
+        {
+            var token = "newToken";
+            RequestBase.SessionId(token);
+            var req = new CreatePostRequest
+            {
+                Title = "title of post",
+                Body = "body",
+                UserId = 1
+            };
+            Assert.IsTrue(req.Token == token, "req.Token == token");
+
+            var createRs = await _postsService.CreatePost(req);
+            Assert.IsTrue(createRs.Id > 0 && createRs.Title == req.Title && createRs.Body == req.Body && createRs.UserId == req.UserId,
+                          "createRs.Id > 0 && createRs.Title == req.Title && createRs.Body == req.Body && createRs.UserId == req.UserId");
+        }
     }
 }
