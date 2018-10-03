@@ -48,7 +48,6 @@
     <Folder Include="Models\Validations\" />
     <Folder Include="Extensions\" />
     <Folder Include="Views\Common\" />
-    <Folder Include="Themes\" />
     <Folder Include="Models\Photos\" />
     <Folder Include="Models\Validations\Base\" />
     <Folder Include="Models\Validations\DefinedRules\" />

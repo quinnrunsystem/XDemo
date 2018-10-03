@@ -3,138 +3,19 @@
     xmlns:prism="clr-namespace:Prism.Autofac;assembly=Prism.Autofac.Forms"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:renderers="clr-namespace:XDemo.UI.Controls.ExtendedElements"
+    xmlns:local="using:XDemo.UI.Themes"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="XDemo.UI.App">
     <prism:PrismApplication.Resources>
         <ResourceDictionary>
-            <!--values-->
-            <Color
-                x:Key="NavigationBackgroundPrimary">#507A50</Color>
-            <Color
-                x:Key="HightlightColorPrimary">#7c0c0c</Color>
-            <Color
-                x:Key="MainBorderColor">#bcbcbc</Color>
-            <!--margins-->
-            <Thickness
-                x:Key="ThicknessPrimary">3,3,3,3</Thickness>
-            <!--images-->
+            <!--import the colors resource-->
+            <ResourceDictionary Source="Themes/DefinedColors.xaml" />
+            <!-- import the defined values resource -->
+            <ResourceDictionary Source="Themes/DefinedValues.xaml" />
             <!--global styles-->
-            <Style
-                TargetType="renderers:PrismLifeCycleNavigationPage">
-                <Setter
-                    Property="BarBackgroundColor"
-                    Value="{StaticResource NavigationBackgroundPrimary}" />
-                <Setter
-                    Property="BarTextColor"
-                    Value="White" />
-            </Style>
-            <Style
-                TargetType="Label"
-                ApplyToDerivedTypes="True">
-                <Setter
-                    Property="Margin"
-                    Value="{StaticResource ThicknessPrimary}">
-                </Setter>
-            </Style>
-            <Style
-                TargetType="Entry"
-                ApplyToDerivedTypes="True">
-                <Setter
-                    Property="Margin"
-                    Value="{StaticResource ThicknessPrimary}">
-                </Setter>
-            </Style>
-            <Style
-                TargetType="DatePicker"
-                ApplyToDerivedTypes="True">
-                <Setter
-                    Property="Margin"
-                    Value="{StaticResource ThicknessPrimary}">
-                </Setter>
-            </Style>
-            <Style
-                TargetType="Switch"
-                ApplyToDerivedTypes="True">
-                <Setter
-                    Property="Margin"
-                    Value="{StaticResource ThicknessPrimary}">
-                </Setter>
-            </Style>
-            <Style
-                TargetType="ListView"
-                ApplyToDerivedTypes="True">
-                <Setter
-                    Property="HasUnevenRows"
-                    Value="true" />
-            </Style>
-            <Style
-                TargetType="Button"
-                ApplyToDerivedTypes="True">
-                <Setter
-                    Property="Margin"
-                    Value="{StaticResource ThicknessPrimary}">
-                </Setter>
-                <Setter
-                    Property="BackgroundColor"
-                    Value="{StaticResource NavigationBackgroundPrimary}" />
-                <Setter
-                    Property="TextColor"
-                    Value="White">
-                </Setter>
-                <Setter
-                    Property="HorizontalOptions"
-                    Value="Fill">
-                </Setter>
-                <Setter
-                    Property="VerticalOptions"
-                    Value="Center">
-                </Setter>
-                <Setter
-                    Property="BorderWidth"
-                    Value="1">
-                </Setter>
-                <Setter
-                    Property="CornerRadius"
-                    Value="4">
-                </Setter>
-                <Setter
-                    Property="BorderColor"
-                    Value="{StaticResource MainBorderColor}">
-                </Setter>
-            </Style>
+            <ResourceDictionary Source="Themes/DefaultTheme.xaml" />
             <!--spec styles-->
-            <Style
-                TargetType="Button"
-                x:Key="HightButtonStyle">
-                <Setter
-                    Property="BackgroundColor"
-                    Value="{StaticResource HightlightColorPrimary}" />
-            </Style>
-            <Style
-                TargetType="Button"
-                x:Key="ImageOnlyButtonStyle">
-                <Setter
-                    Property="BackgroundColor"
-                    Value="Transparent">
-                </Setter>
-                <Setter
-                    Property="BorderWidth"
-                    Value="0">
-                </Setter>
-            </Style>
-            <Style
-                TargetType="Label"
-                x:Key="HightLightTextStyle">
-                <Setter
-                    Property="FontAttributes"
-                    Value="Bold">
-                </Setter>
-            </Style>
-            <Style TargetType="Label" x:Key="ValidationMessageStyle">
-                <Setter Property="TextColor" Value="{StaticResource HightlightColorPrimary}"/>
-                <Setter Property="FontAttributes" Value="Italic"/>
-                <Setter Property="FontSize" Value="Micro"/>
-            </Style>
+           <ResourceDictionary Source="Themes/SpecifiedStyles.xaml" />
         </ResourceDictionary>
     </prism:PrismApplication.Resources>
 </prism:PrismApplication>

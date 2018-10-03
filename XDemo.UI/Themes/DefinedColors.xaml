@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <!-- 
+    Caution: standalone resource does not have "x:Class" attribute!
+    -->
+    <Color
+        x:Key="NavigationBackgroundPrimary">#507A50</Color>
+    <Color
+        x:Key="HightlightColorPrimary">#7c0c0c</Color>
+    <Color
+        x:Key="MainBorderColor">#bcbcbc</Color>
+</ResourceDictionary>
