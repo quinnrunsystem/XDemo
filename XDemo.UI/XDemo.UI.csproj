@@ -16,6 +16,8 @@
     <EmbeddedResource Remove="Markup\Extensions\**" />
     <None Remove="Markup\Animations\**" />
     <None Remove="Markup\Extensions\**" />
+    <EmbeddedResource Remove="Themes\DefaultTheme.xaml" />
+    <EmbeddedResource Remove="Themes\SpecifiedStyles.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,7 +50,6 @@
     <Folder Include="Models\Validations\" />
     <Folder Include="Extensions\" />
     <Folder Include="Views\Common\" />
-    <Folder Include="Themes\" />
     <Folder Include="Models\Photos\" />
     <Folder Include="Models\Validations\Base\" />
     <Folder Include="Models\Validations\DefinedRules\" />

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:extendedElements="clr-namespace:XDemo.UI.Controls.ExtendedElements;assembly=XDemo.UI"
+    x:Class="XDemo.UI.Themes.DefaultTheme">
+    <ResourceDictionary.MergedDictionaries>
+<!--        <ResourceDictionary Source="DefinedColors.xaml"/>-->
+<!--        <ResourceDictionary Source="DefinedValues.xaml"/>-->
+    </ResourceDictionary.MergedDictionaries>
+    <Style
+        TargetType="extendedElements:PrismLifeCycleNavigationPage">
+        <Setter
+            Property="BarBackgroundColor"
+            Value="{StaticResource NavigationBackgroundPrimary}" />
+        <Setter
+            Property="BarTextColor"
+            Value="White" />
+    </Style>
+    <Style
+        TargetType="Label"
+        ApplyToDerivedTypes="True">
+        <Setter
+            Property="Margin"
+            Value="{StaticResource ThicknessPrimary}">
+        </Setter>
+    </Style>
+    <Style
+        TargetType="Entry"
+        ApplyToDerivedTypes="True">
+        <Setter
+            Property="Margin"
+            Value="{StaticResource ThicknessPrimary}">
+        </Setter>
+    </Style>
+    <Style
+        TargetType="DatePicker"
+        ApplyToDerivedTypes="True">
+        <Setter
+            Property="Margin"
+            Value="{StaticResource ThicknessPrimary}">
+        </Setter>
+    </Style>
+    <Style
+        TargetType="Switch"
+        ApplyToDerivedTypes="True">
+        <Setter
+            Property="Margin"
+            Value="{StaticResource ThicknessPrimary}">
+        </Setter>
+    </Style>
+    <Style
+        TargetType="ListView"
+        ApplyToDerivedTypes="True">
+        <Setter
+            Property="HasUnevenRows"
+            Value="true" />
+    </Style>
+    <Style
+        TargetType="Button"
+        ApplyToDerivedTypes="True">
+        <Setter
+            Property="Margin"
+            Value="{StaticResource ThicknessPrimary}">
+        </Setter>
+        <Setter
+            Property="BackgroundColor"
+            Value="{StaticResource NavigationBackgroundPrimary}" />
+        <Setter
+            Property="TextColor"
+            Value="White">
+        </Setter>
+        <Setter
+            Property="HorizontalOptions"
+            Value="Fill">
+        </Setter>
+        <Setter
+            Property="VerticalOptions"
+            Value="Center">
+        </Setter>
+        <Setter
+            Property="BorderWidth"
+            Value="1">
+        </Setter>
+        <Setter
+            Property="CornerRadius"
+            Value="4">
+        </Setter>
+        <Setter
+            Property="BorderColor"
+            Value="{StaticResource MainBorderColor}">
+        </Setter>
+    </Style>
+</ResourceDictionary>

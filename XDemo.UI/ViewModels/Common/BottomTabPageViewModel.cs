@@ -2,6 +2,7 @@
 using Prism.Navigation;
 using XDemo.UI.Extensions;
 using XDemo.UI.ViewModels.Base;
+using System.Net;
 
 namespace XDemo.UI.ViewModels.Common
 {

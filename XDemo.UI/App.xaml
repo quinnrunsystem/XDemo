@@ -3,21 +3,17 @@
     xmlns:prism="clr-namespace:Prism.Autofac;assembly=Prism.Autofac.Forms"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:renderers="clr-namespace:XDemo.UI.Controls.ExtendedElements"
+    xmlns:local="using:XDemo.UI.Themes"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="XDemo.UI.App">
     <prism:PrismApplication.Resources>
         <ResourceDictionary>
-            <!--values-->
-            <Color
-                x:Key="NavigationBackgroundPrimary">#507A50</Color>
-            <Color
-                x:Key="HightlightColorPrimary">#7c0c0c</Color>
-            <Color
-                x:Key="MainBorderColor">#bcbcbc</Color>
-            <!--margins-->
-            <Thickness
-                x:Key="ThicknessPrimary">3,3,3,3</Thickness>
-            <!--images-->
+            <!--import the colors resource-->
+            <ResourceDictionary
+                Source="Themes/DefinedColors.xaml" />
+            <!-- import the defined values resource -->
+            <ResourceDictionary
+                Source="Themes/DefinedValues.xaml" />
             <!--global styles-->
             <Style
                 TargetType="renderers:PrismLifeCycleNavigationPage">
@@ -130,10 +126,18 @@
                     Value="Bold">
                 </Setter>
             </Style>
-            <Style TargetType="Label" x:Key="ValidationMessageStyle">
-                <Setter Property="TextColor" Value="{StaticResource HightlightColorPrimary}"/>
-                <Setter Property="FontAttributes" Value="Italic"/>
-                <Setter Property="FontSize" Value="Micro"/>
+            <Style
+                TargetType="Label"
+                x:Key="ValidationMessageStyle">
+                <Setter
+                    Property="TextColor"
+                    Value="{StaticResource HightlightColorPrimary}" />
+                <Setter
+                    Property="FontAttributes"
+                    Value="Italic" />
+                <Setter
+                    Property="FontSize"
+                    Value="Micro" />
             </Style>
         </ResourceDictionary>
     </prism:PrismApplication.Resources>
