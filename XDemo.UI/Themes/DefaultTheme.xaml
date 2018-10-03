@@ -2,12 +2,8 @@
 <ResourceDictionary
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:extendedElements="clr-namespace:XDemo.UI.Controls.ExtendedElements;assembly=XDemo.UI"
-    x:Class="XDemo.UI.Themes.DefaultTheme">
-    <ResourceDictionary.MergedDictionaries>
-<!--        <ResourceDictionary Source="DefinedColors.xaml"/>-->
-<!--        <ResourceDictionary Source="DefinedValues.xaml"/>-->
-    </ResourceDictionary.MergedDictionaries>
+    xmlns:extendedElements="clr-namespace:XDemo.UI.Controls.ExtendedElements;assembly=XDemo.UI">
+
     <Style
         TargetType="extendedElements:PrismLifeCycleNavigationPage">
         <Setter
