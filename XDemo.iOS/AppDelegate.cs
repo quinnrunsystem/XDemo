@@ -1,9 +1,9 @@
 ﻿using Foundation;
 using UIKit;
 using XDemo.UI;
-using Prism;
-using Prism.Ioc;
 using FFImageLoading.Forms.Platform;
+using System;
+using XDemo.Core.Infrastructure.Logging;
 
 namespace XDemo.iOS
 {
@@ -28,18 +28,49 @@ namespace XDemo.iOS
             return base.FinishedLaunching(uiApplication, launchOptions);
         }
 
-        public class IOSPlatformInitializer : IPlatformInitializer
+        /* ==================================================================================================
+         * this view will blur our app screen in app switcher (see vietcommbank app - iOS)
+         * ================================================================================================*/
+        UIVisualEffectView _blurView = null;
+        public override void OnActivated(UIApplication uiApplication)
         {
-            public void RegisterTypes(IContainerRegistry containerRegistry)
+            base.OnActivated(uiApplication);
+            /* ==================================================================================================
+             * App is activated => remove the blur view
+             * ================================================================================================*/
+            try
             {
-                RegisterPlatformSpecifiedServices(containerRegistry);
+                if (_blurView != null)
+                {
+                    _blurView.RemoveFromSuperview();
+                    _blurView.Dispose();
+                    _blurView = null;
+                }
             }
-
-            void RegisterPlatformSpecifiedServices(IContainerRegistry containerRegistry)
+            catch (Exception ex)
             {
                 /* ==================================================================================================
-                 * todo: register base on OS service, ie: TextToSpeechService...
+                 * ignore any exception if occured
                  * ================================================================================================*/
+                LogCommon.Error(ex);
+            }
+        }
+
+        public override void OnResignActivation(UIApplication uiApplication)
+        {
+            using (var blurEffect = UIBlurEffect.FromStyle(UIBlurEffectStyle.Regular))
+            {
+                /* ==================================================================================================
+                 * init the blur-effect view
+                 * ================================================================================================*/
+                _blurView = new UIVisualEffectView(blurEffect)
+                {
+                    Frame = Window.RootViewController.View.Bounds
+                };
+                /* ==================================================================================================
+                 * adding it into main window
+                 * ================================================================================================*/
+                Window.RootViewController.View.AddSubview(_blurView);
             }
         }
     }
