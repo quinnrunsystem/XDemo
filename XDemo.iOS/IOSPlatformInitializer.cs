@@ -1,5 +1,7 @@
 ﻿using Prism;
 using Prism.Ioc;
+using XDemo.Core.BusinessServices.Interfaces.Common;
+using XDemo.iOS.Services.Implementations;
 
 namespace XDemo.iOS
 {
@@ -12,6 +14,7 @@ namespace XDemo.iOS
 
         void RegisterPlatformSpecifiedServices(IContainerRegistry containerRegistry)
         {
+            containerRegistry.Register<IClipboardService, ClipboardService>();
             /* ==================================================================================================
              * todo: register base on OS service, ie: TextToSpeechService...
              * ================================================================================================*/

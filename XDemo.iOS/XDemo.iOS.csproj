@@ -99,6 +99,7 @@
     <Compile Include="Renderers\TabbedPageCustomRenderer.cs" />
     <Compile Include="Helpers\FormsViewToNativeiOS.cs" />
     <Compile Include="IOSPlatformInitializer.cs" />
+    <Compile Include="Services\Implementations\ClipboardService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
