@@ -2,14 +2,13 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Prism;
-using Prism.Ioc;
 using FFImageLoading.Forms.Platform;
+using Android.Views;
 
 namespace XDemo.Droid
 {
     [Activity(Label = "XDemo", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public partial class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -18,21 +17,20 @@ namespace XDemo.Droid
 
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            /* ==================================================================================================
+             * init the FFImageLoading component
+             * ================================================================================================*/
             CachedImageRenderer.Init(true);
+
+            /* ==================================================================================================
+             * set the app info secure in app switcher
+             * ================================================================================================*/
+            Window.SetFlags(WindowManagerFlags.Secure, WindowManagerFlags.Secure);
+
+            /* ==================================================================================================
+             * start load the app
+             * ================================================================================================*/
             LoadApplication(new App(new AndroidPlatformInitializer()));
-        }
-
-        public class AndroidPlatformInitializer : IPlatformInitializer
-        {
-            public void RegisterTypes(IContainerRegistry containerRegistry)
-            {
-                RegisterPlatformSpecifiedServices(containerRegistry);
-            }
-
-            void RegisterPlatformSpecifiedServices(IContainerRegistry containerRegistry)
-            {
-                //todo: register base on OS service, ie: TextToSpeechService...
-            }
         }
     }
 }
