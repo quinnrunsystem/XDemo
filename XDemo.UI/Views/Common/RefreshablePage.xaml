@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<base:ViewBase
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:XDemo.UI.Views.Base;assembly=XDemo.UI"
+    xmlns:controls="clr-namespace:XDemo.UI.Controls.ExtendedElements"
+    x:Class="XDemo.UI.Views.Common.RefreshablePage">
+    <controls:PullToRefreshLayout
+        IsPullToRefreshEnabled="true"
+        RefreshCommand="{Binding RefreshCommand}"
+        IsRefreshing="{Binding IsBusy}"
+        RefreshColor="Blue">
+        <ScrollView
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+            <StackLayout
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+                <BoxView
+                    HeightRequest="200"
+                    WidthRequest="100"
+                    BackgroundColor="Blue" />
+                <BoxView
+                    HeightRequest="200"
+                    WidthRequest="100"
+                    BackgroundColor="Red" />
+                <BoxView
+                    HeightRequest="200"
+                    WidthRequest="100"
+                    BackgroundColor="Yellow" />
+                <BoxView
+                    HeightRequest="200"
+                    WidthRequest="100"
+                    BackgroundColor="Purple" />
+                <BoxView
+                    HeightRequest="200"
+                    WidthRequest="100"
+                    BackgroundColor="Maroon" />
+            </StackLayout>
+        </ScrollView>
+    </controls:PullToRefreshLayout>
+</base:ViewBase>
