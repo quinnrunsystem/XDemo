@@ -78,14 +78,16 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Renderers\TabbedPageCustomRenderer.cs" />
     <Compile Include="Effects\UnderlineAndroidEffect.cs" />
     <Compile Include="AndroidPlatformInitializer.cs" />
+    <Compile Include="Renderers\ExtendedElements\TabbedPageCustomRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\PullToRefreshLayoutRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Renderers\GroupedElements\AboutGroupedElements.txt" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Tabbar.axml" />
@@ -125,6 +127,8 @@
     <Folder Include="Resources\drawable-xxxhdpi\" />
     <Folder Include="Services\Implementations\" />
     <Folder Include="Services\MockImplementations\" />
+    <Folder Include="Renderers\ExtendedElements\" />
+    <Folder Include="Renderers\GroupedElements\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XDemo.UI\XDemo.UI.csproj">

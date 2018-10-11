@@ -4,12 +4,12 @@ using Foundation;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using XDemo.iOS.Renderers;
+using XDemo.iOS.Renderers.ExtendedElements;
 using XDemo.UI.Controls.ExtendedElements;
 using XDemo.Core.Infrastructure.Logging;
 
 [assembly: ExportRenderer(typeof(PullToRefreshLayout), typeof(PullToRefreshLayoutRenderer))]
-namespace XDemo.iOS.Renderers
+namespace XDemo.iOS.Renderers.ExtendedElements
 {
     /// <summary>
     /// Pull to refresh layout renderer.

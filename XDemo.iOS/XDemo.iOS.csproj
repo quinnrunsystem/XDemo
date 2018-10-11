@@ -96,11 +96,12 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Renderers\TabbedPageCustomRenderer.cs" />
     <Compile Include="Helpers\FormsViewToNativeiOS.cs" />
     <Compile Include="IOSPlatformInitializer.cs" />
     <Compile Include="Services\Implementations\ClipboardService.cs" />
-    <Compile Include="Renderers\PullToRefreshLayoutRenderer.cs" />
+    <None Include="Renderers\GroupedElements\AboutGroupedElements.txt" />
+    <Compile Include="Renderers\ExtendedElements\PullToRefreshLayoutRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\TabbedPageCustomRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -187,6 +188,8 @@
   <ItemGroup>
     <Folder Include="Services\Implementations\" />
     <Folder Include="Services\MockImplementations\" />
+    <Folder Include="Renderers\ExtendedElements\" />
+    <Folder Include="Renderers\GroupedElements\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default.png" />
