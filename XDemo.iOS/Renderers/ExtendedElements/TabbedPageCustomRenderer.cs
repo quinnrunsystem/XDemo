@@ -3,13 +3,11 @@ using CoreGraphics;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using XDemo.iOS.Helpers;
-using XDemo.iOS.Renderers;
+using XDemo.iOS.Renderers.ExtendedElements;
 using XDemo.UI.Controls.ExtendedElements;
-using XDemo.UI.Views;
 
 [assembly: ExportRenderer(typeof(TabbedPageCustom), typeof(TabbedPageCustomRenderer))]
-namespace XDemo.iOS.Renderers
+namespace XDemo.iOS.Renderers.ExtendedElements
 {
     public class TabbedPageCustomRenderer : TabbedRenderer
     {

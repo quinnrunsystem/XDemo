@@ -1,0 +1,3 @@
+﻿It's custom renderers, but it need two or more elements. i.e: a slider with two buttons up/down...
+All off needed properties must be wrapped into a bindable/simple property. 
+Binding from an element's base property in group to parent context's property is NOT ALLOWED!

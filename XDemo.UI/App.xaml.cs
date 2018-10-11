@@ -74,6 +74,7 @@ namespace XDemo.UI
             containerRegistry.RegisterForNavigation<DetailBPage>(nameof(DetailBPageViewModel));
             containerRegistry.RegisterForNavigation<MenuPage>(nameof(MenuPageViewModel));
             containerRegistry.RegisterForNavigation<BottomTabPage>(nameof(BottomTabPageViewModel));
+            containerRegistry.RegisterForNavigation<RefreshablePage>(nameof(RefreshablePageViewModel));
         }
 
         /// <summary>

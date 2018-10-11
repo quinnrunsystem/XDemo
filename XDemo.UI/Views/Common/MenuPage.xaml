@@ -35,6 +35,10 @@
                         <RowDefinition
                             Height="1" />
                         <RowDefinition
+                            Height="100" />
+                        <RowDefinition
+                            Height="1" />
+                        <RowDefinition
                             Height="*" />
                     </Grid.RowDefinitions>
                     <Button
@@ -52,6 +56,14 @@
                         CommandParameter="DetailBPageViewModel" />
                     <BoxView
                         Grid.Row="3"
+                        BackgroundColor="{StaticResource PrimaryDark}" />
+                    <Button
+                        Grid.Row="4"
+                        Text="Pull to refresh"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="RefreshablePageViewModel" />
+                    <BoxView
+                        Grid.Row="5"
                         BackgroundColor="{StaticResource PrimaryDark}" />
                 </Grid>
             </ScrollView>
