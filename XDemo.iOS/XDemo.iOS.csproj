@@ -225,6 +225,9 @@
     <BundleResource Include="Resources\arrow%403x.png" />
     <BundleResource Include="Resources\hamburger.png" />
     <BundleResource Include="Resources\hamburger%402x.png" />
+    <BundleResource Include="Resources\halfstar.png" />
+    <BundleResource Include="Resources\fullstar.png" />
+    <BundleResource Include="Resources\emptystar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

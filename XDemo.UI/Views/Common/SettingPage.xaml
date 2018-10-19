@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <base:ViewBase xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:base="clr-namespace:XDemo.UI.Views.Base;assembly=XDemo.UI"
+               xmlns:controls="clr-namespace:XDemo.UI.Controls.ExtendedElements"
                x:Class="XDemo.UI.Views.Common.SettingPage">
     <base:ViewBase.Content>
          <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Label Grid.Row="0" HorizontalOptions="Center" Text="{Binding CurrentUser.DisplayName}" Style="{StaticResource HightLightTextStyle}"/>
-            <Button Grid.Row="1" Text="Đăng xuất" Margin="5" Command="{Binding LogoutCommand}" Style="{StaticResource HightButtonStyle}"/>
+            <Button Grid.Row="2" Text="Đăng xuất" Margin="5" Command="{Binding LogoutCommand}" Style="{StaticResource HightButtonStyle}"/>
+            <controls:RatingControl Grid.Row="1" Rating="3" Precision="Half" x:Name="rating"
+                                    FullStarImage="fullstar" 
+                                    HalfStarImage="halfstar" 
+                                    EmptyStarImage="emptystar" />
         </Grid>
     </base:ViewBase.Content>
 </base:ViewBase>
