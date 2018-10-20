@@ -13,7 +13,7 @@
             </Grid.RowDefinitions>
             <Label Grid.Row="0" HorizontalOptions="Center" Text="{Binding CurrentUser.DisplayName}" Style="{StaticResource HightLightTextStyle}"/>
             <Button Grid.Row="2" Text="Đăng xuất" Margin="5" Command="{Binding LogoutCommand}" Style="{StaticResource HightButtonStyle}"/>
-            <controls:RatingControl Grid.Row="1" Rating="3" Precision="Half" x:Name="rating"
+            <controls:RatingControl Grid.Row="1" Rating="9" Precision="Half" x:Name="rating"
                                     FullStarImage="fullstar" 
                                     HalfStarImage="halfstar" 
                                     EmptyStarImage="emptystar" />

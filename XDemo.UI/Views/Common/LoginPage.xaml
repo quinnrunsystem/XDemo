@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
     xmlns:converters="clr-namespace:XDemo.UI.Markup.Converters;assembly=XDemo.UI"
+    xmlns:controls="clr-namespace:XDemo.UI.Controls.ExtendedElements"
     xmlns:base="clr-namespace:XDemo.UI.Views.Base;assembly=XDemo.UI"
     x:Class="XDemo.UI.Views.Common.LoginPage">
     <base:ViewBase.Content>
@@ -113,14 +114,14 @@
                 HorizontalOptions="End"
                 Text="{Binding Password.Errors, Converter={x:Static converters:FirstValidationErrorConverter.Instance}}"
                 Margin="5"/>
-            <Button
+            <controls:ExtendedButton x:Name="btnLogin" GradientFlow="Horizontal"
                 Grid.Row="5"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 Command="{Binding LoginCommand}"
                 Text="Đăng nhập"
                 Margin="5"
-                VerticalOptions="Fill" />
+                VerticalOptions="Fill"/>
             <ActivityIndicator
                 Grid.Row="6"
                 Grid.Column="0"
