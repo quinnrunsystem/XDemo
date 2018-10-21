@@ -82,6 +82,7 @@
     <Compile Include="AndroidPlatformInitializer.cs" />
     <Compile Include="Renderers\ExtendedElements\TabbedPageCustomRenderer.cs" />
     <Compile Include="Renderers\ExtendedElements\PullToRefreshLayoutRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\ExtendedButtonRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
