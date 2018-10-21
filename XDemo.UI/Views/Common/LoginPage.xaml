@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
     xmlns:converters="clr-namespace:XDemo.UI.Markup.Converters;assembly=XDemo.UI"
+    xmlns:controls="clr-namespace:XDemo.UI.Controls.ExtendedElements"
     xmlns:base="clr-namespace:XDemo.UI.Views.Base;assembly=XDemo.UI"
     x:Class="XDemo.UI.Views.Common.LoginPage">
     <base:ViewBase.Content>
@@ -13,6 +14,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition
                     Height="*" />
+                <RowDefinition
+                    Height="Auto" />
                 <RowDefinition
                     Height="Auto" />
                 <RowDefinition
@@ -68,13 +71,14 @@
                     </DataTrigger>
                 </Entry.Triggers>
             </Entry>
-            <Label Style="{StaticResource ValidationMessageStyle}"
+            <Label
+                Style="{StaticResource ValidationMessageStyle}"
                 Grid.Row="2"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="End"
                 Text="{Binding UserName.Errors, Converter={x:Static converters:FirstValidationErrorConverter.Instance}}"
-                Margin="5"/>
+                Margin="5" />
             <Label
                 Grid.Row="3"
                 Grid.Column="1"
@@ -89,13 +93,13 @@
                 Margin="5"
                 IsPassword="true"
                 Text="{Binding Password.Value, UpdateSourceEventName=TextChanged}"
-                HorizontalOptions="Fill" >
+                HorizontalOptions="Fill">
                 <Entry.Behaviors>
                     <behaviors:EventToCommandBehavior
                         EventName="TextChanged"
                         Command="{Binding ValidateCommand}" />
                 </Entry.Behaviors>
-                 <Entry.Triggers>
+                <Entry.Triggers>
                     <DataTrigger
                         TargetType="Entry"
                         Binding="{Binding Password.IsValid}"
@@ -106,19 +110,27 @@
                     </DataTrigger>
                 </Entry.Triggers>
             </Entry>
-             <Label Style="{StaticResource ValidationMessageStyle}"
+            <Label
+                Style="{StaticResource ValidationMessageStyle}"
                 Grid.Row="4"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="End"
                 Text="{Binding Password.Errors, Converter={x:Static converters:FirstValidationErrorConverter.Instance}}"
-                Margin="5"/>
-            <Button
+                Margin="5" />
+            <controls:ExtendedButton
                 Grid.Row="5"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 Command="{Binding LoginCommand}"
                 Text="Đăng nhập"
+                Margin="5"
+                VerticalOptions="Fill" />
+             <controls:ExtendedButton
+                Grid.Row="6" x:Name="btnGrandient" GradientFlow="LeftToRight"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Text="I'm grandient button"
                 Margin="5"
                 VerticalOptions="Fill" />
             <ActivityIndicator
