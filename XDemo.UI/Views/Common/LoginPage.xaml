@@ -25,6 +25,8 @@
                 <RowDefinition
                     Height="Auto" />
                 <RowDefinition
+                    Height="Auto" />
+                <RowDefinition
                     Height="*" />
                 <RowDefinition
                     Height="Auto" />
@@ -69,13 +71,14 @@
                     </DataTrigger>
                 </Entry.Triggers>
             </Entry>
-            <Label Style="{StaticResource ValidationMessageStyle}"
+            <Label
+                Style="{StaticResource ValidationMessageStyle}"
                 Grid.Row="2"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="End"
                 Text="{Binding UserName.Errors, Converter={x:Static converters:FirstValidationErrorConverter.Instance}}"
-                Margin="5"/>
+                Margin="5" />
             <Label
                 Grid.Row="3"
                 Grid.Column="1"
@@ -90,13 +93,13 @@
                 Margin="5"
                 IsPassword="true"
                 Text="{Binding Password.Value, UpdateSourceEventName=TextChanged}"
-                HorizontalOptions="Fill" >
+                HorizontalOptions="Fill">
                 <Entry.Behaviors>
                     <behaviors:EventToCommandBehavior
                         EventName="TextChanged"
                         Command="{Binding ValidateCommand}" />
                 </Entry.Behaviors>
-                 <Entry.Triggers>
+                <Entry.Triggers>
                     <DataTrigger
                         TargetType="Entry"
                         Binding="{Binding Password.IsValid}"
@@ -107,21 +110,29 @@
                     </DataTrigger>
                 </Entry.Triggers>
             </Entry>
-             <Label Style="{StaticResource ValidationMessageStyle}"
+            <Label
+                Style="{StaticResource ValidationMessageStyle}"
                 Grid.Row="4"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="End"
                 Text="{Binding Password.Errors, Converter={x:Static converters:FirstValidationErrorConverter.Instance}}"
-                Margin="5"/>
-            <controls:ExtendedButton x:Name="btnLogin" GradientFlow="Horizontal"
+                Margin="5" />
+            <controls:ExtendedButton
                 Grid.Row="5"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 Command="{Binding LoginCommand}"
                 Text="Đăng nhập"
                 Margin="5"
-                VerticalOptions="Fill"/>
+                VerticalOptions="Fill" />
+             <controls:ExtendedButton
+                Grid.Row="6" x:Name="btnGrandient" GradientFlow="LeftToRight"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Text="I'm grandient button"
+                Margin="5"
+                VerticalOptions="Fill" />
             <ActivityIndicator
                 Grid.Row="6"
                 Grid.Column="0"

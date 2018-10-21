@@ -23,6 +23,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements
                 case nameof(ExtendedButton.Height):
                 case nameof(ExtendedButton.CornerRadius):
                 case nameof(ExtendedButton.GradientColors):
+                case nameof(ExtendedButton.GradientFlow):
                     UpdateGradientColors();
                     break;
                 default:
@@ -34,45 +35,52 @@ namespace XDemo.iOS.Renderers.ExtendedElements
         {
             var extendedButton = Element as ExtendedButton;
             var gradientColors = extendedButton?.GradientColors;
-            if (gradientColors == null || !gradientColors.Any())
+            if (gradientColors == null || !gradientColors.Any() || extendedButton.Width <= 0 || extendedButton.Height <= 0)
+            {
+                var oldLayer = Control?.Layer.Sublayers.FirstOrDefault();
+                if (oldLayer is CAGradientLayer)
+                    oldLayer.RemoveFromSuperLayer();
                 return;
+            }
 
             /* ==================================================================================================
              * create the gradient
              * ================================================================================================*/
-            var gradient = new CAGradientLayer();
-            var tempRect = new CGRect(0, 0, extendedButton.Width, extendedButton.Height);
-            gradient.Frame = tempRect;
-
-            /* ==================================================================================================
-             * Need to convert the colors to CGColor objects
-             * ================================================================================================*/
-            var cgColors = gradientColors.Select(arg => arg.ToCGColor()).ToArray();
-            gradient.Colors = cgColors;
+            var gradient = new CAGradientLayer
+            {
+                /* ==================================================================================================
+                 * the frame's size must be the same with owner view
+                 * ================================================================================================*/
+                Frame = new CGRect(0, 0, extendedButton.Width, extendedButton.Height),
+                /* ==================================================================================================
+                 * convert the colors to CGColor objects
+                 * ================================================================================================*/
+                Colors = gradientColors.Select(arg => arg.ToCGColor()).ToArray()
+            };
 
             /* ==================================================================================================
              * set the flow
              * ================================================================================================*/
             switch (extendedButton.GradientFlow)
             {
-                case ExtendedButton.Flows.Horizontal:
+                case ExtendedButton.Flows.LeftToRight:
                     gradient.StartPoint = new CGPoint(0, 0.5);
                     gradient.EndPoint = new CGPoint(1, 0.5);
                     break;
-                case ExtendedButton.Flows.Vertical:
+                case ExtendedButton.Flows.TopDown:
                     gradient.StartPoint = new CGPoint(0.5, 0);
                     gradient.EndPoint = new CGPoint(0.5, 1);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException($"The {nameof(ExtendedButton.GradientFlow)}: {extendedButton.GradientFlow} is not supported yet!");
+                    throw new ArgumentOutOfRangeException($"The {nameof(ExtendedButton.GradientFlow)}: {extendedButton?.GradientFlow.ToString() ?? "-"} is not supported yet!");
             }
 
             /* ==================================================================================================
              * update corners
              * ================================================================================================*/
             var rec = new CGRect(0, 0, extendedButton.Width, extendedButton.Height);
-            var rounded = UIRectCorner.TopLeft | UIRectCorner.TopRight | UIRectCorner.BottomLeft | UIRectCorner.BottomRight;
-            var path = UIBezierPath.FromRoundedRect(rec, rounded, new CGSize(extendedButton.CornerRadius, extendedButton.CornerRadius));
+            var allRounded = UIRectCorner.TopLeft | UIRectCorner.TopRight | UIRectCorner.BottomLeft | UIRectCorner.BottomRight;
+            var path = UIBezierPath.FromRoundedRect(rec, allRounded, new CGSize(extendedButton.CornerRadius, extendedButton.CornerRadius));
             gradient.Mask = new CAShapeLayer
             {
                 Path = path.CGPath
@@ -81,11 +89,11 @@ namespace XDemo.iOS.Renderers.ExtendedElements
             /* ==================================================================================================
              * add or replace the old layer if added
              * ================================================================================================*/
-            var lastLayer = Control?.Layer.Sublayers.FirstOrDefault();
-            if (lastLayer is CAGradientLayer)
-                Control.Layer.ReplaceSublayer(lastLayer, gradient);
+            var existedLayer = Control?.Layer.Sublayers.FirstOrDefault();
+            if (existedLayer is CAGradientLayer)
+                Control?.Layer.ReplaceSublayer(existedLayer, gradient);
             else
-                Control?.Layer.InsertSublayerBelow(gradient, lastLayer);
+                Control?.Layer.InsertSublayerBelow(gradient, existedLayer);
         }
     }
 }

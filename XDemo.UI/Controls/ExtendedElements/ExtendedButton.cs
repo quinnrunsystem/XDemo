@@ -32,10 +32,13 @@ namespace XDemo.UI.Controls.ExtendedElements
 
         #endregion
 
+        /* ==================================================================================================
+         * nested type, defined within this class
+         * ================================================================================================*/
         public enum Flows
         {
-            Horizontal,
-            Vertical
+            LeftToRight,
+            TopDown
         }
     }
 }
