@@ -103,6 +103,17 @@
     <Compile Include="Renderers\ExtendedElements\PullToRefreshLayoutRenderer.cs" />
     <Compile Include="Renderers\ExtendedElements\TabbedPageCustomRenderer.cs" />
     <Compile Include="Renderers\ExtendedElements\ExtendedButtonRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\BorderlessEntryRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\ExtendedFrameRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\RoundedCornerViewRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\CheckBox\CheckBoxRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\CheckBox\CheckBoxView.cs" />
+    <Compile Include="Renderers\ExtendedElements\RadioButton\RadioButtonRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\RadioButton\RadioButtonView.cs" />
+    <Compile Include="Renderers\ExtendedElements\Separator\SeparatorRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\Separator\UISeparator.cs" />
+    <Compile Include="Extensions\ColorExtensions.cs" />
+    <Compile Include="Extensions\StringExtensios.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

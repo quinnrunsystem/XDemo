@@ -83,6 +83,14 @@
     <Compile Include="Renderers\ExtendedElements\TabbedPageCustomRenderer.cs" />
     <Compile Include="Renderers\ExtendedElements\PullToRefreshLayoutRenderer.cs" />
     <Compile Include="Renderers\ExtendedElements\ExtendedButtonRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\BorderlessEntryRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\CheckBoxRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\ExtendedFrameRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\RadioButtonRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\RoundedCornerViewRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\Separator\SeparatorDroidView.cs" />
+    <Compile Include="Renderers\ExtendedElements\Separator\SeparatorRenderer.cs" />
+    <Compile Include="Extensions\FontExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

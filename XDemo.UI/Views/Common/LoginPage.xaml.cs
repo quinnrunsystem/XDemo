@@ -10,7 +10,8 @@ namespace XDemo.UI.Views.Common
         public LoginPage()
         {
             InitializeComponent();
-            btnGrandient.GradientColors = new Color[] { Color.Red, Color.Green, Color.Blue };
+            btnGrandient.GradientColors = new Color[] { Color.FromRgb(247, 12, 27), Color.FromRgb(177, 6, 16) };
+            btnGrandient.GradientFlow = ExtendedButton.Flows.TopDown;
             btnGrandient.Clicked += OnButtonGrandientClicked;
         }
 
