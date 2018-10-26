@@ -240,6 +240,14 @@
     <BundleResource Include="Resources\halfstar.png" />
     <BundleResource Include="Resources\fullstar.png" />
     <BundleResource Include="Resources\emptystar.png" />
+    <BundleResource Include="Resources\checked.png" />
+    <BundleResource Include="Resources\checked%402x.png" />
+    <BundleResource Include="Resources\checked_checkbox.png" />
+    <BundleResource Include="Resources\checked_checkbox%402x.png" />
+    <BundleResource Include="Resources\unchecked.png" />
+    <BundleResource Include="Resources\unchecked%402x.png" />
+    <BundleResource Include="Resources\unchecked_checkbox.png" />
+    <BundleResource Include="Resources\unchecked_checkbox%402x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
