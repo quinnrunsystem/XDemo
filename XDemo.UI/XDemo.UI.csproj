@@ -16,7 +16,6 @@
     <EmbeddedResource Remove="Markup\Extensions\**" />
     <None Remove="Markup\Animations\**" />
     <None Remove="Markup\Extensions\**" />
-    <Compile Remove="Controls\ExtendedElements\LoadMoreListView.cs" />
   </ItemGroup>
 
   <ItemGroup>
