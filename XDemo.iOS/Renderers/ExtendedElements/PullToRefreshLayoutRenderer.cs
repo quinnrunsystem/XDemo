@@ -64,74 +64,68 @@ namespace XDemo.iOS.Renderers.ExtendedElements
         /// <param name="index">Index.</param>
         bool TryOffsetRefresh(UIView view, bool refreshing, int index = 0)
         {
-            if (view is UITableView)
+            switch (view)
             {
-                var uiTableView = view as UITableView;
-                if (!_set)
+                case UITableView uiTableView:
                 {
-                    _origininalY = uiTableView.ContentOffset.Y;
-                    _set = true;
-                }
+                    if (!_set)
+                    {
+                        _origininalY = uiTableView.ContentOffset.Y;
+                        _set = true;
+                    }
 
-                if (_origininalY < 0)
+                    if (_origininalY < 0)
+                        return true;
+
+                    if (refreshing)
+                        uiTableView.SetContentOffset(new CoreGraphics.CGPoint(0, _origininalY - _refreshControl.Frame.Size.Height), true);
+                    else
+                        uiTableView.SetContentOffset(new CoreGraphics.CGPoint(0, _origininalY), true);
                     return true;
-
-                if (refreshing)
-                    uiTableView.SetContentOffset(new CoreGraphics.CGPoint(0, _origininalY - _refreshControl.Frame.Size.Height), true);
-                else
-                    uiTableView.SetContentOffset(new CoreGraphics.CGPoint(0, _origininalY), true);
-                return true;
-            }
-
-            if (view is UICollectionView)
-            {
-                var uiCollectionView = view as UICollectionView;
-                if (!_set)
+                }
+                case UICollectionView uiCollectionView:
                 {
-                    _origininalY = uiCollectionView.ContentOffset.Y;
-                    _set = true;
-                }
+                    if (!_set)
+                    {
+                        _origininalY = uiCollectionView.ContentOffset.Y;
+                        _set = true;
+                    }
 
-                if (_origininalY < 0)
+                    if (_origininalY < 0)
+                        return true;
+
+                    if (refreshing)
+                        uiCollectionView.SetContentOffset(new CoreGraphics.CGPoint(0, _origininalY - _refreshControl.Frame.Size.Height), true);
+                    else
+                        uiCollectionView.SetContentOffset(new CoreGraphics.CGPoint(0, _origininalY), true);
                     return true;
-
-                if (refreshing)
-                    uiCollectionView.SetContentOffset(new CoreGraphics.CGPoint(0, _origininalY - _refreshControl.Frame.Size.Height), true);
-                else
-                    uiCollectionView.SetContentOffset(new CoreGraphics.CGPoint(0, _origininalY), true);
-                return true;
-            }
-
-            if (view is UIWebView)
-            {
-                //can't do anything
-                return true;
-            }
-
-            if (view is UIScrollView)
-            {
-                var uiScrollView = view as UIScrollView;
-
-                if (!_set)
+                }
+                case UIWebView _:
+                    //can't do anything
+                    return true;
+                case UIScrollView uiScrollView:
                 {
-                    _origininalY = uiScrollView.ContentOffset.Y;
-                    _set = true;
-                }
+                    if (!_set)
+                    {
+                        _origininalY = uiScrollView.ContentOffset.Y;
+                        _set = true;
+                    }
 
-                if (_origininalY < 0)
+                    if (_origininalY < 0)
+                        return true;
+
+                    if (refreshing)
+                        uiScrollView.SetContentOffset(new CoreGraphics.CGPoint(0, _origininalY - _refreshControl.Frame.Size.Height), true);
+                    else
+                        uiScrollView.SetContentOffset(new CoreGraphics.CGPoint(0, _origininalY), true);
                     return true;
-
-                if (refreshing)
-                    uiScrollView.SetContentOffset(new CoreGraphics.CGPoint(0, _origininalY - _refreshControl.Frame.Size.Height), true);
-                else
-                    uiScrollView.SetContentOffset(new CoreGraphics.CGPoint(0, _origininalY), true);
-                return true;
+                }
             }
 
             if (view.Subviews == null)
                 return false;
 
-            for (int i = 0; i < view.Subviews.Length; i++)
+            for (var i = 0; i < view.Subviews.Length; i++)
             {
                 var control = view.Subviews[i];
                 if (TryOffsetRefresh(control, refreshing, i))
@@ -148,42 +142,30 @@ namespace XDemo.iOS.Renderers.ExtendedElements
         /// <param name="index">Index.</param>
         bool TryInsertRefresh(UIView view, int index = 0)
         {
-            if (view is UITableView)
+            switch (view)
             {
-                var uiTableView = view as UITableView;
-                uiTableView = view as UITableView;
-                view.InsertSubview(_refreshControl, index);
-                return true;
-            }
-
-            if (view is UICollectionView)
-            {
-                var uiCollectionView = view as UICollectionView;
-                uiCollectionView = view as UICollectionView;
-                view.InsertSubview(_refreshControl, index);
-                return true;
-            }
-
-            //todo: review iOS 12 compability
-            if (view is UIWebView)
-            {
-                var uiWebView = view as UIWebView;
-                uiWebView.ScrollView.InsertSubview(_refreshControl, index);
-                return true;
-            }
-
-            if (view is UIScrollView)
-            {
-                var uiScrollView = view as UIScrollView;
-                view.InsertSubview(_refreshControl, index);
-                uiScrollView.AlwaysBounceVertical = true;
-                return true;
+                case UITableView uiTableView:
+                    uiTableView = uiTableView;
+                    uiTableView.InsertSubview(_refreshControl, index);
+                    return true;
+                case UICollectionView uiCollectionView:
+                    uiCollectionView = uiCollectionView;
+                    uiCollectionView.InsertSubview(_refreshControl, index);
+                    return true;
+                //todo: review iOS 12 compability
+                case UIWebView uiWebView:
+                    uiWebView.ScrollView.InsertSubview(_refreshControl, index);
+                    return true;
+                case UIScrollView uiScrollView:
+                    uiScrollView.InsertSubview(_refreshControl, index);
+                    uiScrollView.AlwaysBounceVertical = true;
+                    return true;
             }
 
             if (view.Subviews == null)
                 return false;
 
-            for (int i = 0; i < view.Subviews.Length; i++)
+            for (var i = 0; i < view.Subviews.Length; i++)
             {
                 var control = view.Subviews[i];
                 if (TryInsertRefresh(control, i))
@@ -253,10 +235,10 @@ namespace XDemo.iOS.Renderers.ExtendedElements
         /// <value><c>true</c> if this instance is refreshing; otherwise, <c>false</c>.</value>
         public bool IsRefreshing
         {
-            get { return _isRefreshing; }
+            get => _isRefreshing;
             set
             {
-                bool changed = IsRefreshing != value;
+                var changed = IsRefreshing != value;
 
                 _isRefreshing = value;
                 if (_isRefreshing)
