@@ -3,6 +3,7 @@ using Xamarin.Forms;
 
 namespace XDemo.UI.Controls.ExtendedElements
 {
+    /// <inheritdoc />
     /// <summary>
     /// Class ButtonGroup.
     /// </summary>
@@ -11,111 +12,147 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <summary>
         /// The view background color property
         /// </summary>
-        public static readonly BindableProperty ViewBackgroundColorProperty = BindableProperty.Create(nameof(ViewBackgroundColor), typeof(Color), typeof(ButtonGroup), Color.Default, BindingMode.TwoWay);
+        public static readonly BindableProperty ViewBackgroundColorProperty =
+            BindableProperty.Create(nameof(ViewBackgroundColor), typeof(Color), typeof(ButtonGroup), Color.Default,
+                BindingMode.TwoWay);
+
         /// <summary>
         /// The background color property
         /// </summary>
-        public static readonly BindableProperty ItemBackgroundColorProperty = BindableProperty.Create(nameof(ItemBackgroundColor), typeof(Color), typeof(ButtonGroup), Color.Default, BindingMode.TwoWay);
+        public static readonly BindableProperty ItemBackgroundColorProperty =
+            BindableProperty.Create(nameof(ItemBackgroundColor), typeof(Color), typeof(ButtonGroup), Color.Default,
+                BindingMode.TwoWay);
+
         /// <summary>
         /// The selected background color property
         /// </summary>
-        public static readonly BindableProperty SelectedBackgroundColorProperty = BindableProperty.Create(nameof(SelectedBackgroundColor), typeof(Color), typeof(ButtonGroup), Color.Default, BindingMode.TwoWay);
+        public static readonly BindableProperty SelectedBackgroundColorProperty =
+            BindableProperty.Create(nameof(SelectedBackgroundColor), typeof(Color), typeof(ButtonGroup), Color.Default,
+                BindingMode.TwoWay);
+
         /// <summary>
         /// The text color property
         /// </summary>
-        public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(ButtonGroup), Color.Default, BindingMode.TwoWay);
+        public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor),
+            typeof(Color), typeof(ButtonGroup), Color.Default, BindingMode.TwoWay);
+
         /// <summary>
         /// The selected text color property
         /// </summary>
-        public static readonly BindableProperty SelectedTextColorProperty = BindableProperty.Create(nameof(SelectedTextColor), typeof(Color), typeof(ButtonGroup), Color.Default, BindingMode.TwoWay);
+        public static readonly BindableProperty SelectedTextColorProperty =
+            BindableProperty.Create(nameof(SelectedTextColor), typeof(Color), typeof(ButtonGroup), Color.Default,
+                BindingMode.TwoWay);
+
         /// <summary>
         /// The border color property
         /// </summary>
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(ButtonGroup), Color.Default, BindingMode.TwoWay);
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor),
+            typeof(Color), typeof(ButtonGroup), Color.Default, BindingMode.TwoWay);
+
         /// <summary>
         /// The selected border color property
         /// </summary>
-        public static readonly BindableProperty SelectedBorderColorProperty = BindableProperty.Create(nameof(SelectedBorderColor), typeof(Color), typeof(ButtonGroup), Color.Transparent, BindingMode.TwoWay);
+        public static readonly BindableProperty SelectedBorderColorProperty =
+            BindableProperty.Create(nameof(SelectedBorderColor), typeof(Color), typeof(ButtonGroup), Color.Transparent,
+                BindingMode.TwoWay);
+
         /// <summary>
         /// The selected frame background color property
         /// </summary>
-        public static readonly BindableProperty SelectedFrameBackgroundColorProperty = BindableProperty.Create(nameof(SelectedFrameBackgroundColor), typeof(Color), typeof(ButtonGroup), Color.Transparent, BindingMode.TwoWay);
+        public static readonly BindableProperty SelectedFrameBackgroundColorProperty =
+            BindableProperty.Create(nameof(SelectedFrameBackgroundColor), typeof(Color), typeof(ButtonGroup),
+                Color.Transparent, BindingMode.TwoWay);
+
         /// <summary>
         /// The selected index property
         /// </summary>
-        public static readonly BindableProperty SelectedIndexProperty = BindableProperty.Create(nameof(SelectedIndex), typeof(int), typeof(ButtonGroup), default(int), BindingMode.TwoWay);
+        public static readonly BindableProperty SelectedIndexProperty = BindableProperty.Create(nameof(SelectedIndex),
+            typeof(int), typeof(ButtonGroup), default(int), BindingMode.TwoWay);
+
         /// <summary>
         /// The items property property
         /// </summary>
-        public static readonly BindableProperty ItemsPropertyProperty = BindableProperty.Create(nameof(Items), typeof(List<string>), typeof(ButtonGroup),default(List<string>), BindingMode.TwoWay);
+        public static readonly BindableProperty ItemsPropertyProperty = BindableProperty.Create(nameof(Items),
+            typeof(List<string>), typeof(ButtonGroup), default(List<string>), BindingMode.TwoWay);
+
         /// <summary>
         /// The font property
         /// </summary>
-        public static readonly BindableProperty FontProperty = BindableProperty.Create(nameof(Font), typeof(Font), typeof(ButtonGroup), Font.Default);
+        public static readonly BindableProperty FontProperty =
+            BindableProperty.Create(nameof(Font), typeof(Font), typeof(ButtonGroup), Font.Default);
+
         /// <summary>
         /// The rounded property
         /// </summary>
-        public static readonly BindableProperty RoundedProperty = BindableProperty.Create(nameof(Rounded), typeof(bool), typeof(ButtonGroup), false);
+        public static readonly BindableProperty RoundedProperty =
+            BindableProperty.Create(nameof(Rounded), typeof(bool), typeof(ButtonGroup), false);
+
         /// <summary>
         /// The is number property
         /// </summary>
-        public static readonly BindableProperty IsNumberProperty = BindableProperty.Create(nameof(IsNumber), typeof(bool), typeof(ButtonGroup), false);
+        public static readonly BindableProperty IsNumberProperty =
+            BindableProperty.Create(nameof(IsNumber), typeof(bool), typeof(ButtonGroup), false);
 
-        public static readonly BindableProperty BorderRadiusProperty = BindableProperty.Create(nameof(BorderRadius), typeof(int), typeof(ButtonGroup), 0);
+        public static readonly BindableProperty BorderRadiusProperty =
+            BindableProperty.Create(nameof(BorderRadius), typeof(int), typeof(ButtonGroup), 0);
 
 
         /// <summary>
         /// The button layout
         /// </summary>
         private readonly WrapLayout _buttonLayout;
+
         /// <summary>
         /// The spacing
         /// </summary>
-        private const int SPACING = 5;
+        private const int DefaultSpacing = 5;
+
         /// <summary>
         /// The padding
         /// </summary>
-        private const int PADDING = 5;
+        private const int DefaultPadding = 5;
+
         /// <summary>
         /// The button border width
         /// </summary>
-        private const int BUTTON_BORDER_WIDTH = 1;
+        private const int DefaultButtonBorderWidth = 1;
+
         /// <summary>
         /// The frame padding
         /// </summary>
-        private const int FRAME_PADDING = 1;
+        private const int DefaultFramePadding = 1;
+
         /// <summary>
         /// The button border radius
         /// </summary>
-        private const int BUTTON_BORDER_RADIUS = 5;
+        private const int DefaultButtonBorderRadius = 5;
+
         /// <summary>
         /// The button height
         /// </summary>
-        private const int BUTTON_HEIGHT = 44;
+        private const int DefaultButtonHeight = 44;
+
         /// <summary>
         /// The button height wp
         /// </summary>
-        private const int BUTTON_HEIGHT_WP = 72;
+        private const int DefaultButtonHeightWp = 72;
+
         /// <summary>
         /// The button half height
         /// </summary>
-        private const int BUTTON_HALF_HEIGHT = 22;
+        private const int DefaultButtonHalfHeight = 22;
+
         /// <summary>
         /// The button half height wp
         /// </summary>
-        private const int BUTTON_HALF_HEIGHT_WP = 36;
+        private const int DefaultButtonHalfHeightWp = 36;
 
         #region Properties
+
         public int BorderRadius
         {
-            get
-            {
-                return (int)GetValue(BorderRadiusProperty);
-            }
-            set
-            {
-                SetValue(BorderRadiusProperty, value);
-            }
+            get => (int) GetValue(BorderRadiusProperty);
+            set => SetValue(BorderRadiusProperty, value);
         }
 
         /// <summary>
@@ -124,10 +161,7 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <value>The color of the view background.</value>
         public Color ViewBackgroundColor
         {
-            get
-            {
-                return (Color)GetValue(ViewBackgroundColorProperty);
-            }
+            get => (Color) GetValue(ViewBackgroundColorProperty);
             set
             {
                 SetValue(ViewBackgroundColorProperty, value);
@@ -142,7 +176,7 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <remarks>To be added.</remarks>
         public Color ItemBackgroundColor
         {
-            get { return (Color)GetValue(ItemBackgroundColorProperty); }
+            get => (Color) GetValue(ItemBackgroundColorProperty);
             set
             {
                 SetValue(ItemBackgroundColorProperty, value);
@@ -165,7 +199,7 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <value>The color of the selected background.</value>
         public Color SelectedBackgroundColor
         {
-            get { return (Color)GetValue(SelectedBackgroundColorProperty); }
+            get => (Color) GetValue(SelectedBackgroundColorProperty);
             set
             {
                 SetValue(SelectedBackgroundColorProperty, value);
@@ -188,8 +222,8 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <value>The color of the text.</value>
         public Color TextColor
         {
-            get { return (Color)GetValue(TextColorProperty); }
-            set { SetValue(TextColorProperty, value); }
+            get => (Color) GetValue(TextColorProperty);
+            set => SetValue(TextColorProperty, value);
         }
 
         /// <summary>
@@ -198,8 +232,8 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <value>The color of the selected text.</value>
         public Color SelectedTextColor
         {
-            get { return (Color)GetValue(SelectedTextColorProperty); }
-            set { SetValue(SelectedTextColorProperty, value); }
+            get => (Color) GetValue(SelectedTextColorProperty);
+            set => SetValue(SelectedTextColorProperty, value);
         }
 
         /// <summary>
@@ -208,8 +242,8 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <value>The color of the border.</value>
         public Color BorderColor
         {
-            get { return (Color)GetValue(BorderColorProperty); }
-            set { SetValue(BorderColorProperty, value); }
+            get => (Color) GetValue(BorderColorProperty);
+            set => SetValue(BorderColorProperty, value);
         }
 
         /// <summary>
@@ -218,17 +252,18 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <value>The color of the selected border.</value>
         public Color SelectedBorderColor
         {
-            get { return (Color)GetValue(SelectedBorderColorProperty); }
-            set { SetValue(SelectedBorderColorProperty, value); }
+            get => (Color) GetValue(SelectedBorderColorProperty);
+            set => SetValue(SelectedBorderColorProperty, value);
         }
+
         /// <summary>
         /// Gets or sets the color of the selected frame background.
         /// </summary>
         /// <value>The color of the selected frame background.</value>
         public Color SelectedFrameBackgroundColor
         {
-            get { return (Color)GetValue(SelectedFrameBackgroundColorProperty); }
-            set { SetValue(SelectedFrameBackgroundColorProperty, value); }
+            get => (Color) GetValue(SelectedFrameBackgroundColorProperty);
+            set => SetValue(SelectedFrameBackgroundColorProperty, value);
         }
 
 
@@ -238,8 +273,8 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <value>The font.</value>
         public Font Font
         {
-            get { return (Font)GetValue(FontProperty); }
-            set { SetValue(FontProperty, value); }
+            get => (Font) GetValue(FontProperty);
+            set => SetValue(FontProperty, value);
         }
 
         /// <summary>
@@ -248,10 +283,7 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <value>The index of the selected.</value>
         public int SelectedIndex
         {
-            get
-            {
-                return (int)GetValue(SelectedIndexProperty);
-            }
+            get => (int) GetValue(SelectedIndexProperty);
             set
             {
                 SetSelectedState(SelectedIndex, false);
@@ -272,7 +304,7 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <value>The items.</value>
         public List<string> Items
         {
-            get { return (List<string>)GetValue(ItemsPropertyProperty); }
+            get => (List<string>) GetValue(ItemsPropertyProperty);
             set
             {
                 SetValue(ItemsPropertyProperty, value);
@@ -290,14 +322,8 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <value><c>true</c> if rounded; otherwise, <c>false</c>.</value>
         public bool Rounded
         {
-            get
-            {
-                return (bool)GetValue(RoundedProperty);
-            }
-            set
-            {
-                SetValue(RoundedProperty, value);
-            }
+            get => (bool) GetValue(RoundedProperty);
+            set => SetValue(RoundedProperty, value);
         }
 
         /// <summary>
@@ -306,14 +332,8 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <value><c>true</c> if this instance is number; otherwise, <c>false</c>.</value>
         public bool IsNumber
         {
-            get
-            {
-                return (bool)GetValue(IsNumberProperty);
-            }
-            set
-            {
-                SetValue(IsNumberProperty, value);
-            }
+            get => (bool) GetValue(IsNumberProperty);
+            set => SetValue(IsNumberProperty, value);
         }
 
         #endregion
@@ -321,7 +341,7 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <summary>
         /// The clicked command
         /// </summary>
-        private Command _clickedCommand;
+        private readonly Command _clickedCommand;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ButtonGroup"/> class.
@@ -330,8 +350,8 @@ namespace XDemo.UI.Controls.ExtendedElements
         {
             _buttonLayout = new WrapLayout
             {
-                Spacing = SPACING,
-                Padding = PADDING,
+                Spacing = DefaultSpacing,
+                Padding = DefaultPadding,
                 Orientation = StackOrientation.Horizontal,
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
@@ -356,12 +376,12 @@ namespace XDemo.UI.Controls.ExtendedElements
                 BackgroundColor = ItemBackgroundColor,
                 BorderColor = BorderColor,
                 TextColor = TextColor,
-                BorderWidth = BUTTON_BORDER_WIDTH,
-                BorderRadius =
+                BorderWidth = DefaultButtonBorderWidth,
+                CornerRadius =
                     Rounded
-                    ? BorderRadius
+                        ? BorderRadius
                         : 0,
-                //HeightRequest = Device.OnPlatform(BUTTON_HEIGHT, BUTTON_HEIGHT, BUTTON_HEIGHT_WP),
+                //HeightRequest = Device.OnPlatform(defaultButon, BUTTON_HEIGHT, BUTTON_HEIGHT_WP),
                 //MinimumHeightRequest = Device.OnPlatform(BUTTON_HEIGHT, BUTTON_HEIGHT, BUTTON_HEIGHT_WP),
                 Font = Font,
                 Command = _clickedCommand,
@@ -370,19 +390,32 @@ namespace XDemo.UI.Controls.ExtendedElements
 
             if (IsNumber)
             {
-                button.Text = string.Format("{0}", text);
-                button.WidthRequest = Device.OnPlatform(44, 44, 72);
-                button.MinimumWidthRequest = Device.OnPlatform(44, 44, 72);
+                button.Text = $"{text}";
+                switch (Device.RuntimePlatform)
+                {
+                    case Device.iOS:
+                        button.WidthRequest = 44;
+                        button.MinimumWidthRequest = 44;
+                        break;
+                    case Device.Android:
+                        button.WidthRequest = 44;
+                        button.MinimumWidthRequest = 44;
+                        break;
+                    case Device.UWP:
+                        button.WidthRequest = 72;
+                        button.MinimumWidthRequest = 72;
+                        break;
+                }
             }
             else
             {
-                button.Text = string.Format("  {0}  ", text);
+                button.Text = $"  {text}  ";
             }
 
             var frame = new ContentView
             {
                 BackgroundColor = ViewBackgroundColor,
-                Padding = FRAME_PADDING,
+                Padding = DefaultFramePadding,
                 //OutlineColor = OutlineColor,
                 //HasShadow = false,
                 Content = button,
@@ -399,7 +432,7 @@ namespace XDemo.UI.Controls.ExtendedElements
         /// <param name="o">The o.</param>
         private void SetSelectedButton(object o)
         {
-            SelectedIndex = (int)o;
+            SelectedIndex = (int) o;
         }
 
         /// <summary>
@@ -414,13 +447,13 @@ namespace XDemo.UI.Controls.ExtendedElements
                 return; //Out of bounds
             }
 
-            var frame = (ContentView)_buttonLayout.Children[index];
+            var frame = (ContentView) _buttonLayout.Children[index];
 
             //frame.HasShadow = isSelected;
 
             frame.BackgroundColor = isSelected ? SelectedFrameBackgroundColor : ViewBackgroundColor;
 
-            var button = (Button)frame.Content;
+            var button = (Button) frame.Content;
 
             button.BackgroundColor = isSelected ? SelectedBackgroundColor : ItemBackgroundColor;
             button.TextColor = isSelected ? SelectedTextColor : TextColor;

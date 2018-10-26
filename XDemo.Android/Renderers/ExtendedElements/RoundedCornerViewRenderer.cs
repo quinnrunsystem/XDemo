@@ -61,6 +61,5 @@ namespace XDemo.Droid.Renderers.ExtendedElements
             this.SetBackground(shape);
         }
     }
-
 }
 

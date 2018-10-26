@@ -12,7 +12,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.CheckBox
 {
     public class CheckBoxRenderer : ViewRenderer<XDemo.UI.Controls.ExtendedElements.CheckBox, CheckBoxView>
     {
-        private UIColor defaultTextColor;
+        private UIColor _defaultTextColor;
 
         /// <summary>
         /// Handles the Element Changed event
@@ -31,7 +31,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.CheckBox
                 {
                     var checkBox = new CheckBoxView(Bounds);
                     checkBox.TouchUpInside += (s, args) => Element.Checked = Control.Checked;
-                    defaultTextColor = checkBox.TitleColor(UIControlState.Normal);
+                    _defaultTextColor = checkBox.TitleColor(UIControlState.Normal);
                     SetNativeControl(checkBox);
                 }
                 Control.LineBreakMode = UILineBreakMode.WordWrap;
@@ -114,8 +114,8 @@ namespace XDemo.iOS.Renderers.ExtendedElements.CheckBox
 
         private void UpdateTextColor()
         {
-            Control.SetTitleColor(Element.TextColor.ToUIColorOrDefault(defaultTextColor), UIControlState.Normal);
-            Control.SetTitleColor(Element.TextColor.ToUIColorOrDefault(defaultTextColor), UIControlState.Selected);
+            Control.SetTitleColor(Element.TextColor.ToUIColorOrDefault(_defaultTextColor), UIControlState.Normal);
+            Control.SetTitleColor(Element.TextColor.ToUIColorOrDefault(_defaultTextColor), UIControlState.Selected);
         }
 
         /// <summary>
@@ -129,25 +129,26 @@ namespace XDemo.iOS.Renderers.ExtendedElements.CheckBox
 
             switch (e.PropertyName)
             {
-                case "Checked":
+                case nameof(XDemo.UI.Controls.ExtendedElements.CheckBox.Checked) :
                     Control.Checked = Element.Checked;
                     break;
-                case "TextColor":
+                case nameof(XDemo.UI.Controls.ExtendedElements.CheckBox.TextColor) :
                     UpdateTextColor();
                     break;
-                case "CheckedText":
+                case nameof(XDemo.UI.Controls.ExtendedElements.CheckBox.CheckedText):
                     Control.CheckedTitle = string.IsNullOrEmpty(Element.CheckedText) ? Element.DefaultText : Element.CheckedText;
                     break;
-                case "UncheckedText":
+                case nameof(XDemo.UI.Controls.ExtendedElements.CheckBox.UncheckedText):
                     Control.UncheckedTitle = string.IsNullOrEmpty(Element.UncheckedText) ? Element.DefaultText : Element.UncheckedText;
                     break;
-                case "FontSize":
+                case nameof(XDemo.UI.Controls.ExtendedElements.CheckBox.FontSize):
                     UpdateFont();
                     break;
-                case "FontName":
+                case nameof(XDemo.UI.Controls.ExtendedElements.CheckBox.FontName):
                     UpdateFont();
                     break;
-                case "Element":
+                case nameof(Element):
+                    // do nothing
                     break;
                 default:
                     System.Diagnostics.Debug.WriteLine("Property change for {0} has not been implemented.", e.PropertyName);

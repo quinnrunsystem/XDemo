@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Android.Content;
 using Android.Graphics;
 using Xamarin.Forms;
@@ -7,114 +6,6 @@ using Xamarin.Forms.Platform.Android;
 
 namespace XDemo.Droid.Extensions
 {
-    /// <summary>
-    /// Interface of TypefaceCaches
-    /// </summary>
-    public interface ITypefaceCache
-    {
-        /// <summary>
-        /// Removes typeface from cache
-        /// </summary>
-        /// <param name="key">Key.</param>
-        /// <param name="typeface">Typeface.</param>
-        void StoreTypeface(string key, Typeface typeface);
-
-        /// <summary>
-        /// Removes the typeface.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        void RemoveTypeface(string key);
-
-        /// <summary>
-        /// Retrieves the typeface.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns>Typeface.</returns>
-        Typeface RetrieveTypeface(string key);
-    }
-
-    /// <summary>
-    /// TypefaceCache caches used typefaces for performance and memory reasons. 
-    /// Typeface cache is singleton shared through execution of the application.
-    /// You can replace default implementation of the cache by implementing ITypefaceCache 
-    /// interface and setting instance of your cache to static property SharedCache of this class
-    /// </summary>
-    public static class TypefaceCache
-    {
-        private static ITypefaceCache sharedCache;
-
-        /// <summary>
-        /// Returns the shared typeface cache.
-        /// </summary>
-        /// <value>The shared cache.</value>
-        public static ITypefaceCache SharedCache
-        {
-            get
-            {
-                if (sharedCache == null)
-                {
-                    sharedCache = new DefaultTypefaceCache();
-                }
-                return sharedCache;
-            }
-            set
-            {
-                if (sharedCache != null && sharedCache.GetType() == typeof(DefaultTypefaceCache))
-                {
-                    ((DefaultTypefaceCache)sharedCache).PurgeCache();
-                }
-                sharedCache = value;
-            }
-        }
-
-
-
-
-    }
-
-    /// <summary>
-    /// Default implementation of the typeface cache.
-    /// </summary>
-    internal class DefaultTypefaceCache : ITypefaceCache
-    {
-        private Dictionary<string, Typeface> _cacheDict;
-
-        public DefaultTypefaceCache()
-        {
-            _cacheDict = new Dictionary<string, Typeface>();
-        }
-
-
-        public Typeface RetrieveTypeface(string key)
-        {
-            if (_cacheDict.ContainsKey(key))
-            {
-                return _cacheDict[key];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public void StoreTypeface(string key, Typeface typeface)
-        {
-            _cacheDict[key] = typeface;
-        }
-
-        public void RemoveTypeface(string key)
-        {
-            _cacheDict.Remove(key);
-        }
-
-        public void PurgeCache()
-        {
-            _cacheDict = new Dictionary<string, Typeface>();
-        }
-    }
-
-
-
     /// <summary>
     /// Andorid specific extensions for Font class.
     /// </summary>
@@ -139,7 +30,7 @@ namespace XDemo.Droid.Extensions
             Typeface typeface = null;
 
             //1. Lookup in the cache
-            var hashKey = font.ToHasmapKey();
+            var hashKey = font.ToHashMapKey();
             typeface = TypefaceCache.SharedCache.RetrieveTypeface(hashKey);
 #if DEBUG
             if (typeface != null)
@@ -219,9 +110,9 @@ namespace XDemo.Droid.Extensions
         /// </summary>
         /// <returns>Unique string identifier for the given font</returns>
         /// <param name="font">Font.</param>
-        private static string ToHasmapKey(this Font font)
+        private static string ToHashMapKey(this Font font)
         {
-            return string.Format("{0}.{1}.{2}.{3}", font.FontFamily, font.FontSize, font.NamedSize, (int)font.FontAttributes);
+            return $"{font.FontFamily}.{font.FontSize}.{font.NamedSize}.{(int) font.FontAttributes}";
         }
     }
 }

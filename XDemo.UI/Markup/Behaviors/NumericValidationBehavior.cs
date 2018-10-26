@@ -4,22 +4,21 @@ namespace XDemo.UI.Markup.Behaviors
 {
     public class NumericValidationBehavior : Behavior<Entry>
     {
-        protected override void OnAttachedTo(Entry entry)
+        protected override void OnAttachedTo(Entry bindable)
         {
-            entry.TextChanged += OnEntryTextChanged;
-            base.OnAttachedTo(entry);
+            bindable.TextChanged += OnEntryTextChanged;
+            base.OnAttachedTo(bindable);
         }
 
-        protected override void OnDetachingFrom(Entry entry)
+        protected override void OnDetachingFrom(Entry bindable)
         {
-            entry.TextChanged -= OnEntryTextChanged;
-            base.OnDetachingFrom(entry);
+            bindable.TextChanged -= OnEntryTextChanged;
+            base.OnDetachingFrom(bindable);
         }
 
         void OnEntryTextChanged(object sender, TextChangedEventArgs args)
         {
-            double result;
-            bool isValid = double.TryParse(args.NewTextValue, out result);
+            var isValid = double.TryParse(args.NewTextValue, out double result);
             ((Entry)sender).TextColor = isValid ? Color.Default : Color.Red;
         }
     }

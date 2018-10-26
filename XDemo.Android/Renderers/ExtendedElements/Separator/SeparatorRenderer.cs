@@ -27,12 +27,12 @@ namespace XDemo.Droid.Renderers.ExtendedElements.Separator
                 return;
             }
 
-            if (this.Control == null)
+            if (Control == null)
             {
-                this.SetNativeControl(new SeparatorDroidView(this.Context));
+                SetNativeControl(new SeparatorDroidView(Context));
             }
 
-            this.SetProperties();
+            SetProperties();
         }
 
 
@@ -44,7 +44,7 @@ namespace XDemo.Droid.Renderers.ExtendedElements.Separator
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            this.SetProperties();
+            SetProperties();
         }
 
         /// <summary>
@@ -59,8 +59,7 @@ namespace XDemo.Droid.Renderers.ExtendedElements.Separator
             Control.StrokeType = Element.StrokeType;
             Control.Orientation = Element.Orientation;
 
-            this.Control.Invalidate();
+            Control.Invalidate();
         }
     }
-
 }

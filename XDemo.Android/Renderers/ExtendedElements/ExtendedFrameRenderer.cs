@@ -22,20 +22,17 @@ namespace XDemo.Droid.Renderers.ExtendedElements
         {
             base.OnElementChanged(e);
 
-            var origFrame = e.NewElement as ExtendedFrame;
-
-            if (origFrame != null)
+            if (e.NewElement is ExtendedFrame origFrame)
             {
-                GradientDrawable gi = new GradientDrawable();
+                var gi = new GradientDrawable();
 
                 _gi = gi;
 
-                gi.SetStroke(origFrame.BorderThickness, origFrame.OutlineColor.ToAndroid());
+                gi.SetStroke(origFrame.BorderThickness, origFrame.BorderColor.ToAndroid());
                 gi.SetColor(origFrame.BackgroundColor.ToAndroid());
                 gi.SetCornerRadius(origFrame.CornerRadius);
-#pragma warning disable CS0618 // Type or member is obsolete
-                SetBackgroundDrawable(gi);
-#pragma warning restore CS0618 // Type or member is obsolete
+//                SetBackgroundDrawable(gi);
+                this.SetBackground(gi);
             }
         }
 
@@ -43,9 +40,8 @@ namespace XDemo.Droid.Renderers.ExtendedElements
         {
             if (ChildCount > 0 && _gi != null)
             {
-#pragma warning disable CS0618 // Type or member is obsolete
-                SetBackgroundDrawable(_gi);
-#pragma warning restore CS0618 // Type or member is obsolete
+//                SetBackgroundDrawable(_gi);
+                this.SetBackground(_gi);
             }
 
             base.OnElementPropertyChanged(sender, e);

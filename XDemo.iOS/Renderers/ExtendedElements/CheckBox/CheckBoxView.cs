@@ -7,7 +7,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.CheckBox
     /// <summary>
     /// Class CheckBoxView.
     /// </summary>
-    [Register("CheckBoxView")]
+    [Register(nameof(CheckBoxView))]
     public class CheckBoxView : UIButton
     {
         /// <summary>
@@ -33,10 +33,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.CheckBox
         /// <value>The checked title.</value>
         public string CheckedTitle
         {
-            set
-            {
-                SetTitle(value, UIControlState.Selected);
-            }
+            set => SetTitle(value, UIControlState.Selected);
         }
 
         /// <summary>
@@ -45,10 +42,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.CheckBox
         /// <value>The unchecked title.</value>
         public string UncheckedTitle
         {
-            set
-            {
-                SetTitle(value, UIControlState.Normal);
-            }
+            set => SetTitle(value, UIControlState.Normal);
         }
 
         /// <summary>
@@ -57,8 +51,8 @@ namespace XDemo.iOS.Renderers.ExtendedElements.CheckBox
         /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
         public bool Checked
         {
-            set { Selected = value; }
-            get { return Selected; }
+            set => Selected = value;
+            get => Selected;
         }
 
         /// <summary>
@@ -80,12 +74,12 @@ namespace XDemo.iOS.Renderers.ExtendedElements.CheckBox
         /// </summary>
         void AdjustEdgeInsets()
         {
-            const float Inset = 8f;
+            const float inset = 8f;
 
             HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
             VerticalAlignment = UIControlContentVerticalAlignment.Center;
-            ImageEdgeInsets = new UIEdgeInsets(0f, Inset, 0f, 0f);
-            TitleEdgeInsets = new UIEdgeInsets(0f, Inset * 2, 0f, 0f);
+            ImageEdgeInsets = new UIEdgeInsets(0f, inset, 0f, 0f);
+            TitleEdgeInsets = new UIEdgeInsets(0f, inset * 2, 0f, 0f);
         }
 
         /// <summary>

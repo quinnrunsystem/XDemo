@@ -97,10 +97,7 @@ namespace XDemo.Droid.Renderers.ExtendedElements.Separator
                 _orientation = value;
                 Invalidate();
             }
-            get
-            {
-                return _orientation;
-            }
+            get => _orientation;
         }
 
         /// <summary>
@@ -124,9 +121,9 @@ namespace XDemo.Droid.Renderers.ExtendedElements.Separator
             base.OnDraw(canvas);
 
             var r = new Rect(0, 0, canvas.Width, canvas.Height);
-            var dAdjustedThicnkess = (float)Thickness * _dm;
+            var dAdjustedThickness = (float)Thickness * _dm;
 
-            var paint = new Paint { Color = StrokeColor, StrokeWidth = dAdjustedThicnkess, AntiAlias = true };
+            var paint = new Paint { Color = StrokeColor, StrokeWidth = dAdjustedThickness, AntiAlias = true };
             paint.SetStyle(Paint.Style.Stroke);
             switch (StrokeType)
             {
@@ -134,7 +131,7 @@ namespace XDemo.Droid.Renderers.ExtendedElements.Separator
                     paint.SetPathEffect(new DashPathEffect(new[] { 6 * _dm, 2 * _dm }, 0));
                     break;
                 case StrokeType.Dotted:
-                    paint.SetPathEffect(new DashPathEffect(new[] { dAdjustedThicnkess, dAdjustedThicnkess }, 0));
+                    paint.SetPathEffect(new DashPathEffect(new[] { dAdjustedThickness, dAdjustedThickness }, 0));
                     break;
                 default:
 
@@ -148,11 +145,11 @@ namespace XDemo.Droid.Renderers.ExtendedElements.Separator
 
             if (Orientation == SeparatorOrientation.Horizontal)
             {
-                leftForSpacing = r.Height() - dAdjustedThicnkess;
+                leftForSpacing = r.Height() - dAdjustedThickness;
             }
             else
             {
-                leftForSpacing = r.Width() - dAdjustedThicnkess;
+                leftForSpacing = r.Width() - dAdjustedThickness;
             }
             if (desiredTotalSpacing > 0)
             {
@@ -165,7 +162,7 @@ namespace XDemo.Droid.Renderers.ExtendedElements.Separator
                 actualSpacingBefore = 0;
                 actualSpacingAfter = 0;
             }
-            var thicknessOffset = (dAdjustedThicnkess) / 2.0f;
+            var thicknessOffset = (dAdjustedThickness) / 2.0f;
 
             var p = new Path();
             if (Orientation == SeparatorOrientation.Horizontal)

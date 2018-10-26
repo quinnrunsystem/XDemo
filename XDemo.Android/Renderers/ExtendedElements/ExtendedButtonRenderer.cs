@@ -28,11 +28,6 @@ namespace XDemo.Droid.Renderers.ExtendedElements
         {
         }
 
-        protected override void OnElementChanged(ElementChangedEventArgs<Button> e)
-        {
-            base.OnElementChanged(e);
-        }
-
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);

@@ -16,7 +16,7 @@ namespace XDemo.Droid.Renderers.ExtendedElements
     /// <summary>
     /// Class RadioButtonRenderer.
     /// </summary>
-    public class RadioButtonRenderer : ViewRenderer<UI.Controls.ExtendedElements.RadioButton.RadioButton, Android.Widget.RadioButton>
+    public class RadioButtonRenderer : ViewRenderer<UI.Controls.ExtendedElements.RadioButton.RadioButton, RadioButton>
     {
         private ColorStateList _defaultTextColor;
 
@@ -34,7 +34,7 @@ namespace XDemo.Droid.Renderers.ExtendedElements
 
             if (Control == null)
             {
-                var radButton = new Android.Widget.RadioButton(Context);
+                var radButton = new RadioButton(Context);
                 _defaultTextColor = radButton.TextColors;
 
                 radButton.CheckedChange += radButton_CheckedChange;
@@ -79,22 +79,22 @@ namespace XDemo.Droid.Renderers.ExtendedElements
 
             switch (e.PropertyName)
             {
-                case "Checked":
+                case nameof(UI.Controls.ExtendedElements.RadioButton.RadioButton.Checked):
                     Control.Checked = Element.Checked;
                     break;
-                case "Text":
+                case nameof(UI.Controls.ExtendedElements.RadioButton.RadioButton.Text):
                     Control.Text = Element.Text;
                     break;
-                case "TextColor":
+                case nameof(UI.Controls.ExtendedElements.RadioButton.RadioButton.TextColor):
                     UpdateTextColor();
                     break;
-                case "FontName":
+                case nameof(UI.Controls.ExtendedElements.RadioButton.RadioButton.FontName):
                     if (!string.IsNullOrEmpty(Element.FontName))
                     {
                         Control.Typeface = TrySetFont(Element.FontName);
                     }
                     break;
-                case "FontSize":
+                case nameof(UI.Controls.ExtendedElements.RadioButton.RadioButton.FontSize) :
                     if (Element.FontSize > 0)
                     {
                         Control.TextSize = (float)Element.FontSize;

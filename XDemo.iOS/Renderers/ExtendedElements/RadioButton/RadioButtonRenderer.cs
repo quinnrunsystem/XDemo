@@ -37,15 +37,15 @@ namespace XDemo.iOS.Renderers.ExtendedElements.RadioButton
                 SetNativeControl(checkBox);
             }
 
-            if (this.Element == null) return;
+            if (Element == null) return;
 
-            BackgroundColor = this.Element.BackgroundColor.ToUIColor();
+            BackgroundColor = Element.BackgroundColor.ToUIColor();
             UpdateFont();
 
             Control.LineBreakMode = UILineBreakMode.WordWrap;
             Control.VerticalAlignment = UIControlContentVerticalAlignment.Center;
-            Control.Text = this.Element.Text;
-            Control.Checked = this.Element.Checked;
+            Control.Text = Element.Text;
+            Control.Checked = Element.Checked;
             UpdateTextColor();
         }
 
@@ -137,21 +137,22 @@ namespace XDemo.iOS.Renderers.ExtendedElements.RadioButton
 
             switch (e.PropertyName)
             {
-                case "Checked":
+                case nameof(UI.Controls.ExtendedElements.RadioButton.RadioButton.Checked):
                     Control.Checked = Element.Checked;
                     break;
-                case "Text":
+                case nameof(UI.Controls.ExtendedElements.RadioButton.RadioButton.Text):
                     Control.Text = Element.Text;
                     break;
-                case "TextColor":
+                case nameof(UI.Controls.ExtendedElements.RadioButton.RadioButton.TextColor):
                     UpdateTextColor();
                     break;
-                case "Element":
+                case nameof(Element):
+                    // do nothing
                     break;
-                case "FontSize":
+                case nameof(UI.Controls.ExtendedElements.RadioButton.RadioButton.FontSize):
                     UpdateFont();
                     break;
-                case "FontName":
+                case nameof(UI.Controls.ExtendedElements.RadioButton.RadioButton.FontName):
                     UpdateFont();
                     break;
                 default:

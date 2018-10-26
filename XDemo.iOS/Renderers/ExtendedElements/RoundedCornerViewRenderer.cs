@@ -12,12 +12,11 @@ namespace XDemo.iOS.Renderers.ExtendedElements
 {
     public class RoundedCornerViewRenderer : ViewRenderer
     {
-        public static void Init() { }
         protected override void OnElementChanged(ElementChangedEventArgs<View> e)
         {
             base.OnElementChanged(e);
-            if (this.Element == null) return;
-            this.Element.PropertyChanged += (sender, e1) =>
+            if (Element == null) return;
+            Element.PropertyChanged += (sender, e1) =>
             {
                 try
                 {
@@ -29,29 +28,29 @@ namespace XDemo.iOS.Renderers.ExtendedElements
                 }
                 catch (Exception exp)
                 {
-                    Debug.WriteLine("Handled Exception in RoundedCornerViewDemoRenderer. Just warngin : " + exp.Message);
+                    Debug.WriteLine("Handled Exception in RoundedCornerViewDemoRenderer. Just warning : " + exp.Message);
                 }
             };
         }
         public override void Draw(CoreGraphics.CGRect rect)
         {
             base.Draw(rect);
-            this.LayoutIfNeeded();
-            RoundedCornerView rcv = (RoundedCornerView)Element;
+            LayoutIfNeeded();
+            var rcv = (RoundedCornerView)Element;
             //rcv.Padding = new Thickness(0, 0, 0, 0);
-            this.ClipsToBounds = true;
-            this.Layer.BackgroundColor = rcv.FillColor.ToCGColor();
-            this.Layer.MasksToBounds = true;
-            this.Layer.CornerRadius = (nfloat)rcv.RoundedCornerRadius;
+            ClipsToBounds = true;
+            Layer.BackgroundColor = rcv.FillColor.ToCGColor();
+            Layer.MasksToBounds = true;
+            Layer.CornerRadius = (nfloat)rcv.RoundedCornerRadius;
             if (rcv.MakeCircle)
             {
-                this.Layer.CornerRadius = (int)(Math.Min(Element.Width, Element.Height) / 2);
+                Layer.CornerRadius = (int)(Math.Min(Element.Width, Element.Height) / 2);
             }
-            this.Layer.BorderWidth = 0;
+            Layer.BorderWidth = 0;
             if (rcv.BorderWidth > 0 && rcv.BorderColor.A > 0.0)
             {
-                this.Layer.BorderWidth = rcv.BorderWidth;
-                this.Layer.BorderColor = new UIColor(
+                Layer.BorderWidth = rcv.BorderWidth;
+                Layer.BorderColor = new UIColor(
                     (nfloat)rcv.BorderColor.R,
                     (nfloat)rcv.BorderColor.G,
                     (nfloat)rcv.BorderColor.B,

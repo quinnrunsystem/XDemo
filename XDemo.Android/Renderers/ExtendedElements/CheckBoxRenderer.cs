@@ -32,12 +32,12 @@ namespace XDemo.Droid.Renderers.ExtendedElements
         {
             base.OnElementChanged(e);
 
-            if (this.Control == null)
+            if (Control == null)
             {
-                var checkBox = new CheckBox(this.Context);
+                var checkBox = new CheckBox(Context);
                 checkBox.CheckedChange += CheckBoxCheckedChange;
                 defaultTextColor = checkBox.TextColors;
-                this.SetNativeControl(checkBox);
+                SetNativeControl(checkBox);
             }
 
             Control.Text = e.NewElement.Text;
@@ -66,27 +66,27 @@ namespace XDemo.Droid.Renderers.ExtendedElements
 
             switch (e.PropertyName)
             {
-                case "Checked":
+                case nameof(XDemo.UI.Controls.ExtendedElements.CheckBox.Checked):
                     Control.Text = Element.Text;
                     Control.Checked = Element.Checked;
                     break;
-                case "TextColor":
+                case nameof(XDemo.UI.Controls.ExtendedElements.CheckBox.TextColor):
                     UpdateTextColor();
                     break;
-                case "FontName":
+                case nameof(XDemo.UI.Controls.ExtendedElements.CheckBox.FontName):
                     if (!string.IsNullOrEmpty(Element.FontName))
                     {
                         Control.Typeface = TrySetFont(Element.FontName);
                     }
                     break;
-                case "FontSize":
+                case nameof(XDemo.UI.Controls.ExtendedElements.CheckBox.FontSize):
                     if (Element.FontSize > 0)
                     {
                         Control.TextSize = (float)Element.FontSize;
                     }
                     break;
-                case "CheckedText":
-                case "UncheckedText":
+                case nameof(XDemo.UI.Controls.ExtendedElements.CheckBox.CheckedText):
+                case nameof(XDemo.UI.Controls.ExtendedElements.CheckBox.UncheckedText):
                     Control.Text = Element.Text;
                     break;
                 default:
@@ -102,7 +102,7 @@ namespace XDemo.Droid.Renderers.ExtendedElements
         /// <param name="e">The <see cref="Android.Widget.CompoundButton.CheckedChangeEventArgs"/> instance containing the event data.</param>
         void CheckBoxCheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
-            this.Element.Checked = e.IsChecked;
+            Element.Checked = e.IsChecked;
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace XDemo.Droid.Renderers.ExtendedElements
         /// <returns>Typeface.</returns>
         private Typeface TrySetFont(string fontName)
         {
-            Typeface tf = Typeface.Default;
+            var tf = Typeface.Default;
             try
             {
                 tf = Typeface.CreateFromAsset(Context.Assets, fontName);

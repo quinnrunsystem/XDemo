@@ -32,8 +32,8 @@ namespace XDemo.iOS.Renderers.ExtendedElements.RadioButton
         /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
         public bool Checked
         {
-            set { Selected = value; }
-            get { return Selected; }
+            set => Selected = value;
+            get => Selected;
         }
 
         /// <summary>
@@ -42,8 +42,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.RadioButton
         /// <value>The text.</value>
         public string Text
         {
-            set { SetTitle(value, UIControlState.Normal); }
-
+            set => SetTitle(value, UIControlState.Normal);
         }
 
         /// <summary>

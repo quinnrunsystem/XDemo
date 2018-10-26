@@ -11,9 +11,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements
 {
     public class ExtendedFrameRenderer : FrameRenderer
     {
-
-        public static void Init() { }
-        private ExtendedFrame customFrame;
+        private ExtendedFrame _customFrame;
 
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
@@ -21,7 +19,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements
 
             if (e.NewElement != null)
             {
-                customFrame = e.NewElement as ExtendedFrame;
+                _customFrame = e.NewElement as ExtendedFrame;
                 SetupLayer();
 
             }
@@ -32,7 +30,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements
             base.OnElementPropertyChanged(sender, e);
 
             if (e.PropertyName == VisualElement.BackgroundColorProperty.PropertyName ||
-                e.PropertyName == Xamarin.Forms.Frame.OutlineColorProperty.PropertyName ||
+                e.PropertyName == Xamarin.Forms.Frame.BorderColorProperty.PropertyName ||
                 e.PropertyName == Xamarin.Forms.Frame.HasShadowProperty.PropertyName ||
                 e.PropertyName == Xamarin.Forms.Frame.CornerRadiusProperty.PropertyName)
             {
@@ -42,15 +40,15 @@ namespace XDemo.iOS.Renderers.ExtendedElements
 
         void SetupLayer()
         {
-            float cornerRadius = customFrame.CornerRadius;
+            float cornerRadius = _customFrame.CornerRadius;
 
             if (cornerRadius == -1f)
                 cornerRadius = 5f; // default corner radius
 
             Layer.CornerRadius = cornerRadius;
-            Layer.BackgroundColor = customFrame.BackgroundColor.ToCGColor();
+            Layer.BackgroundColor = _customFrame.BackgroundColor.ToCGColor();
 
-            if (customFrame.HasShadow)
+            if (_customFrame.HasShadow)
             {
                 Layer.ShadowRadius = 2;
                 Layer.ShadowColor = UIColor.Black.CGColor;
@@ -64,8 +62,8 @@ namespace XDemo.iOS.Renderers.ExtendedElements
             //    Layer.BorderColor = UIColor.Clear.CGColor;
             //else
             //{
-            Layer.BorderColor = customFrame.OutlineColor.ToCGColor();
-            Layer.BorderWidth = customFrame.BorderThickness;
+            Layer.BorderColor = _customFrame.BorderColor.ToCGColor();
+            Layer.BorderWidth = _customFrame.BorderThickness;
             // }
 
             Layer.RasterizationScale = UIScreen.MainScreen.Scale;

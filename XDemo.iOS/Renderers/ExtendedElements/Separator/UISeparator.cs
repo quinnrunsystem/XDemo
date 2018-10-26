@@ -26,10 +26,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.Separator
                 _thickness = value;
                 SetNeedsDisplayInRect(Bounds);
             }
-            get
-            {
-                return _thickness;
-            }
+            get => _thickness;
         }
 
         /// <summary>
@@ -48,10 +45,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.Separator
                 _spacingBefore = value;
                 SetNeedsDisplayInRect(Bounds);
             }
-            get
-            {
-                return _spacingBefore;
-            }
+            get => _spacingBefore;
         }
 
         /// <summary>
@@ -70,10 +64,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.Separator
                 _spacingAfter = value;
                 SetNeedsDisplayInRect(Bounds);
             }
-            get
-            {
-                return _spacingAfter;
-            }
+            get => _spacingAfter;
         }
 
         /// <summary>
@@ -92,10 +83,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.Separator
                 _strokeColor = value;
                 SetNeedsDisplayInRect(Bounds);
             }
-            get
-            {
-                return _strokeColor;
-            }
+            get => _strokeColor;
         }
 
 
@@ -115,10 +103,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.Separator
                 _strokeType = value;
                 SetNeedsDisplayInRect(Bounds);
             }
-            get
-            {
-                return _strokeType;
-            }
+            get => _strokeType;
         }
 
         /// <summary>
@@ -137,10 +122,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.Separator
                 _orientation = value;
                 SetNeedsDisplayInRect(Bounds);
             }
-            get
-            {
-                return _orientation;
-            }
+            get => _orientation;
         }
 
         /// <summary>
