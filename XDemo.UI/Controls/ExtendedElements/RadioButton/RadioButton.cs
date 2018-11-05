@@ -76,7 +76,7 @@ namespace XDemo.UI.Controls.ExtendedElements.RadioButton
 
         #region FontSize property
 
-        public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(nameof(FontSize), typeof(double), typeof(RadioButton), -1);
+        public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(nameof(FontSize), typeof(double), typeof(RadioButton), -1d);
         /// <summary>
         /// Gets or sets the size of the font.
         /// </summary>

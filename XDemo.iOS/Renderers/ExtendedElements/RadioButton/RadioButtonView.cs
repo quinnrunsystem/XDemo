@@ -4,7 +4,7 @@ using UIKit;
 
 namespace XDemo.iOS.Renderers.ExtendedElements.RadioButton
 {
-    [Register("RadioButtonView")]
+    [Register(nameof(RadioButtonView))]
     public class RadioButtonView : UIButton
     {
         /// <summary>
@@ -56,7 +56,7 @@ namespace XDemo.iOS.Renderers.ExtendedElements.RadioButton
             // set default color, because type is not UIButtonType.System 
             SetTitleColor(UIColor.DarkTextColor, UIControlState.Normal);
             SetTitleColor(UIColor.DarkTextColor, UIControlState.Selected);
-            TouchUpInside += (sender, args) => Selected = !Selected;
+            TouchUpInside += (sender, args) => Selected = true;
         }
 
         /// <summary>
