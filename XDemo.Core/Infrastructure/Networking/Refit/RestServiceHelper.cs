@@ -147,7 +147,10 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
             var toReturn = new HttpClient(handler)
             {
                 BaseAddress = new Uri(ApiHosts.MainHost),
-                Timeout = TimeSpan.FromSeconds(10),
+                /* ==================================================================================================
+                 * do not to set timeout here, already done in handler
+                 * ================================================================================================*/
+                //Timeout = TimeSpan.FromSeconds(10),
             };
             return toReturn;
         }
@@ -189,7 +192,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
             catch (Exception ex)
             {
                 /* ==================================================================================================
-                 * rethrown the exception for polly handler
+                 * rethrown the exception for polly handler, included timeout
                  * ================================================================================================*/
                 throw ex;
             }
