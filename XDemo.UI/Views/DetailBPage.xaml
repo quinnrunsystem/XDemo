@@ -2,9 +2,27 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:radio="clr-namespace:XDemo.UI.Controls.ExtendedElements.RadioButton;assembly=XDemo.UI"
     Title="{Binding Title}"
     x:Class="XDemo.UI.Views.DetailBPage">
+    <StackLayout>
     <Button
         Text="Back 2"
         Command="{Binding btnBack}" />
+        
+        <radio:RadioGroup x:Name="ansPicker"
+                          Grid.Row="1"
+                          TextColor="Black"
+                          CheckedChanged="ansPicker_CheckedChanged"
+                          VerticalOptions="Start"></radio:RadioGroup>
+        <radio:RadioButton  x:Name="xxx"
+                            Grid.Row="1"
+                            CheckedChanged="Handle_CheckedChanged"
+                            FontName="AmericanTypewriter"
+                            Text="singleRadioBtn"
+                            BackgroundColor="Lime"
+                            VerticalOptions="Start"/>
+
+    </StackLayout>
+
 </ContentPage>

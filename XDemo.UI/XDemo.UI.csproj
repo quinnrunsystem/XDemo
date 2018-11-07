@@ -51,6 +51,7 @@
     <Folder Include="Models\Photos\" />
     <Folder Include="Models\Validations\Base\" />
     <Folder Include="Models\Validations\DefinedRules\" />
+    <Folder Include="Views\Samples" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Common\HomePage.xaml" />

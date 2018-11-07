@@ -10,11 +10,14 @@ using XDemo.Core.Infrastructure.Networking.Base;
 using XDemo.Core.Shared;
 using Prism.Services;
 using Xamarin.Forms;
+using Polly.Timeout;
 
 namespace XDemo.Core.Infrastructure.Networking.Refit
 {
     public static class RestServiceHelper
     {
+        public const int ApiCallTimeoutInSeconds = 10;
+
         public static TApi GetApi<TApi>()
         {
             /* ==================================================================================================
@@ -147,10 +150,13 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
             var toReturn = new HttpClient(handler)
             {
                 BaseAddress = new Uri(ApiHosts.MainHost),
-                Timeout = TimeSpan.FromSeconds(10),
+                /* ==================================================================================================
+                 * DO NOT SET TIMEOUT FOR THE HttpClient => use TimeoutPolicy instead
+                 * ================================================================================================*/
             };
             return toReturn;
         }
+
         /* ==================================================================================================
          * Why use Func<Task<T>> instead of an implicit task?
          * => 
@@ -159,14 +165,21 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
          * ================================================================================================*/
         static async Task<(T MainResult, ResponseBase ExtendedResult)> ActionSendAsync<T>(Func<Task<T>> taskFac) where T : new()
         {
+            var timeoutPolicy = Policy.TimeoutAsync(ApiCallTimeoutInSeconds, TimeoutStrategy.Pessimistic);
             try
             {
                 /* ==================================================================================================
                  * retrieve the api task from task factory
                  * ================================================================================================*/
-                var task = taskFac.Invoke();
-                var mainResult = await task;
+                var mainResult = await timeoutPolicy.ExecuteAsync(taskFac);
                 return (mainResult, ResponseBase.Ok());
+            }
+            catch (TimeoutRejectedException ex)
+            {
+                /* ==================================================================================================
+                 * rethrow the System.TimeoutException instead of a third-party exception!
+                 * ================================================================================================*/
+                throw new TimeoutException(ex.Message, ex);
             }
             catch (OperationCanceledException ex)
             {
@@ -189,7 +202,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
             catch (Exception ex)
             {
                 /* ==================================================================================================
-                 * rethrown the exception for polly handler
+                 * rethrown the exception for polly handler, included timeout
                  * ================================================================================================*/
                 throw ex;
             }
