@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System;
 using System.Threading;
 using XDemo.UI.Utils;
+using XDemo.Core.Infrastructure.Logging;
 
 namespace XDemo.UI.ViewModels.Base
 {
@@ -149,7 +150,12 @@ namespace XDemo.UI.ViewModels.Base
                 if (_wasGone)
                     return;
                 _wasGone = true;
-                await _navigationService.NavigateAsync(uri, parameters, animated: animated);
+                var rs = await _navigationService.NavigateAsync(uri, parameters, animated: animated);
+                if (!rs.Success)
+                {
+                    _wasGone = false;
+                    LogCommon.Info($"PushAsync failed: {rs.Exception.Message}");
+                }
             }
             catch (Exception ex)
             {
@@ -188,7 +194,12 @@ namespace XDemo.UI.ViewModels.Base
                 if (_wasGone)
                     return;
                 _wasGone = true;
-                await _navigationService.NavigateAsync(uri, parameters, true, animated);
+                var rs = await _navigationService.NavigateAsync(uri, parameters, true, animated);
+                if (!rs.Success)
+                {
+                    _wasGone = false;
+                    LogCommon.Info($"PushModalAsync failed: {rs.Exception.Message}");
+                }
             }
             catch (Exception ex)
             {
@@ -212,7 +223,7 @@ namespace XDemo.UI.ViewModels.Base
         /// <returns>The back async.</returns>
         /// <param name="parameters">Parameters.</param>
         /// <param name="animated">If set to <c>true</c> animated.</param>
-        protected async Task<bool> PopAsync(INavigationParameters parameters, bool animated = true)
+        protected async Task PopAsync(INavigationParameters parameters, bool animated = true)
         {
             try
             {
@@ -222,9 +233,13 @@ namespace XDemo.UI.ViewModels.Base
                  * ================================================================================================*/
                 await _semaphore.WaitAsync();
                 if (_wasGone)
-                    return false;
+                    return;
                 var rs = await _navigationService.GoBackAsync(parameters, null, animated);
-                return rs.Success;
+                if (!rs.Success)
+                {
+                    _wasGone = false;
+                    LogCommon.Info($"PopAsync failed: {rs.Exception.Message}");
+                }
             }
             catch (Exception ex)
             {
@@ -237,12 +252,12 @@ namespace XDemo.UI.ViewModels.Base
             }
         }
 
-        protected Task<bool> PopModalAsync(bool animated = true)
+        protected Task PopModalAsync(bool animated = true)
         {
             return PopModalAsync(null, animated);
         }
 
-        protected async Task<bool> PopModalAsync(INavigationParameters parameters, bool animated = true)
+        protected async Task PopModalAsync(INavigationParameters parameters, bool animated = true)
         {
             try
             {
@@ -252,9 +267,13 @@ namespace XDemo.UI.ViewModels.Base
                  * ================================================================================================*/
                 await _semaphore.WaitAsync();
                 if (_wasGone)
-                    return false;
+                    return;
                 var rs = await _navigationService.GoBackAsync(parameters, true, animated);
-                return rs.Success;
+                if (!rs.Success)
+                {
+                    _wasGone = false;
+                    LogCommon.Info($"PopModalAsync failed: {rs.Exception.Message}");
+                }
             }
             catch (Exception ex)
             {

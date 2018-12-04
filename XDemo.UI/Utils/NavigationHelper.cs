@@ -40,7 +40,7 @@ namespace XDemo.UI.Utils
             /* ==================================================================================================
              * using query string instead of navigation parameters, bc of this prism version limitation!
              * ================================================================================================*/
-            var query = $"/{nameof(MenuPageViewModel)}/{nameof(NavigationPage)}/{nameof(BottomTabPage)}{navParams.ToString()}";
+            var query = $"/{nameof(MenuPageViewModel)}/{nameof(NavigationPage)}/{nameof(BottomTabPageViewModel)}{navParams.ToString()}";
             await navigationService.NavigateAsync(query);
         }
 
