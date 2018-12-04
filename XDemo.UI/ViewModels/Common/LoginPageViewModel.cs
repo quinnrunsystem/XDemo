@@ -5,7 +5,6 @@ using XDemo.Core.BusinessServices.Interfaces.Common;
 using XDemo.UI.ViewModels.Base;
 using Prism.Services;
 using Prism.Navigation;
-using XDemo.UI.Extensions;
 using XDemo.Core.BusinessServices.Interfaces.Photos;
 using XDemo.Core.Storage;
 using XDemo.UI.Models.Validations.Base;
@@ -17,21 +16,19 @@ namespace XDemo.UI.ViewModels.Common
     {
         private readonly ISecurityService _securityService;
         private readonly IPageDialogService _pageDialogService;
-        private readonly INavigationService _navigationService;
         private readonly IPhotoService _photoService;
 
-        public LoginPageViewModel(ISecurityService securityService, IPageDialogService pageDialogService, INavigationService navigationService, IPhotoService photoService)
+        public LoginPageViewModel(ISecurityService securityService, IPageDialogService pageDialogService, INavigationService navigationService, IPhotoService photoService) : base(navigationService)
         {
             _photoService = photoService;
             _securityService = securityService;
             _pageDialogService = pageDialogService;
-            _navigationService = navigationService;
 
             Title = "Login";
             AddValidations();
         }
 
-        public override void OnNavigatedTo(NavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
             //get value from storage settings
@@ -85,7 +82,7 @@ namespace XDemo.UI.ViewModels.Common
                     await _pageDialogService.DisplayAlertAsync("Warning", "Invalid username or password", "Ok");
                     return;
                 }
-                await _navigationService.GoToMainPage();
+                await GoToMainPageAsync();
             }
             finally
             {
@@ -126,7 +123,7 @@ namespace XDemo.UI.ViewModels.Common
                 new RequiredRule<string> { ValidationMessage = "Please enter your password!" },
                 new MinLengthRule<string>(6) { ValidationMessage = "Password is at least 6 characters" }
             });
-         }
+        }
         #endregion
     }
 }

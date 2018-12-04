@@ -10,12 +10,12 @@ namespace XDemo.UI.ViewModels.Common
     public class PhotoDetailPageViewModel : ViewModelBase
     {
         private readonly IPhotoService _photoService;
-        public PhotoDetailPageViewModel(IPhotoService photoService)
+        public PhotoDetailPageViewModel(IPhotoService photoService, INavigationService navigationService) : base(navigationService)
         {
             _photoService = photoService;
         }
 
-        public override async void OnNavigatedTo(NavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
             var id = parameters.GetValue<int>("PhotoId");

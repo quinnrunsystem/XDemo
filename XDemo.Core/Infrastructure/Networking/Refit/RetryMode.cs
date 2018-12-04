@@ -13,8 +13,11 @@
         /// <summary>
         /// confirmed then retry
         /// </summary>
-        Confirm
-
+        Confirm,
+        /// <summary>
+        /// retry in silent! todo: implement
+        /// </summary>
+        Silent
         /* ==================================================================================================
          * Define more retry mode here if needed!
          * ================================================================================================*/
