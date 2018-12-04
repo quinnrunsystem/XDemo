@@ -4,6 +4,7 @@ using Android.Content.PM;
 using Android.OS;
 using FFImageLoading.Forms.Platform;
 using Android.Views;
+using Xamarin.Forms;
 
 namespace XDemo.Droid
 {
@@ -16,7 +17,14 @@ namespace XDemo.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            /* ==================================================================================================
+             * use Xamarin.Forms Fast Renderers
+             * https://docs.microsoft.com/en-us/xamarin/xamarin-forms/internals/fast-renderers            
+             * ================================================================================================*/
+            Forms.SetFlags("FastRenderers_Experimental");
+
+            Forms.Init(this, savedInstanceState);
+
             /* ==================================================================================================
              * init the FFImageLoading component
              * ================================================================================================*/
