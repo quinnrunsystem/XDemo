@@ -47,7 +47,7 @@ namespace XDemo.UI.ViewModels.Base
         /// <param name="parameters">Parameters.</param>
         public virtual void OnNavigatedFrom(INavigationParameters parameters)
         {
-            _wasGone = true;
+            _wasGone = false;
         }
 
         /// <summary>

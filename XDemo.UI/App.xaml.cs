@@ -30,6 +30,10 @@ namespace XDemo.UI
     {
         public App(IPlatformInitializer initializer) : base(initializer)
         {
+            /* ==================================================================================================
+             * Init config auto mapper for UI level
+             * ================================================================================================*/
+            AutoMapperSetup();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -38,10 +42,7 @@ namespace XDemo.UI
              * Register for app navigation
              * ================================================================================================*/
             RegisterNavigation(containerRegistry);
-            /* ==================================================================================================
-             * Init config auto mapper for UI level
-             * ================================================================================================*/
-            UIMapperSettup();
+
             /* ==================================================================================================
              * Register for serivices which used in app
              * This moved to inner call of project for Logic test.
@@ -76,7 +77,7 @@ namespace XDemo.UI
             containerRegistry.RegisterForNavigation<DetailAPage>(nameof(DetailAPageViewModel));
             containerRegistry.RegisterForNavigation<DetailBPage>(nameof(DetailBPageViewModel));
             containerRegistry.RegisterForNavigation<MenuPage>(nameof(MenuPageViewModel));
-         
+
             containerRegistry.RegisterForNavigation<RefreshablePage>(nameof(RefreshablePageViewModel));
             containerRegistry.RegisterForNavigation<ChangePasswordPopupPage>(nameof(RefreshablePageViewModel));
         }
@@ -117,7 +118,7 @@ namespace XDemo.UI
             BlobCache.EnsureInitialized();
         }
 
-        void UIMapperSettup()
+        void AutoMapperSetup()
         {
             try
             {

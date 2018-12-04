@@ -19,7 +19,7 @@ namespace XDemo.UI.ViewModels.Common
         {
             base.OnNavigatedTo(parameters);
             var id = parameters.GetValue<int>("PhotoId");
-            var dto = await _photoService.Get(id);
+            var dto = await _photoService.GetWithSilentRetryUntilSuccess(id);
             /* ==================================================================================================
              Manual casting
 

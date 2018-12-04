@@ -15,9 +15,10 @@
         /// </summary>
         Confirm,
         /// <summary>
-        /// retry in silent! todo: implement
+        /// retry in silent! <para/>
+        /// Exp usage: send the push notification token to the server, it must be succeeded!!!
         /// </summary>
-        Silent
+        SilentUntilSuccess
         /* ==================================================================================================
          * Define more retry mode here if needed!
          * ================================================================================================*/

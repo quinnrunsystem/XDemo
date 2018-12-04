@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using XDemo.Core.BusinessServices.Interfaces.Photos;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Refit;
 using System.Threading;

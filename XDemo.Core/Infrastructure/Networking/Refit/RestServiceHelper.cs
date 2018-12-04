@@ -9,14 +9,16 @@ using XDemo.Core.Infrastructure.Logging;
 using XDemo.Core.Infrastructure.Networking.Base;
 using XDemo.Core.Shared;
 using Prism.Services;
-using Xamarin.Forms;
 using Polly.Timeout;
 
 namespace XDemo.Core.Infrastructure.Networking.Refit
 {
     public static class RestServiceHelper
     {
-        public const int ApiCallTimeoutInSeconds = 10;
+        #region Settings zone
+        private const int ApiCallTimeoutInSeconds = 10;
+        private const int FreeTimeBetweenRetriesInMs = 1000;
+        #endregion
 
         public static TApi GetApi<TApi>()
         {
@@ -51,77 +53,13 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
             switch (retryMode)
             {
                 case RetryMode.None:
-                    try
-                    {
-                        /* ==================================================================================================
-                         * execute the api task only, but dont thrown any exception
-                         * ================================================================================================*/
-                        var mainResult = await taskFac.Invoke();
-                        return (mainResult, ResponseBase.Ok());
-                    }
-                    catch (OperationCanceledException ex)
-                    {
-                        /* ==================================================================================================
-                         * ignored: the api inner call canceled by the passed token
-                         * Return a new instance of T to avoid another NullReferenceException!
-                         * ================================================================================================*/
-                        LogCommon.Error(ex);
-                        return (new T(), ResponseBase.Canceled());
-                    }
-                    catch (Exception ex)
-                    {
-                        LogCommon.Error(ex);
-                        return (new T(), ResponseBase.Failed(ex.Message));
-                    }
+                    return await CallWithoutRetry(taskFac);
                 case RetryMode.Warning:
-                    var warningRetryPolicy = Policy.Handle<Exception>().RetryForeverAsync(async (exception, retryCount, context) =>
-                    {
-                        LogCommon.Error($"retry no {retryCount} - Exception msg: {exception.Message}");
-                        /* ==================================================================================================
-                         * In some case, we need to call api in background. So, we need to call UIThread display alert message
-                         * todo: using resource for alert message
-                         * ================================================================================================*/
-                        var dialogService = DependencyRegistrar.Current.Resolve<IPageDialogService>();
-                        await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("Warning", "Warning message!", "Ok"));
-                    });
-                    var result = await warningRetryPolicy.ExecuteAsync(() => ActionSendAsync(taskFac));
-                    return result;
+                    return await CallWithWarning(taskFac);
                 case RetryMode.Confirm:
-                    var confirmRetryPolicy = Policy.Handle<Exception>().RetryForeverAsync(async (exception, retryCount, context) =>
-                    {
-                        LogCommon.Error($"retry no {retryCount} - Exception msg: {exception.Message}");
-                        /* ==================================================================================================
-                         * In some case, we need to call api in background. So, we need to call UIThread display alert message
-                         * todo: using resource for alert message
-                         * ================================================================================================*/
-                        var dialogService = DependencyRegistrar.Current.Resolve<IPageDialogService>();
-                        var sure = await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("confirm", "Confirm message?", "Ok", "Cancel"));
-                        if (!sure)
-                        {
-                            /* ==================================================================================================
-                             * get the original tokensource passed in execution before and cancel it to break the retry cycle!
-                             * ================================================================================================*/
-                            var orgTcs = context["tokenSource"] as CancellationTokenSource;
-                            orgTcs?.Cancel();
-                        }
-                    });
-                    var inputTcs = new CancellationTokenSource();
-                    try
-                    {
-                        /* ==================================================================================================
-                         * passed the token into it to cancel if the user wont choose 'retry'
-                         * ================================================================================================*/
-                        var toReturn = await confirmRetryPolicy.ExecuteAsync((inputContext, token) => ActionSendAsync(taskFac), new Context { { "tokenSource", inputTcs } }, inputTcs.Token).ConfigureAwait(false);
-                        return toReturn;
-                    }
-                    catch (OperationCanceledException ex)
-                    {
-                        /* ==================================================================================================
-                         * ignore: the retry cycle broken bc the user didn't retry => return as a failed result
-                         * ================================================================================================*/
-                        LogCommon.Error(ex);
-                        return (new T(), ResponseBase.Failed("User dont want to retry anymore!"));
-                    }
+                    return await CallWithConfirmation(taskFac);
+                case RetryMode.SilentUntilSuccess:
+                    return await CallInSilent(taskFac);
                 default:
                     /* ==================================================================================================
                      * the retry mode is not support yet!
@@ -131,6 +69,98 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
         }
 
         #region private methods, executor
+        private static async Task<(T MainResult, ResponseBase ExtendedResult)> CallInSilent<T>(Func<Task<T>> taskFac) where T : new()
+        {
+            var silentRetryPolicy = Policy.Handle<Exception>().RetryForeverAsync(async (exception, retryCount, context) =>
+            {
+                LogCommon.Error($"retry no {retryCount} - Exception msg: {exception.Message}");
+                await Task.Delay(FreeTimeBetweenRetriesInMs);
+            });
+            var result = await silentRetryPolicy.ExecuteAsync(() => ActionSendAsync(taskFac));
+            return result;
+        }
+
+        private static async Task<(T MainResult, ResponseBase ExtendedResult)> CallWithConfirmation<T>(Func<Task<T>> taskFac) where T : new()
+        {
+            var confirmRetryPolicy = Policy.Handle<Exception>().RetryForeverAsync(async (exception, retryCount, context) =>
+            {
+                LogCommon.Error($"retry no {retryCount} - Exception msg: {exception.Message}");
+                /* ==================================================================================================
+                 * In some case, we need to call api in background. So, we need to call UIThread display alert message
+                 * todo: using resource for alert message
+                 * ================================================================================================*/
+                var dialogService = DependencyRegistrar.Current.Resolve<IPageDialogService>();
+                var sure = await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("confirm", "Confirm message?", "Ok", "Cancel"));
+                if (!sure)
+                {
+                    /* ==================================================================================================
+                     * get the original tokensource passed in execution before and cancel it to break the retry cycle!
+                     * ================================================================================================*/
+                    var orgTcs = context["tokenSource"] as CancellationTokenSource;
+                    orgTcs?.Cancel();
+                }
+            });
+            var inputTcs = new CancellationTokenSource();
+            try
+            {
+                /* ==================================================================================================
+                 * passed the token into it to cancel if the user wont choose 'retry'
+                 * ================================================================================================*/
+                var toReturn = await confirmRetryPolicy.ExecuteAsync((inputContext, token) => ActionSendAsync(taskFac), new Context { { "tokenSource", inputTcs } }, inputTcs.Token).ConfigureAwait(false);
+                return toReturn;
+            }
+            catch (OperationCanceledException ex)
+            {
+                /* ==================================================================================================
+                 * ignore: the retry cycle broken bc the user didn't retry => return as a failed result
+                 * ================================================================================================*/
+                LogCommon.Error(ex);
+                return (new T(), ResponseBase.Failed("User dont want to retry anymore!"));
+            }
+        }
+
+        private static async Task<(T MainResult, ResponseBase ExtendedResult)> CallWithWarning<T>(Func<Task<T>> taskFac) where T : new()
+        {
+            var warningRetryPolicy = Policy.Handle<Exception>().RetryForeverAsync(async (exception, retryCount, context) =>
+            {
+                LogCommon.Error($"retry no {retryCount} - Exception msg: {exception.Message}");
+                /* ==================================================================================================
+                 * In some case, we need to call api in background. So, we need to call UIThread display alert message
+                 * todo: using resource for alert message
+                 * ================================================================================================*/
+                var dialogService = DependencyRegistrar.Current.Resolve<IPageDialogService>();
+                await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("Warning", "Warning message!", "Ok"));
+            });
+            var result = await warningRetryPolicy.ExecuteAsync(() => ActionSendAsync(taskFac));
+            return result;
+        }
+
+        private static async Task<(T MainResult, ResponseBase ExtendedResult)> CallWithoutRetry<T>(Func<Task<T>> taskFac) where T : new()
+        {
+            try
+            {
+                /* ==================================================================================================
+                 * execute the api task only, but dont thrown any exception
+                 * ================================================================================================*/
+                var mainResult = await taskFac.Invoke();
+                return (mainResult, ResponseBase.Ok());
+            }
+            catch (OperationCanceledException ex)
+            {
+                /* ==================================================================================================
+                 * ignored: the api inner call canceled by the passed token
+                 * Return a new instance of T to avoid another NullReferenceException!
+                 * ================================================================================================*/
+                LogCommon.Error(ex);
+                return (new T(), ResponseBase.Canceled());
+            }
+            catch (Exception ex)
+            {
+                LogCommon.Error(ex);
+                return (new T(), ResponseBase.Failed(ex.Message));
+            }
+        }
+
         static HttpClient GetHttpClient()
         {
             /* ==================================================================================================
