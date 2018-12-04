@@ -13,8 +13,12 @@
         /// <summary>
         /// confirmed then retry
         /// </summary>
-        Confirm
-
+        Confirm,
+        /// <summary>
+        /// retry in silent! <para/>
+        /// Exp usage: send the push notification token to the server, it must be succeeded!!!
+        /// </summary>
+        SilentUntilSuccess
         /* ==================================================================================================
          * Define more retry mode here if needed!
          * ================================================================================================*/

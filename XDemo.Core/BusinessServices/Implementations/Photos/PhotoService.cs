@@ -63,5 +63,11 @@ namespace XDemo.Core.BusinessServices.Implementations.Photos
             var pair = await RestServiceHelper.CallWithRetry(() => _photoApi.Get(id), RetryMode.Confirm);
             return pair.MainResult;
         }
+
+        public async Task<PhotoDto> GetWithSilentRetryUntilSuccess(int id)
+        {
+            var pair = await RestServiceHelper.CallWithRetry(() => _photoApi.Get(id), RetryMode.SilentUntilSuccess);
+            return pair.MainResult;
+        }
     }
 }

@@ -5,7 +5,7 @@
     xmlns:extendedElements="clr-namespace:XDemo.UI.Controls.ExtendedElements;assembly=XDemo.UI">
 
     <Style
-        TargetType="extendedElements:PrismLifeCycleNavigationPage">
+        TargetType="NavigationPage">
         <Setter
             Property="BarBackgroundColor"
             Value="{StaticResource NavigationBackgroundPrimary}" />

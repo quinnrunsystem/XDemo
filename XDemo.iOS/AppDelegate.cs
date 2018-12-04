@@ -24,7 +24,14 @@ namespace XDemo.iOS
         public override bool FinishedLaunching(UIApplication uiApplication, NSDictionary launchOptions)
         {
             global::Xamarin.Forms.Forms.Init();
+            /* ==================================================================================================
+             * init the ffimageloading component
+             * ================================================================================================*/
             CachedImageRenderer.Init();
+            /* ==================================================================================================
+             * init the popup page plugin
+             * ================================================================================================*/
+            Rg.Plugins.Popup.Popup.Init();
             LoadApplication(new App(new IOSPlatformInitializer()));
 
             return base.FinishedLaunching(uiApplication, launchOptions);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -8,7 +7,6 @@ using Xamarin.Forms;
 using XDemo.Core.BusinessServices.Dtos.Patients;
 using XDemo.Core.BusinessServices.Interfaces.Patients;
 using XDemo.Core.Extensions;
-using XDemo.UI.Extensions;
 using XDemo.UI.ViewModels.Base;
 
 namespace XDemo.UI.ViewModels.Common
@@ -16,18 +14,16 @@ namespace XDemo.UI.ViewModels.Common
     public class HomePageViewModel : ViewModelBase
     {
         private readonly IPatientService _patientService;
-        private readonly INavigationService _navigationService;
         private IList<PatientDto> _allPatients;
-        public HomePageViewModel(IPatientService patientService, INavigationService navigationService)
+        public HomePageViewModel(IPatientService patientService, INavigationService navigationService) : base(navigationService)
         {
             _patientService = patientService;
-            _navigationService = navigationService;
             this.Title = "Home";
         }
 
         #region Overrides
 
-        public override async void OnNavigatedTo(NavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             await GetAllPatients();
             SelectedPatient = Patients.FirstOrDefault();
@@ -79,7 +75,7 @@ namespace XDemo.UI.ViewModels.Common
 
         private async Task CancelCommandExecute()
         {
-            await _navigationService.PopAsync();
+            await PopAsync();
         }
 
         #endregion

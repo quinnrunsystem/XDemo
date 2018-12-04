@@ -1,28 +1,26 @@
 using Prism.Commands;
 using Prism.Navigation;
 using XDemo.UI.ViewModels.Base;
-using XDemo.UI.Extensions;
+using System.Threading.Tasks;
 
 namespace XDemo.UI.ViewModels.Common
 {
     public class MenuPageViewModel : ViewModelBase
     {
         public DelegateCommand<string> NavigateCommand { get; set; }
-        private readonly INavigationService _navigationService;
 
-        public MenuPageViewModel(INavigationService navigationService)
+        public MenuPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService;
-            NavigateCommand = new DelegateCommand<string>(HandleAction);
+            NavigateCommand = new DelegateCommand<string>(async (obj) => await HandleAction(obj));
         }
 
         /// <summary>
         /// Handles the action.
         /// </summary>
         /// <param name="uri">URI.</param>
-        private async void HandleAction(string uri)
+        private async Task HandleAction(string uri)
         {
-            await NavigationExtension.GoToDetailPageMenu($"{uri}");
+            await PushAsync(uri);
         }
     }
 }

@@ -6,7 +6,6 @@ using Autofac;
 using Xamarin.Forms;
 using XDemo.Core.BusinessServices.Interfaces.Common;
 using XDemo.UI.Views.Common;
-using XDemo.UI.Extensions;
 using XDemo.UI.ViewModels.Common;
 using System;
 using System.Reflection;
@@ -16,11 +15,13 @@ using XDemo.Core.Shared;
 using System.Threading;
 using XDemo.UI.ViewModels;
 using XDemo.UI.Views;
-using XDemo.UI.Controls.ExtendedElements;
 using Akavache;
 using AutoMapper;
 using XDemo.UI.Models;
 using XDemo.Core.BusinessServices;
+using Prism.Plugin.Popups;
+using XDemo.UI.Views.Popups;
+using XDemo.UI.Utils;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XDemo.UI
@@ -29,6 +30,10 @@ namespace XDemo.UI
     {
         public App(IPlatformInitializer initializer) : base(initializer)
         {
+            /* ==================================================================================================
+             * Init config auto mapper for UI level
+             * ================================================================================================*/
+            AutoMapperSetup();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -37,10 +42,7 @@ namespace XDemo.UI
              * Register for app navigation
              * ================================================================================================*/
             RegisterNavigation(containerRegistry);
-            /* ==================================================================================================
-             * Init config auto mapper for UI level
-             * ================================================================================================*/
-            UIMapperSettup();
+
             /* ==================================================================================================
              * Register for serivices which used in app
              * This moved to inner call of project for Logic test.
@@ -54,12 +56,14 @@ namespace XDemo.UI
              * todo: moved to of UI project inner call => for future UI test
              * ================================================================================================*/
 
+            containerRegistry.RegisterPopupNavigationService();
+
             /* ==================================================================================================
              * Main navaigation containers, dont has any viewmodels. 
              * Especially, we register without the viewmodel's name, it's implicit use view name.
              * ================================================================================================*/
-            containerRegistry.RegisterForNavigation<PrismLifeCycleNavigationPage>();
-
+            containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<BottomTabPage>();
             /* ==================================================================================================
              * As our team-rule: all pages used in app will be registerd with their explicit 
              * viewmodel's name instead of view's name.
@@ -73,8 +77,9 @@ namespace XDemo.UI
             containerRegistry.RegisterForNavigation<DetailAPage>(nameof(DetailAPageViewModel));
             containerRegistry.RegisterForNavigation<DetailBPage>(nameof(DetailBPageViewModel));
             containerRegistry.RegisterForNavigation<MenuPage>(nameof(MenuPageViewModel));
-            containerRegistry.RegisterForNavigation<BottomTabPage>(nameof(BottomTabPageViewModel));
+
             containerRegistry.RegisterForNavigation<RefreshablePage>(nameof(RefreshablePageViewModel));
+            containerRegistry.RegisterForNavigation<ChangePasswordPopupPage>(nameof(RefreshablePageViewModel));
         }
 
         /// <summary>
@@ -100,7 +105,7 @@ namespace XDemo.UI
             /* ==================================================================================================
              * Init the first navigation of our app
              * ================================================================================================*/
-            await NavigationService.GoToLoginPageAsync();
+            await NavigationHelper.GoToLoginPageAsync(NavigationService);
         }
 
         void StorageSettup()
@@ -113,7 +118,7 @@ namespace XDemo.UI
             BlobCache.EnsureInitialized();
         }
 
-        void UIMapperSettup()
+        void AutoMapperSetup()
         {
             try
             {

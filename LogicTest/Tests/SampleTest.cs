@@ -64,5 +64,16 @@ namespace LogicTest.Tests
              * ================================================================================================*/
             Assert.IsTrue(photo != null && photo.Id == idToGet, "photo != null && photo.Id == idToGet");
         }
+
+        [Test]
+        public async Task GetAPhotoTestWithSilentRetry()
+        {
+            int idToGet = 3;
+            var photo = await _service.GetWithSilentRetryUntilSuccess(idToGet);
+            /* ==================================================================================================
+             * The message if assert failed should be plain text from your expression
+             * ================================================================================================*/
+            Assert.IsTrue(photo != null && photo.Id == idToGet, "photo != null && photo.Id == idToGet");
+        }
     }
 }

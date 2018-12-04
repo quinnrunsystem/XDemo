@@ -12,5 +12,7 @@ namespace XDemo.Core.BusinessServices.Interfaces.Photos
         Task Get(Action<List<PhotoDto>> onSuccessAction, Action onFailedAction, CancellationToken extToken = default(CancellationToken));
 
         Task<PhotoDto> Get(int id);
+
+        Task<PhotoDto> GetWithSilentRetryUntilSuccess(int id);
     }
 }

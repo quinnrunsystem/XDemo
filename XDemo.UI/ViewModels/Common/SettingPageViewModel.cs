@@ -6,7 +6,6 @@ using XDemo.Core.BusinessServices.Interfaces.Common;
 using XDemo.UI.ViewModels.Base;
 using Prism.Services;
 using XDemo.Core.BusinessServices.Dtos.Common;
-using XDemo.UI.Extensions;
 using XDemo.UI.Views.Base;
 using XDemo.Core.Infrastructure.Logging;
 
@@ -15,17 +14,15 @@ namespace XDemo.UI.ViewModels.Common
     public class SettingPageViewModel : ViewModelBase
     {
         private readonly ISecurityService _securityService;
-        private readonly INavigationService _navigationService;
         private readonly IPageDialogService _pageDialogService;
 
-        public SettingPageViewModel(ISecurityService securityService, INavigationService navigationService, IPageDialogService pageDialogService)
+        public SettingPageViewModel(ISecurityService securityService, INavigationService navigationService, IPageDialogService pageDialogService) : base(navigationService)
         {
             _securityService = securityService;
-            _navigationService = navigationService;
             _pageDialogService = pageDialogService;
         }
 
-        public override void OnNavigatingTo(NavigationParameters parameters)
+        public override void OnNavigatingTo(INavigationParameters parameters)
         {
             Title = "Settings";
             CurrentUser = _securityService.CurrentUser;
@@ -45,7 +42,7 @@ namespace XDemo.UI.ViewModels.Common
             if (!mrs)
                 return;
             _securityService.Logout();
-            await _navigationService.GoToLoginPageAsync();
+            await GoToLoginPageAsync();
         }
 
         #endregion

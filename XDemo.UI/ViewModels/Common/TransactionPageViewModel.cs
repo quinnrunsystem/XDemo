@@ -6,7 +6,6 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Prism.Navigation;
-using XDemo.UI.Extensions;
 using XDemo.Core.Extensions;
 using XDemo.Core.BusinessServices.Dtos.Photos;
 using System.Threading;
@@ -16,14 +15,12 @@ namespace XDemo.UI.ViewModels.Common
     public class TransactionPageViewModel : ViewModelBase
     {
         private readonly IPhotoService _photoService;
-        private readonly INavigationService _navigationService;
         private CancellationTokenSource _tcs;
 
-        public TransactionPageViewModel(IPhotoService photoService, INavigationService navigationService)
+        public TransactionPageViewModel(IPhotoService photoService, INavigationService navigationService) : base(navigationService)
         {
             this.Title = "Transactions";
             _photoService = photoService;
-            _navigationService = navigationService;
         }
 
         public List<Photo> Photos { get; private set; }
@@ -93,7 +90,7 @@ namespace XDemo.UI.ViewModels.Common
             {
                 { "PhotoId", photo.Id }
             };
-            await _navigationService.PushAsync<PhotoDetailPageViewModel>(paras);
+            await PushAsync<PhotoDetailPageViewModel>(paras);
         }
 
         #endregion
