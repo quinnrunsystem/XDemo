@@ -132,7 +132,9 @@
                 Grid.ColumnSpan="2"
                 Text="I'm grandient button"
                 Margin="5"
-                VerticalOptions="Fill" />
+                VerticalOptions="Fill" 
+                Command="{Binding AuthCommand}"
+            />
             <ActivityIndicator
                 Grid.Row="6"
                 Grid.Column="0"
