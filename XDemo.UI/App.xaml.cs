@@ -77,6 +77,7 @@ namespace XDemo.UI
             containerRegistry.RegisterForNavigation<DetailAPage>(nameof(DetailAPageViewModel));
             containerRegistry.RegisterForNavigation<DetailBPage>(nameof(DetailBPageViewModel));
             containerRegistry.RegisterForNavigation<MenuPage>(nameof(MenuPageViewModel));
+            containerRegistry.RegisterForNavigation<GaugePage>(nameof(GaugePageViewModel));
 
             containerRegistry.RegisterForNavigation<RefreshablePage>(nameof(RefreshablePageViewModel));
             containerRegistry.RegisterForNavigation<ChangePasswordPopupPage>(nameof(RefreshablePageViewModel));

@@ -26,6 +26,7 @@ namespace XDemo.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::Microcharts.Droid.Resource.String.library_name = global::XDemo.Droid.Resource.String.library_name;
 			global::ModernHttpClient.Resource.String.library_name = global::XDemo.Droid.Resource.String.library_name;
 			global::Splat.Resource.String.library_name = global::XDemo.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::XDemo.Droid.Resource.Attribute.actionBarSize;

@@ -4,6 +4,7 @@ using Prism.Navigation;
 using XDemo.UI.ViewModels.Common;
 using Xamarin.Forms;
 using XDemo.UI.Views.Common;
+using XDemo.UI.ViewModels;
 
 namespace XDemo.UI.Utils
 {
@@ -19,7 +20,7 @@ namespace XDemo.UI.Utils
         {
             if (navigationService == null)
                 throw new ArgumentNullException(nameof(navigationService));
-            await navigationService.NavigateAsync($"/{nameof(LoginPageViewModel)}");
+            await navigationService.NavigateAsync($"/{nameof(GaugePageViewModel)}");
         }
 
         /// <summary>

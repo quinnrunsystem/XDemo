@@ -16,6 +16,9 @@
     <EmbeddedResource Remove="Markup\Extensions\**" />
     <None Remove="Markup\Animations\**" />
     <None Remove="Markup\Extensions\**" />
+    <None Remove="EmbeddedResource\gray_circle_2.png" />
+    <None Remove="EmbeddedResource\pink_circle_2.png" />
+    <Compile Remove="ViewModels\Gauge.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,9 +31,12 @@
     <PackageReference Include="akavache" Version="6.0.31" />
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Prism.Plugin.Popups" Version="2.2.0.293" />
+    <PackageReference Include="Microcharts" Version="0.7.1" />
+    <PackageReference Include="Microcharts.Forms" Version="0.7.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XDemo.Core\XDemo.Core.csproj" />
+    <ProjectReference Include="..\Gauge\Gauge.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
@@ -53,6 +59,7 @@
     <Folder Include="Models\Validations\Base\" />
     <Folder Include="Models\Validations\DefinedRules\" />
     <Folder Include="Views\Samples" />
+    <Folder Include="EmbeddedResource\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Common\HomePage.xaml" />
@@ -70,5 +77,9 @@
     <Compile Update="Views\Common\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedResource\gray_circle_2.png" />
+    <EmbeddedResource Include="EmbeddedResource\pink_circle_2.png" />
   </ItemGroup>
 </Project>
