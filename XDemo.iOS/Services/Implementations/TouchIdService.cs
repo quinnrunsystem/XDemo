@@ -1,15 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Foundation;
 using LocalAuthentication;
 using UIKit;
 using Xamarin.Forms;
 using XDemo.Core.BusinessServices.Interfaces.Hardwares.LocalAuthentications;
-using XDemo.Core.Shared;
 
 namespace XDemo.iOS.Services.Implementations
 {
-    public class TouchIdService : IFingerprintService
+    public class TouchIdService : ILocalAuthenticationService
     {
         public async Task<LocalAuthResult> AuthenticateAsync(string reason)
         {
@@ -18,10 +16,14 @@ namespace XDemo.iOS.Services.Implementations
                 LocalizedFallbackTitle = "Fallback" // iOS 8
             };
             if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            {
                 context.LocalizedCancelTitle = "Cancel"; // iOS 10
+            }
             if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
+            {
                 context.LocalizedReason = reason; // iOS 11
-            var rs = await AuthOnMainThread(context, reason);
+            }
+            var rs = await AuthOnMainThreadAsync(context, reason);
             context.Dispose();
             return rs;
         }
@@ -32,7 +34,7 @@ namespace XDemo.iOS.Services.Implementations
         /// <returns>The on main thread.</returns>
         /// <param name="context">Context.</param>
         /// <param name="reason">Reason can not be null or empty</param>
-        private Task<LocalAuthResult> AuthOnMainThread(LAContext context, string reason)
+        private Task<LocalAuthResult> AuthOnMainThreadAsync(LAContext context, string reason)
         {
             var tcs = new TaskCompletionSource<LocalAuthResult>();
             var result = new LocalAuthResult(false);
@@ -61,26 +63,30 @@ namespace XDemo.iOS.Services.Implementations
              * begin auth
              * ================================================================================================*/
             var nsReason = new NSString(reason);
-            var replyHandler = new LAContextReplyHandler((success, error) =>
+            var evaluateTask = context.EvaluatePolicyAsync(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, nsReason);
+            evaluateTask.ContinueWith(t =>
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    result = new LocalAuthResult(success, error?.ToString());
+                    var rs = t.Result;
+                    result = new LocalAuthResult(rs.Item1, rs.Item2?.ToString());
                     tcs.SetResult(result);
                 });
             });
-            context.EvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, nsReason, replyHandler);
-
             return tcs.Task;
         }
-        public bool IsDeviceReachable()
-        {
-            throw new System.NotImplementedException();
-        }
 
-        public bool IsSupported()
+        public bool IsHardwareSupported()
         {
-            throw new System.NotImplementedException();
+            using (var context = new LAContext())
+            {
+                var result = context.CanEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, out var error);
+                if (result)
+                    return result;
+                var status = (LAStatus)(int)error.Code;
+                result = status != LAStatus.BiometryNotAvailable;
+                return result;
+            }
         }
     }
 }

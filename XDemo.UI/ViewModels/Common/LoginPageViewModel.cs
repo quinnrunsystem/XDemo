@@ -18,15 +18,15 @@ namespace XDemo.UI.ViewModels.Common
         private readonly ISecurityService _securityService;
         private readonly IPageDialogService _pageDialogService;
         private readonly IPhotoService _photoService;
-        private readonly IFingerprintService _fingerprintService;
+        private readonly ILocalAuthenticationService _localAuthService;
 
         public LoginPageViewModel(ISecurityService securityService, IPageDialogService pageDialogService,
-        INavigationService navigationService, IPhotoService photoService, IFingerprintService fingerprintService) : base(navigationService)
+        INavigationService navigationService, IPhotoService photoService, ILocalAuthenticationService localAuthService) : base(navigationService)
         {
             _photoService = photoService;
             _securityService = securityService;
             _pageDialogService = pageDialogService;
-            _fingerprintService = fingerprintService;
+            _localAuthService = localAuthService;
 
             Title = "Login";
             AddValidations();
@@ -59,7 +59,8 @@ namespace XDemo.UI.ViewModels.Common
 
         private async Task AuthCommandExecute()
         {
-            var authRs = await _fingerprintService.AuthenticateAsync("Test for touch id");
+            var isSupported = _localAuthService.IsHardwareSupported();
+            var authRs = await _localAuthService.AuthenticateAsync("Test for touch id");
             if (authRs.IsSuccess)
                 await GoToMainPageAsync();
             else

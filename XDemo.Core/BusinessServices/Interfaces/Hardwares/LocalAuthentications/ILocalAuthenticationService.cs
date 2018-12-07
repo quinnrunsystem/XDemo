@@ -1,8 +1,12 @@
 ﻿using System.Threading.Tasks;
 /* ==================================================================================================
- * Permission setup, add to your info.plist:
+ * iOS setup, add to your info.plist:
  * <key>NSFaceIDUsageDescription</key>
  * <string>Need your face to unlock secrets!</string>
+ * =======
+ * Android settup:
+ * <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+ * <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
  * ================================================================================================*/
 
 namespace XDemo.Core.BusinessServices.Interfaces.Hardwares.LocalAuthentications
@@ -10,10 +14,9 @@ namespace XDemo.Core.BusinessServices.Interfaces.Hardwares.LocalAuthentications
     /// <summary>
     /// interact with device fingerprint/faceId
     /// </summary>
-    public interface IFingerprintService
+    public interface ILocalAuthenticationService
     {
-        bool IsSupported();
-        bool IsDeviceReachable();
+        bool IsHardwareSupported();
         Task<LocalAuthResult> AuthenticateAsync(string reason);
     }
 }

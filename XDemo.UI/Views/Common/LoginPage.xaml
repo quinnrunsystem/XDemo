@@ -130,7 +130,7 @@
                 Grid.Row="6" x:Name="btnGrandient" GradientFlow="LeftToRight"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
-                Text="I'm grandient button"
+                Text="Login with TouchId/FaceId"
                 Margin="5"
                 VerticalOptions="Fill" 
                 Command="{Binding AuthCommand}"

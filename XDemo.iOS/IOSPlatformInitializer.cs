@@ -16,7 +16,7 @@ namespace XDemo.iOS
         void RegisterPlatformSpecifiedServices(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<IClipboardService, ClipboardService>();
-            containerRegistry.Register<IFingerprintService, TouchIdService>();
+            containerRegistry.Register<ILocalAuthenticationService, TouchIdService>();
             /* ==================================================================================================
              * todo: register base on OS service, ie: TextToSpeechService...
              * ================================================================================================*/
