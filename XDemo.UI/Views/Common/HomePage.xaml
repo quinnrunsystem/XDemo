@@ -1,39 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<base:ViewBase xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-               xmlns:base="clr-namespace:XDemo.UI.Views.Base;assembly=XDemo.UI"
-               x:Class="XDemo.UI.Views.Common.HomePage">
-    <base:ViewBase.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <SearchBar Grid.Row="0" Placeholder="Enter patient name" HorizontalOptions="Fill" SearchCommand="{Binding SearchCommand}" Text="{Binding SearchPatientCode}" />
-            <ListView Grid.Row="1" ItemsSource="{Binding Patients}" SelectedItem="{Binding SelectedPatient}" HasUnevenRows="true">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding FullName}" Style="{StaticResource HightLightTextStyle}"/>
-                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding PatientCode}" />
-                                    <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Source="more50.png" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="20" HeightRequest="25" />
-                                </Grid>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Button Grid.Row="2" Text="Huỷ thao tác" Command="{Binding CancelCommand}" IsVisible="{Binding SelectMode}" Style="{StaticResource HightButtonStyle}"/>
-        </Grid>
-    </base:ViewBase.Content>
+<base:ViewBase
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:XDemo.UI.Views.Base;assembly=XDemo.UI"
+    xmlns:extendElement="clr-namespace:XDemo.UI.Controls.ExtendedElements"
+    x:Class="XDemo.UI.Views.Common.HomePage">
+    <extendElement:CarouselViewExtend
+        ItemsSource="{Binding DataTest}"
+        Orientation="Horizontal"
+        SpacingItems="10">
+        <extendElement:CarouselViewExtend.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid
+                        WidthRequest="300">
+                        
+                        <BoxView
+                            
+                            BackgroundColor="Blue" />
+                        <Label
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="CenterAndExpand"
+                            FontSize="Large"
+                            TextColor="White"
+                            Text="{Binding .}" />
+                    </Grid>
+                    
+                   <!-- <BoxView
+                            WidthRequest="300"
+                            BackgroundColor="Red" />-->
+                </ViewCell>
+            </DataTemplate>
+        </extendElement:CarouselViewExtend.ItemTemplate>
+    </extendElement:CarouselViewExtend>
 </base:ViewBase>

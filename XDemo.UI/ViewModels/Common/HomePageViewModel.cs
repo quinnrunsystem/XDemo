@@ -15,10 +15,18 @@ namespace XDemo.UI.ViewModels.Common
     {
         private readonly IPatientService _patientService;
         private IList<PatientDto> _allPatients;
+        public List<string> DataTest { get; set; }
+
+
         public HomePageViewModel(IPatientService patientService, INavigationService navigationService) : base(navigationService)
         {
             _patientService = patientService;
             this.Title = "Home";
+
+            DataTest = new List<string>
+            {
+                "1","2","3","4","5","6"
+            };
         }
 
         #region Overrides

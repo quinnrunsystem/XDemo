@@ -10,7 +10,7 @@ using Xamarin.Forms.Platform.Android.AppCompat;
 using XDemo.Droid.Renderers.ExtendedElements;
 using XDemo.UI.Controls.ExtendedElements;
 
-[assembly: ExportRenderer(typeof(TabbedPageCustom), typeof(TabbedPageCustomRenderer))]
+//[assembly: ExportRenderer(typeof(TabbedPageCustom), typeof(TabbedPageCustomRenderer))]
 namespace XDemo.Droid.Renderers.ExtendedElements
 {
     public class TabbedPageCustomRenderer : TabbedPageRenderer, BottomNavigationView.IOnNavigationItemSelectedListener

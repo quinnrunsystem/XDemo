@@ -93,6 +93,7 @@
     <Compile Include="Renderers\ExtendedElements\Separator\SeparatorDroidView.cs" />
     <Compile Include="Renderers\ExtendedElements\Separator\SeparatorRenderer.cs" />
     <Compile Include="Extensions\FontExtensions.cs" />
+    <Compile Include="Renderers\ExtendedElements\CarouselViewExtendRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

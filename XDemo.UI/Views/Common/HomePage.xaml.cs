@@ -11,7 +11,6 @@ namespace XDemo.UI.Views.Common
         public HomePage()
         {
             InitializeComponent();
-            Icon = "login_2";
         }
     }
 }
