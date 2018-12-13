@@ -42,26 +42,23 @@
                             Height="*" />
                     </Grid.RowDefinitions>
                     <Button
+                        x:Name="buttonToViewA"
                         Grid.Row="0"
-                        Text="Go to View A"
-                        Command="{Binding NavigateCommand}"
-                        CommandParameter="DetailAPageViewModel" />
+                        Text="Go to View A" />
                     <BoxView
                         Grid.Row="1"
                         BackgroundColor="{StaticResource PrimaryDark}" />
                     <Button
                         Grid.Row="2"
                         Text="Go to View B"
-                        Command="{Binding NavigateCommand}"
-                        CommandParameter="DetailBPageViewModel" />
+                        x:Name="buttonToViewB" />
                     <BoxView
                         Grid.Row="3"
                         BackgroundColor="{StaticResource PrimaryDark}" />
                     <Button
                         Grid.Row="4"
                         Text="Pull to refresh"
-                        Command="{Binding NavigateCommand}"
-                        CommandParameter="RefreshablePageViewModel" />
+                        x:Name="buttonToViewRefresh" />
                     <BoxView
                         Grid.Row="5"
                         BackgroundColor="{StaticResource PrimaryDark}" />

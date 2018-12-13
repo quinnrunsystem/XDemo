@@ -63,7 +63,7 @@ namespace XDemo.UI
              * Especially, we register without the viewmodel's name, it's implicit use view name.
              * ================================================================================================*/
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<BottomTabPage>();
+        
             /* ==================================================================================================
              * As our team-rule: all pages used in app will be registerd with their explicit 
              * viewmodel's name instead of view's name.
@@ -77,9 +77,9 @@ namespace XDemo.UI
             containerRegistry.RegisterForNavigation<DetailAPage>(nameof(DetailAPageViewModel));
             containerRegistry.RegisterForNavigation<DetailBPage>(nameof(DetailBPageViewModel));
             containerRegistry.RegisterForNavigation<MenuPage>(nameof(MenuPageViewModel));
-
             containerRegistry.RegisterForNavigation<RefreshablePage>(nameof(RefreshablePageViewModel));
-            containerRegistry.RegisterForNavigation<ChangePasswordPopupPage>(nameof(RefreshablePageViewModel));
+            containerRegistry.RegisterForNavigation<ChangePasswordPopupPage>(nameof(ChangePasswordPopupPageViewModel));
+            containerRegistry.RegisterForNavigation<BottomTabPage>(nameof(BottomTabPageViewModel));
         }
 
         /// <summary>

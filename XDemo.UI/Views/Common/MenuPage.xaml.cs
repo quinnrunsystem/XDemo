@@ -1,5 +1,8 @@
-﻿using Prism.Navigation;
+﻿using System;
+using Prism.Navigation;
 using Xamarin.Forms;
+using XDemo.UI.ViewModels.Common;
+using XDemo.UI.ViewModels;
 
 namespace XDemo.UI.Views.Common
 {
@@ -8,11 +11,33 @@ namespace XDemo.UI.Views.Common
         public MenuPage()
         {
             InitializeComponent();
+            buttonToViewA.Clicked += OnMenuButtonClickedAsync;
+            buttonToViewB.Clicked += OnMenuButtonClickedAsync;
+            buttonToViewRefresh.Clicked += OnMenuButtonClickedAsync;
         }
 
-        public bool IsPresentedAfterNavigation
+        private async void OnMenuButtonClickedAsync(object sender, EventArgs e)
         {
-            get { return Device.Idiom != TargetIdiom.Phone; }
+            var tabbedRoot = (Detail as NavigationPage)?.RootPage as BottomTabPage;
+            if (!(tabbedRoot?.BindingContext is BottomTabPageViewModel vm))
+                return;
+            if (sender.Equals(buttonToViewA))
+            {
+                await vm.PushPage(nameof(DetailAPageViewModel));
+                IsPresented = false;
+            }
+            else if (sender.Equals(buttonToViewB))
+            {
+                await vm.PushPage(nameof(DetailBPageViewModel));
+                IsPresented = false;
+            }
+            else if (sender.Equals(buttonToViewRefresh))
+            {
+                await vm.PushPage(nameof(RefreshablePageViewModel));
+                IsPresented = false;
+            }
         }
+
+        public bool IsPresentedAfterNavigation => false;
     }
 }

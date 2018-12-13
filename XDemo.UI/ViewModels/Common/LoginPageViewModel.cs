@@ -9,6 +9,7 @@ using XDemo.Core.BusinessServices.Interfaces.Photos;
 using XDemo.Core.Storage;
 using XDemo.UI.Models.Validations.Base;
 using XDemo.UI.Models.Validations.DefinedRules;
+using XDemo.Core.BusinessServices.Interfaces.Hardwares.LocalAuthentications;
 
 namespace XDemo.UI.ViewModels.Common
 {
@@ -17,12 +18,15 @@ namespace XDemo.UI.ViewModels.Common
         private readonly ISecurityService _securityService;
         private readonly IPageDialogService _pageDialogService;
         private readonly IPhotoService _photoService;
+        private readonly ILocalAuthenticationService _localAuthService;
 
-        public LoginPageViewModel(ISecurityService securityService, IPageDialogService pageDialogService, INavigationService navigationService, IPhotoService photoService) : base(navigationService)
+        public LoginPageViewModel(ISecurityService securityService, IPageDialogService pageDialogService,
+        INavigationService navigationService, IPhotoService photoService, ILocalAuthenticationService localAuthService) : base(navigationService)
         {
             _photoService = photoService;
             _securityService = securityService;
             _pageDialogService = pageDialogService;
+            _localAuthService = localAuthService;
 
             Title = "Login";
             AddValidations();
@@ -47,6 +51,23 @@ namespace XDemo.UI.ViewModels.Common
 
         public ValidatableObject<string> Password { get; set; } = new ValidatableObject<string>();
 
+        #region AuthCommand
+
+        private ICommand _authCommand;
+
+        public ICommand AuthCommand => _authCommand ?? (_authCommand = new Command(async () => await AuthCommandExecute()));
+
+        private async Task AuthCommandExecute()
+        {
+            var isSupported = _localAuthService.IsHardwareSupported();
+            var authRs = await _localAuthService.AuthenticateAsync("Test for touch id");
+            if (authRs.IsSuccess)
+                await GoToMainPageAsync();
+            else
+                await _pageDialogService.DisplayAlertAsync("Error", authRs.ErrorMessage, "Ok");
+        }
+
+        #endregion
 
         #region LoginCommand
         private ICommand _loginCommand;

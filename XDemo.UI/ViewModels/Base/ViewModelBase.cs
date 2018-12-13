@@ -4,7 +4,6 @@ using PropertyChanged;
 using Prism.AppModel;
 using XDemo.UI.Views.Base;
 using System.Threading.Tasks;
-using System;
 using System.Threading;
 using XDemo.UI.Utils;
 
@@ -26,7 +25,6 @@ namespace XDemo.UI.ViewModels.Base
         /// </summary>
         public virtual void Destroy()
         {
-            _semaphore.Dispose();
         }
 
         /// <summary>
@@ -47,7 +45,6 @@ namespace XDemo.UI.ViewModels.Base
         /// <param name="parameters">Parameters.</param>
         public virtual void OnNavigatedFrom(INavigationParameters parameters)
         {
-            _wasGone = false;
         }
 
         /// <summary>
@@ -95,16 +92,12 @@ namespace XDemo.UI.ViewModels.Base
         public bool IsBusy { get; set; }
         #endregion
 
-
-
         #region navigate methods
 
         /// <summary>
         /// The semaphore. <para/>
         /// In case user press a back button in our app and the back button on device (android) or swipeback gesture (iOS) at same time. <para/>
         /// </summary>
-        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
-        private bool _wasGone;
         #region Push async
         /// <summary>
         /// navigate to a view model async
@@ -129,6 +122,8 @@ namespace XDemo.UI.ViewModels.Base
             return PushAsync<TViewModel>(null, animated);
         }
 
+        private readonly object _monitor = new object();
+        private readonly int _delyTimeInMs = 1000;
         /// <summary>
         /// navigate to a view model async
         /// </summary>
@@ -138,28 +133,18 @@ namespace XDemo.UI.ViewModels.Base
         /// <typeparam name="TViewModel">The 1st type parameter.</typeparam>
         protected async Task PushAsync(string uri, INavigationParameters parameters = null, bool animated = true)
         {
-            //todo: provide a show 'busy indicator' parameter
-            try
-            {
-                /* ==================================================================================================
-                 * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
-                 * attentions: the semaphore always released each call, but the field '_wasGone' does not!
-                 * ================================================================================================*/
-                await _semaphore.WaitAsync();
-                if (_wasGone)
-                    return;
-                _wasGone = true;
-                await _navigationService.NavigateAsync(uri, parameters, animated: animated);
-            }
-            catch (Exception ex)
-            {
-                _wasGone = false;
-                throw ex;
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
+            /* ==================================================================================================
+             * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+             * ================================================================================================*/
+            if (Monitor.IsEntered(_monitor))
+                return;
+            Monitor.Enter(_monitor);
+            var navigateRs = await _navigationService.NavigateAsync(uri, parameters, animated: animated);
+            /* ==================================================================================================
+             * temporary use. b/c although the method returned a result. but the UI maybe not changed
+             * ================================================================================================*/
+            await Task.Delay(_delyTimeInMs);
+            Monitor.Exit(_monitor);
         }
 
         #endregion
@@ -177,28 +162,18 @@ namespace XDemo.UI.ViewModels.Base
 
         protected async Task PushModalAsync(string uri, INavigationParameters parameters = null, bool animated = true)
         {
-            //todo: provide a show 'busy indicator' parameter
-            try
-            {
-                /* ==================================================================================================
-                 * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
-                 * attentions: the semaphore always released each call, but the field '_wasGone' does not!
-                 * ================================================================================================*/
-                await _semaphore.WaitAsync();
-                if (_wasGone)
-                    return;
-                _wasGone = true;
-                await _navigationService.NavigateAsync(uri, parameters, true, animated);
-            }
-            catch (Exception ex)
-            {
-                _wasGone = false;
-                throw ex;
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
+            /* ==================================================================================================
+             * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+             * ================================================================================================*/
+            if (Monitor.IsEntered(_monitor))
+                return;
+            Monitor.Enter(_monitor);
+            await _navigationService.NavigateAsync(uri, parameters, true, animated);
+            /* ==================================================================================================
+             * temporary use. b/c although the method returned a result. but the UI maybe not changed
+             * ================================================================================================*/
+            await Task.Delay(_delyTimeInMs);
+            Monitor.Exit(_monitor);
         }
         #endregion
         protected Task PopAsync(bool animated = true)
@@ -212,59 +187,41 @@ namespace XDemo.UI.ViewModels.Base
         /// <returns>The back async.</returns>
         /// <param name="parameters">Parameters.</param>
         /// <param name="animated">If set to <c>true</c> animated.</param>
-        protected async Task<bool> PopAsync(INavigationParameters parameters, bool animated = true)
+        protected async Task PopAsync(INavigationParameters parameters, bool animated = true)
         {
-            try
-            {
-                /* ==================================================================================================
-                 * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
-                 * attentions: the semaphore always released each call, but the field '_wasGone' does not!
-                 * ================================================================================================*/
-                await _semaphore.WaitAsync();
-                if (_wasGone)
-                    return false;
-                var rs = await _navigationService.GoBackAsync(parameters, null, animated);
-                return rs.Success;
-            }
-            catch (Exception ex)
-            {
-                _wasGone = false;
-                throw ex;
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
+            /* ==================================================================================================
+             * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+             * ================================================================================================*/
+            if (Monitor.IsEntered(_monitor))
+                return;
+            Monitor.Enter(_monitor);
+            var rs = await _navigationService.GoBackAsync(parameters, null, animated);
+            /* ==================================================================================================
+             * temporary use. b/c although the method returned a result. but the UI maybe not changed
+             * ================================================================================================*/
+            await Task.Delay(_delyTimeInMs);
+            Monitor.Exit(_monitor);
         }
 
-        protected Task<bool> PopModalAsync(bool animated = true)
+        protected Task PopModalAsync(bool animated = true)
         {
             return PopModalAsync(null, animated);
         }
 
-        protected async Task<bool> PopModalAsync(INavigationParameters parameters, bool animated = true)
+        protected async Task PopModalAsync(INavigationParameters parameters, bool animated = true)
         {
-            try
-            {
-                /* ==================================================================================================
-                 * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
-                 * attentions: the semaphore always released each call, but the field '_wasGone' does not!
-                 * ================================================================================================*/
-                await _semaphore.WaitAsync();
-                if (_wasGone)
-                    return false;
-                var rs = await _navigationService.GoBackAsync(parameters, true, animated);
-                return rs.Success;
-            }
-            catch (Exception ex)
-            {
-                _wasGone = false;
-                throw ex;
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
+            /* ==================================================================================================
+             * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+             * ================================================================================================*/
+            if (Monitor.IsEntered(_monitor))
+                return;
+            Monitor.Enter(_monitor);
+            var rs = await _navigationService.GoBackAsync(parameters, true, animated);
+            /* ==================================================================================================
+               * temporary use. b/c although the method returned a result. but the UI maybe not changed
+               * ================================================================================================*/
+            await Task.Delay(_delyTimeInMs);
+            Monitor.Exit(_monitor);
         }
 
         /// <summary>
@@ -272,30 +229,68 @@ namespace XDemo.UI.ViewModels.Base
         /// </summary>
         /// <returns>The back to root async.</returns>
         /// <param name="parameters">Parameters.</param>
-        protected Task PopToRootAsync(INavigationParameters parameters = null)
+        protected async Task PopToRootAsync(INavigationParameters parameters = null)
         {
-            return _navigationService.GoBackToRootAsync(parameters);
+            /* ==================================================================================================
+             * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+             * ================================================================================================*/
+            if (Monitor.IsEntered(_monitor))
+                return;
+            Monitor.Enter(_monitor);
+            await _navigationService.GoBackToRootAsync(parameters);
+            /* ==================================================================================================
+             * temporary use. b/c although the method returned a result. but the UI maybe not changed
+             * ================================================================================================*/
+            await Task.Delay(_delyTimeInMs);
+            Monitor.Exit(_monitor);
         }
 
         /// <summary>
         /// where the place on earth i'm in?
         /// </summary>
         /// <returns>The am i.</returns>
-        protected string WhereAmI(INavigationService navigationService)
+        protected string WhereAmI()
         {
-            return navigationService.GetNavigationUriPath();
+            return _navigationService.GetNavigationUriPath();
         }
         #endregion
 
         #region pre-defined
-        protected Task GoToMainPageAsync()
+        /// <summary>
+        /// Goes to main page async. <para/>
+        /// 
+        /// </summary>
+        /// <returns>The to main page async.</returns>
+        protected async Task GoToMainPageAsync()
         {
-            return NavigationHelper.GoToMainPageAsync(_navigationService);
+            /* ==================================================================================================
+             * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+             * ================================================================================================*/
+            if (Monitor.IsEntered(_monitor))
+                return;
+            Monitor.Enter(_monitor);
+            await NavigationHelper.GoToMainPageAsync(_navigationService);
+            /* ==================================================================================================
+             * temporary use. b/c although the method returned a result. but the UI maybe not changed
+             * ================================================================================================*/
+            await Task.Delay(_delyTimeInMs);
+            Monitor.Exit(_monitor);
         }
 
-        protected Task GoToLoginPageAsync()
+        protected async Task GoToLoginPageAsync()
         {
-            return NavigationHelper.GoToLoginPageAsync(_navigationService);
+            /* ==================================================================================================
+             * async lock: we must use this to avoid many navigate commands executed in a same time (i.e: user tap on UI quickly...)
+             * ================================================================================================*/
+            if (Monitor.IsEntered(_monitor))
+                return;
+            Monitor.Enter(_monitor);
+            await NavigationHelper.GoToLoginPageAsync(_navigationService);
+            /* ==================================================================================================
+             * temporary use. b/c although the method returned a result. but the UI maybe not changed
+             * ================================================================================================*/
+            await Task.Delay(_delyTimeInMs);
+            Monitor.Exit(_monitor);
         }
         #endregion
     }
