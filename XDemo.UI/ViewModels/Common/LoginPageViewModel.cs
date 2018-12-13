@@ -59,12 +59,16 @@ namespace XDemo.UI.ViewModels.Common
 
         private async Task AuthCommandExecute()
         {
-            var isSupported = _localAuthService.IsHardwareSupported();
-            var authRs = await _localAuthService.AuthenticateAsync("Test for touch id");
-            if (authRs.IsSuccess)
-                await GoToMainPageAsync();
-            else
-                await _pageDialogService.DisplayAlertAsync("Error", authRs.ErrorMessage, "Ok");
+            var isEnrolled = _localAuthService.IsEnrolled();
+
+            var isSupported = _localAuthService.IsSupported();
+            _localAuthService.AuthenticateAndroid("sdsd");
+
+            //var authRs = await _localAuthService.AuthenticateAsync("Test for touch id");
+            //if (authRs.IsSuccess)
+            //    await GoToMainPageAsync();
+            //else
+            //await _pageDialogService.DisplayAlertAsync("Error", authRs.ErrorMessage, "Ok");
         }
 
         #endregion

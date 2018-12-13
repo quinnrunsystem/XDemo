@@ -76,7 +76,7 @@ namespace XDemo.iOS.Services.Implementations
             return tcs.Task;
         }
 
-        public bool IsHardwareSupported()
+        public bool IsSupported()
         {
             using (var context = new LAContext())
             {
@@ -87,6 +87,16 @@ namespace XDemo.iOS.Services.Implementations
                 result = status != LAStatus.BiometryNotAvailable;
                 return result;
             }
+        }
+
+        public bool IsEnrolled()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void AuthenticateAndroid(string reason)
+        {
+            throw new System.NotImplementedException("Do not support on iOS");
         }
     }
 }
