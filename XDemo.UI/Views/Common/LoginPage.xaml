@@ -6,6 +6,7 @@
     xmlns:converters="clr-namespace:XDemo.UI.Markup.Converters;assembly=XDemo.UI"
     xmlns:base="clr-namespace:XDemo.UI.Views.Base;assembly=XDemo.UI"
     xmlns:extendedElements="clr-namespace:XDemo.UI.Controls.ExtendedElements;assembly=XDemo.UI"
+    xmlns:groupedElements="clr-namespace:XDemo.UI.Controls.GroupedElements;assembly=XDemo.UI"
     x:Class="XDemo.UI.Views.Common.LoginPage">
     <base:ViewBase.Content>
         <Grid
@@ -26,6 +27,8 @@
                     Height="Auto" />
                 <RowDefinition
                     Height="Auto" />
+                 <RowDefinition
+                    Height="Auto" />
                 <RowDefinition
                     Height="*" />
                 <RowDefinition
@@ -41,15 +44,19 @@
                 <ColumnDefinition
                     Width="10" />
             </Grid.ColumnDefinitions>
+            
+            <groupedElements:AnimatedText x:Name="animatedText" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
+                                          HorizontalOptions="Center" VerticalOptions="Center"/>
+            
             <Label
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.Column="1"
                 VerticalOptions="Center"
                 Text="User"
                 Margin="5"
                 HorizontalOptions="End" />
             <Entry
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.Column="2"
                 Placeholder="UserName"
                 Text="{Binding UserName.Value}"
@@ -73,21 +80,21 @@
             </Entry>
             <Label
                 Style="{StaticResource ValidationMessageStyle}"
-                Grid.Row="2"
+                Grid.Row="3"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="End"
                 Text="{Binding UserName.Errors, Converter={x:Static converters:FirstValidationErrorConverter.Instance}}"
                 Margin="5" />
             <Label
-                Grid.Row="3"
+                Grid.Row="4"
                 Grid.Column="1"
                 VerticalOptions="Center"
                 Text="Password"
                 Margin="5"
                 HorizontalOptions="End" />
             <Entry
-                Grid.Row="3"
+                Grid.Row="4"
                 Grid.Column="2"
                 Placeholder="Password"
                 Margin="5"
@@ -112,14 +119,14 @@
             </Entry>
             <Label
                 Style="{StaticResource ValidationMessageStyle}"
-                Grid.Row="4"
+                Grid.Row="5"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 HorizontalOptions="End"
                 Text="{Binding Password.Errors, Converter={x:Static converters:FirstValidationErrorConverter.Instance}}"
                 Margin="5" />
             <extendedElements:ExtendedButton
-                Grid.Row="5"
+                Grid.Row="6"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 Command="{Binding LoginCommand}"
@@ -127,14 +134,14 @@
                 Margin="5"
                 VerticalOptions="Fill" />
              <extendedElements:ExtendedButton
-                Grid.Row="6" x:Name="btnGrandient" GradientFlow="LeftToRight"
+                Grid.Row="7" x:Name="btnGrandient" GradientFlow="LeftToRight"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 Text="Login with TouchId/FaceId"
                 Margin="5"
                 VerticalOptions="Fill" 
-                Command="{Binding AuthCommand}"
-            />
+                Command="{Binding AuthCommand}"/>
+            
             <ActivityIndicator
                 Grid.Row="6"
                 Grid.Column="0"
