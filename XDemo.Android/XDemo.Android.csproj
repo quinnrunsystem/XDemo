@@ -93,6 +93,10 @@
     <Compile Include="Renderers\ExtendedElements\Separator\SeparatorDroidView.cs" />
     <Compile Include="Renderers\ExtendedElements\Separator\SeparatorRenderer.cs" />
     <Compile Include="Extensions\FontExtensions.cs" />
+    <Compile Include="Services\Implementations\Fingerprints\FingerprintService.cs" />
+    <Compile Include="Services\Implementations\Fingerprints\CryptoObjectHelper.cs" />
+    <Compile Include="Services\Implementations\Fingerprints\SimpleCompatAuthCallback.cs" />
+    <Compile Include="Services\Implementations\Fingerprints\SimpleAuthCallback.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -149,6 +153,7 @@
     <Folder Include="Services\MockImplementations\" />
     <Folder Include="Renderers\ExtendedElements\" />
     <Folder Include="Renderers\GroupedElements\" />
+    <Folder Include="Services\Implementations\Fingerprints\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XDemo.UI\XDemo.UI.csproj">
