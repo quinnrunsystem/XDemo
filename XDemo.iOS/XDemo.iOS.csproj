@@ -117,6 +117,7 @@
     <Compile Include="Renderers\ExtendedElements\Pages\ViewBaseRenderer.cs" />
     <Compile Include="Renderers\ExtendedElements\Pages\ViewExtensions.cs" />
     <Compile Include="Services\Implementations\TouchIdService.cs" />
+    <None Include="Errors.README.txt" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

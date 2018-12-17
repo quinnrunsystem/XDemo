@@ -93,6 +93,10 @@
     <Compile Include="Renderers\ExtendedElements\Separator\SeparatorDroidView.cs" />
     <Compile Include="Renderers\ExtendedElements\Separator\SeparatorRenderer.cs" />
     <Compile Include="Extensions\FontExtensions.cs" />
+    <Compile Include="Services\Implementations\Fingerprints\FingerprintService.cs" />
+    <Compile Include="Services\Implementations\Fingerprints\CryptoObjectHelper.cs" />
+    <Compile Include="Services\Implementations\Fingerprints\SimpleCompatAuthCallback.cs" />
+    <Compile Include="Services\Implementations\Fingerprints\SimpleAuthCallback.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -130,6 +134,15 @@
     <AndroidResource Include="Resources\drawable\rate_2.png" />
     <AndroidResource Include="Resources\drawable\rate.png" />
     <AndroidResource Include="Resources\drawable\hamburger.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\emptystar.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\fullstar.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\halfstar.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\emptystar.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\fullstar.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\halfstar.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\emptystar.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\fullstar.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\halfstar.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable-hdpi\" />
@@ -140,6 +153,7 @@
     <Folder Include="Services\MockImplementations\" />
     <Folder Include="Renderers\ExtendedElements\" />
     <Folder Include="Renderers\GroupedElements\" />
+    <Folder Include="Services\Implementations\Fingerprints\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XDemo.UI\XDemo.UI.csproj">

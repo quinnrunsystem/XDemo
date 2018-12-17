@@ -17,6 +17,11 @@ namespace XDemo.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+
+            /* ==================================================================================================
+             * init the popup page plugin
+             * ================================================================================================*/
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             /* ==================================================================================================
              * use Xamarin.Forms Fast Renderers
              * https://docs.microsoft.com/en-us/xamarin/xamarin-forms/internals/fast-renderers            

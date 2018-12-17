@@ -90,7 +90,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                  * todo: using resource for alert message
                  * ================================================================================================*/
                 var dialogService = DependencyRegistrar.Current.Resolve<IPageDialogService>();
-                var sure = await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("confirm", "Confirm message?", "Ok", "Cancel"));
+                var sure = await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("confirm", "Can not connect to server, do you want to retry?", "Ok", "Cancel"));
                 if (!sure)
                 {
                     /* ==================================================================================================
@@ -129,7 +129,7 @@ namespace XDemo.Core.Infrastructure.Networking.Refit
                  * todo: using resource for alert message
                  * ================================================================================================*/
                 var dialogService = DependencyRegistrar.Current.Resolve<IPageDialogService>();
-                await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("Warning", "Warning message!", "Ok"));
+                await ThreadHelper.RunOnUIThreadAsync(() => dialogService.DisplayAlertAsync("Warning", "Can not connect to server.", "Ok"));
             });
             var result = await warningRetryPolicy.ExecuteAsync(() => ActionSendAsync(taskFac));
             return result;

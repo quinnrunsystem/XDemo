@@ -1,0 +1,8 @@
+Fix error duplicate assembly
+
+/Users/gmo/Documents/VSprojects/XDemo/XDemo.iOS/CSC: Error CS1703: Multiple assemblies with equivalent identity have been imported: 
+'/Users/gmo/.nuget/packages/system.reflection.emit/4.3.0/ref/netstandard1.1/System.Reflection.Emit.dll' and 
+'/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Facades/System.Reflection.Emit.dll'. Remove one of the duplicate references. (CS1703) (XDemo.iOS)
+=================== Fix ===================
+1. delete file /Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Facades/System.Reflection.Emit.dll'
+2. Rebuid

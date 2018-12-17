@@ -59,12 +59,18 @@ namespace XDemo.UI.ViewModels.Common
 
         private async Task AuthCommandExecute()
         {
-            var isSupported = _localAuthService.IsHardwareSupported();
-            var authRs = await _localAuthService.AuthenticateAsync("Test for touch id");
-            if (authRs.IsSuccess)
-                await GoToMainPageAsync();
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                var authRs = await _localAuthService.AuthenticateAsync("Test for touch id");
+                if (authRs.IsSuccess)
+                    await GoToMainPageAsync();
+                else
+                    await _pageDialogService.DisplayAlertAsync("Error", authRs.ErrorMessage, "Ok");
+            }
             else
-                await _pageDialogService.DisplayAlertAsync("Error", authRs.ErrorMessage, "Ok");
+            {
+                await _pageDialogService.DisplayAlertAsync("Error", $"Oops, not implemented on {Device.RuntimePlatform}", "Ok");
+            }
         }
 
         #endregion
