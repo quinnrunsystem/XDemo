@@ -130,6 +130,15 @@
     <AndroidResource Include="Resources\drawable\rate_2.png" />
     <AndroidResource Include="Resources\drawable\rate.png" />
     <AndroidResource Include="Resources\drawable\hamburger.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\emptystar.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\fullstar.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\halfstar.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\emptystar.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\fullstar.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\halfstar.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\emptystar.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\fullstar.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\halfstar.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable-hdpi\" />
