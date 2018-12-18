@@ -7,7 +7,7 @@ namespace XDemo.UI.Controls.GroupedElements
     public class AnimatedText : StackLayout
     {
         private Animation _animation;
-        public const string AnimationName = "AnimatedTextAnimation";
+        private const string AnimationName = "AnimatedTextAnimation";
 
         public AnimatedText()
         {

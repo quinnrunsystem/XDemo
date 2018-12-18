@@ -88,7 +88,8 @@ namespace XDemo.UI.ViewModels.Common
                 return;
             var paras = new NavigationParameters
             {
-                { "PhotoId", photo.Id }
+                { "PhotoId", photo.Id },
+                { "Photos", Photos }
             };
             await PushAsync<PhotoDetailPageViewModel>(paras);
         }

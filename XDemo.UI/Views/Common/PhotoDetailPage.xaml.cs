@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using Xamarin.Forms;
 using XDemo.UI.Views.Base;
+using XDemo.UI.Controls.ExtendedElements;
+using XDemo.Core.Infrastructure.Logging;
 
 namespace XDemo.UI.Views.Common
 {
@@ -11,6 +13,14 @@ namespace XDemo.UI.Views.Common
         public PhotoDetailPage()
         {
             InitializeComponent();
+            picker.SelectedIndexChanged += OnPickerSelectedIndexChanged;
+        }
+
+        private void OnPickerSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!(sender is ExtendedPicker orgPicker))
+                return;
+            LogCommon.Info($"Picker selected value: {orgPicker.SelectedValue}");
         }
     }
 }
