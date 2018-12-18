@@ -23,12 +23,12 @@ namespace XDemo.UI.Controls.ExtendedElements
 
         #region ItemsSource
         public new static readonly BindableProperty ItemsSourceProperty =
-            BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable), typeof(ExtendedPicker),
+            BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(ExtendedPicker),
                 null, propertyChanged: OnItemsSourceChanged);
 
-        public new IEnumerable ItemsSource
+        public new IList ItemsSource
         {
-            get => (IEnumerable)GetValue(ItemsSourceProperty);
+            get => (IList)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
@@ -85,11 +85,7 @@ namespace XDemo.UI.Controls.ExtendedElements
         public object SelectedValue
         {
             get => GetValue(SelectedValueProperty);
-            set
-            {
-                SetValue(SelectedValueProperty, value);
-                InternalSelectedValueChanged();
-            }
+            set => SetValue(SelectedValueProperty, value);
         }
 
         static void OnSelectedValueChanged(BindableObject bindable, object oldValue, object newValue)
@@ -106,12 +102,6 @@ namespace XDemo.UI.Controls.ExtendedElements
             }
         }
         #endregion
-
-        /// <summary>
-        /// Gets or sets the placeholder.
-        /// </summary>
-        /// <value>The placeholder.</value>
-        public string Placeholder { get; set; }
 
         /// <summary>
         /// Gets or sets the display member path.
@@ -133,7 +123,6 @@ namespace XDemo.UI.Controls.ExtendedElements
             {
                 return;
             }
-
             if (SelectedIndex < 0 || ItemsSource == null || !ItemsSource.GetEnumerator().MoveNext())
             {
                 _disableNestedCall = true;
@@ -145,26 +134,12 @@ namespace XDemo.UI.Controls.ExtendedElements
             }
 
             _disableNestedCall = true;
-            var index = 0;
-            var hasSelectedValuePath = !string.IsNullOrWhiteSpace(SelectedValuePath);
-            foreach (var item in ItemsSource)
+            SelectedItem = ItemsSource[SelectedIndex];
+            if (!string.IsNullOrWhiteSpace(SelectedValuePath))
             {
-                if (index != SelectedIndex)
-                {
-                    index++;
-                    continue;
-                }
-
-                SelectedItem = item;
-                if (hasSelectedValuePath)
-                {
-                    var prop = item.GetType().GetRuntimeProperty(SelectedValuePath);
-                    SelectedValue = prop?.GetValue(item);
-                }
-
-                break;
+                var prop = SelectedItem.GetType().GetRuntimeProperty(SelectedValuePath);
+                SelectedValue = prop?.GetValue(SelectedItem);
             }
-
             _disableNestedCall = false;
         }
 
@@ -172,21 +147,17 @@ namespace XDemo.UI.Controls.ExtendedElements
         {
             _disableNestedCall = true;
             Items?.Clear();
+            SelectedIndex = -1;
             if (oldValue is INotifyCollectionChanged oldCollectionINotifyCollectionChanged)
-            {
                 oldCollectionINotifyCollectionChanged.CollectionChanged -= OnItemsSourceCollectionChanged;
-            }
 
             if (newValue is INotifyCollectionChanged newCollectionINotifyCollectionChanged)
-            {
                 newCollectionINotifyCollectionChanged.CollectionChanged += OnItemsSourceCollectionChanged;
-            }
 
             if (newValue != null)
             {
                 var hasDisplayMemberPath = !string.IsNullOrWhiteSpace(DisplayMemberPath);
-
-                foreach (var item in (IEnumerable)newValue)
+                foreach (var item in (IList)newValue)
                 {
                     if (hasDisplayMemberPath)
                     {
@@ -199,7 +170,6 @@ namespace XDemo.UI.Controls.ExtendedElements
                     }
                 }
 
-                SelectedIndex = -1;
                 _disableNestedCall = false;
 
                 if (SelectedItem != null)
@@ -228,27 +198,15 @@ namespace XDemo.UI.Controls.ExtendedElements
                 return;
             }
 
-            var selectedIndex = -1;
+            var selectedIndex = ItemsSource?.IndexOf(SelectedItem) ?? -1;
             object selectedValue = null;
-            if (ItemsSource != null)
+            var hasSelectedValuePath = !string.IsNullOrWhiteSpace(SelectedValuePath);
+            if (hasSelectedValuePath && SelectedItem != null)
             {
-                var index = 0;
-                var hasSelectedValuePath = !string.IsNullOrWhiteSpace(SelectedValuePath);
-                foreach (var item in ItemsSource)
-                {
-                    if (item != null && item.Equals(SelectedItem))
-                    {
-                        selectedIndex = index;
-                        if (hasSelectedValuePath)
-                        {
-                            var prop = item.GetType().GetRuntimeProperty(SelectedValuePath);
-                            selectedValue = prop.GetValue(item);
-                        }
-                        break;
-                    }
-                    index++;
-                }
+                var prop = SelectedItem.GetType().GetRuntimeProperty(SelectedValuePath);
+                selectedValue = prop.GetValue(SelectedItem);
             }
+
             _disableNestedCall = true;
             SelectedValue = selectedValue;
             SelectedIndex = selectedIndex;
@@ -257,15 +215,11 @@ namespace XDemo.UI.Controls.ExtendedElements
 
         void InternalSelectedValueChanged()
         {
-            if (_disableNestedCall)
+            if (_disableNestedCall || string.IsNullOrWhiteSpace(SelectedValuePath))
             {
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(SelectedValuePath))
-            {
-                return;
-            }
             var selectedIndex = -1;
             object selectedItem = null;
             if (ItemsSource != null)
@@ -281,12 +235,15 @@ namespace XDemo.UI.Controls.ExtendedElements
 
                     var type = item.GetType();
                     var prop = type.GetRuntimeProperty(SelectedValuePath);
-                    if (Equals(prop.GetValue(item), SelectedValue))
+                    if (!Equals(prop.GetValue(item), SelectedValue))
                     {
-                        selectedIndex = index;
-                        selectedItem = item;
-                        break;
+                        index++;
+                        continue;
                     }
+
+                    selectedIndex = index;
+                    selectedItem = item;
+                    break;
                 }
             }
 

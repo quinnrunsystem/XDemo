@@ -97,7 +97,6 @@
     <Compile Include="Services\Implementations\Fingerprints\CryptoObjectHelper.cs" />
     <Compile Include="Services\Implementations\Fingerprints\SimpleCompatAuthCallback.cs" />
     <Compile Include="Services\Implementations\Fingerprints\SimpleAuthCallback.cs" />
-    <Compile Include="Renderers\ExtendedElements\ExtendedPickerRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

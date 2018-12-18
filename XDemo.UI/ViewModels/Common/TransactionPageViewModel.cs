@@ -9,6 +9,7 @@ using Prism.Navigation;
 using XDemo.Core.Extensions;
 using XDemo.Core.BusinessServices.Dtos.Photos;
 using System.Threading;
+using System.Linq;
 
 namespace XDemo.UI.ViewModels.Common
 {
@@ -86,6 +87,7 @@ namespace XDemo.UI.ViewModels.Common
         {
             if (photo == null)
                 return;
+
             var paras = new NavigationParameters
             {
                 { "PhotoId", photo.Id },

@@ -6,6 +6,8 @@ using XDemo.UI.Models.Photos;
 using XDemo.Core.Extensions;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Xamarin.Forms;
+using System.Linq;
 
 namespace XDemo.UI.ViewModels.Common
 {
@@ -39,27 +41,14 @@ namespace XDemo.UI.ViewModels.Common
             /* ==================================================================================================
              * use auto mapper
              * ================================================================================================*/
-            Photo = dto.MapTo<Photo>();
 
+            //Photo = dto.MapTo<Photo>();
+            Photo = Photos.FirstOrDefault(arg => arg.Id == dto.Id) ?? Photos.FirstOrDefault();
         }
 
-        public Photo Photo { get; private set; }
+        public Photo Photo { get; set; }
 
-        public Photo SelectedPhoto { get; set; }
 
         public List<Photo> Photos { get; set; }
-
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            base.OnPropertyChanged(propertyName);
-            switch (propertyName)
-            {
-                case nameof(SelectedPhoto):
-                    Photo = SelectedPhoto;
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 }

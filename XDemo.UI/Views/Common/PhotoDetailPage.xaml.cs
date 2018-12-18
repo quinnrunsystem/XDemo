@@ -14,6 +14,14 @@ namespace XDemo.UI.Views.Common
         {
             InitializeComponent();
             picker.SelectedIndexChanged += OnPickerSelectedIndexChanged;
+            picker.ItemSelected += OnItemSelected;
+        }
+
+        private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (!(sender is ExtendedPicker orgPicker))
+                return;
+            LogCommon.Info($"Picker OnItemSelected");
         }
 
         private void OnPickerSelectedIndexChanged(object sender, EventArgs e)
