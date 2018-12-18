@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<base:ViewBase
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:base="clr-namespace:XDemo.UI.Views.Base"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="main"
+    xmlns:extendedElements="clr-namespace:XDemo.UI.Controls.ExtendedElements"
+    x:Class="XDemo.UI.Views.CarouselDemoPage">
+    <Grid
+        RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="0.33*" />
+            <RowDefinition
+                Height="0.33*" />
+            <RowDefinition
+                Height="0.34*" />
+        </Grid.RowDefinitions>
+        <!--CarouselView Implementation-->
+        <extendedElements:OffsetCarouselView
+            x:Name="carouselView"
+            BackgroundColor="#ffccff"
+            ItemSelected="CarouselView_ItemSelected"
+            OffsetPercent="0.1"
+            ItemSource="{Binding Source={x:Reference main}, Path=Source}">
+            <extendedElements:OffsetCarouselView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Frame
+                                Margin="6"
+                                Padding="0"
+                                BackgroundColor="#ffccff"
+                                IsClippedToBounds="true"
+                                HasShadow="true"
+                                CornerRadius="10">
+                                <Image
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="FillAndExpand"
+                                    Source="{Binding .}"
+                                    Aspect="Fill" />
+                            </Frame>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </extendedElements:OffsetCarouselView.ItemTemplate>
+        </extendedElements:OffsetCarouselView>
+        <!--Demo using CarouselView's properties-->
+        <Image
+            Grid.Row="1"
+            Aspect="Fill"
+            Source="{Binding Source={x:Reference carouselView}, Path=ScrollToObject}" />
+        <Label
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Text="{Binding Source={x:Reference carouselView}, Path=SelectedIndex}" />
+        <Image
+            Grid.Row="2"
+            Aspect="Fill"
+            x:Name="selectedImage" />
+        <Label
+            x:Name="selectedLabel"
+            Grid.Row="2"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            HorizontalTextAlignment="Center" />
+    </Grid>
+</base:ViewBase>
