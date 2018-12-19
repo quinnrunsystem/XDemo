@@ -232,6 +232,13 @@ namespace XDemo.UI.Controls.ExtendedElements
         }
 
         public double IndicatorRadius => IndicatorSize / 2.0;
+        public bool IsIndicatorVisible
+        {
+            get { return (bool)GetValue(IsIndicatorVisibleProperty); }
+            set { SetValue(IsIndicatorVisibleProperty, value); }
+        }
+        public static readonly BindableProperty IsIndicatorVisibleProperty =
+  BindableProperty.Create(nameof(IsIndicatorVisible), typeof(bool), typeof(OffsetCarouselView), true);
 
         public object ScrollToObject
         {
