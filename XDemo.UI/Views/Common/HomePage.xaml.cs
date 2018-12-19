@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using XDemo.UI.Views.Base;
 
 namespace XDemo.UI.Views.Common
@@ -12,6 +10,7 @@ namespace XDemo.UI.Views.Common
         {
             InitializeComponent();
             Icon = "login_2";
+            mainListView.On<iOS>().SetSeparatorStyle(SeparatorStyle.FullWidth);
         }
     }
 }

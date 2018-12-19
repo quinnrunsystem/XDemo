@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Xamarin.Forms;
-using XDemo.UI.Views.Base;
+﻿using XDemo.UI.Views.Base;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace XDemo.UI.Views.Common
 {
@@ -12,6 +10,7 @@ namespace XDemo.UI.Views.Common
         {
             InitializeComponent();
             Icon = "rate_2";
-        }
+            mainListView.On<iOS>().SetSeparatorStyle(SeparatorStyle.FullWidth);
+       }
     }
 }

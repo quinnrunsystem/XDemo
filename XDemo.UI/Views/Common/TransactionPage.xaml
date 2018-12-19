@@ -11,6 +11,7 @@
         <ListView SelectionMode="None"
             CachingStrategy="RecycleElement"
             ItemsSource="{Binding Photos}"
+                  x:Name="mainListView"
             SelectedItem="{Binding SelectedPhoto}">
             <ListView.Behaviors>
                 <!--EventArgsParameterPath="Item" mean: ItemTappedEventArgs.Item-->
