@@ -5,10 +5,12 @@
     xmlns:base="clr-namespace:XDemo.UI.Views.Base;assembly=XDemo.UI"
     xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:extendedElements="clr-namespace:XDemo.UI.Controls.ExtendedElements;assembly=XDemo.UI"
     x:Class="XDemo.UI.Views.Common.PhotoDetailPage">
     <ContentPage.Content>
         <Grid
-            VerticalOptions="StartAndExpand" HorizontalOptions="Fill">
+            VerticalOptions="StartAndExpand"
+            HorizontalOptions="Fill">
             <Grid.RowDefinitions>
                 <RowDefinition
                     Height="Auto" />
@@ -19,23 +21,31 @@
                 <RowDefinition
                     Height="Auto" />
                 <RowDefinition
-                    Height="Auto" />
+                    Height="*" />
             </Grid.RowDefinitions>
-            <ff:CachedImage HorizontalOptions="Center" Margin="5"
+            <extendedElements:ExtendedPicker
+                x:Name="picker"
+                Grid.Row="0"
+                HorizontalOptions="Fill"
+                SelectedItem="{Binding Photo, Mode=TwoWay}"
+                ItemsSource="{Binding Photos}"
+                DisplayMemberPath="Title"
+                SelectedValuePath="Id" />
+            <ff:CachedImage
+                HorizontalOptions="Center"
+                Margin="5"
                 WidthRequest="150"
                 HeightRequest="150"
-                Grid.Row="0"
-                Grid.Column="0"
+                Grid.Row="1"
                 Source="{Binding Photo.Url}">
                 <ff:CachedImage.Transformations>
                     <fftransformations:RoundedTransformation
                         Radius="30" />
                 </ff:CachedImage.Transformations>
             </ff:CachedImage>
-            <Label HorizontalOptions="Center"
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
+            <Label
+                HorizontalOptions="Center"
+                Grid.Row="2"
                 Text="{Binding Photo.Title, StringFormat='Title: {0}'}"
                 Style="{StaticResource HightLightTextStyle}" />
         </Grid>
