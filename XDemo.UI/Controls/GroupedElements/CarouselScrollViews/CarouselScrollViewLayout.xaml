@@ -2,9 +2,9 @@
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="XDemo.UI.Controls.ExtendedElements.OffsetCarouselView"
+    x:Class="XDemo.UI.Controls.GroupedElements.CarouselScrollViews.CarouselScrollViewLayout"
     x:Name="main"
-    xmlns:extendedElements="clr-namespace:XDemo.UI.Controls.ExtendedElements">
+    xmlns:groupedElement="clr-namespace:XDemo.UI.Controls.GroupedElements.CarouselScrollViews">
     <Grid
         RowSpacing="0">
         <Grid.RowDefinitions>
@@ -14,7 +14,7 @@
                 Height="0.1*" />
         </Grid.RowDefinitions>
         <!--CarouselView-->
-        <extendedElements:HorizontalScrollView
+        <groupedElement:CarouselScrollView
             x:Name="scroll"
             Grid.RowSpan="2"
             VerticalScrollBarVisibility="Never"
@@ -28,7 +28,7 @@
                         Tapped="Handle_Tapped" />
                 </StackLayout.GestureRecognizers>
             </StackLayout>
-        </extendedElements:HorizontalScrollView>
+        </groupedElement:CarouselScrollView>
         <!--Indicator-->
         <StackLayout
             x:Name="stackIndicator"

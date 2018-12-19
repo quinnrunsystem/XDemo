@@ -1,39 +1,127 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
-namespace XDemo.UI.Controls.ExtendedElements
+namespace XDemo.UI.Controls.GroupedElements.CarouselScrollViews
 {
-    public class HorizontalScrollView : ScrollView
+    public partial class CarouselScrollViewLayout : ContentView
     {
-        public HorizontalScrollView()
+        /// <summary>
+        /// Mark initialized for propertyChanged event to check its logics
+        /// </summary>
+        bool _init;
+        /// <summary>
+        /// Changes from these properties will fire render action
+        /// </summary>
+        static string[] _rerenderProperties =
         {
-            Orientation = ScrollOrientation.Horizontal;
-        }
-    }
-    public partial class OffsetCarouselView : ContentView
-    {
-        public event EventHandler<CarouselViewSelectedItemChangedEventArgs> ItemSelected;
-        public class CarouselViewSelectedItemChangedEventArgs
+            nameof(ItemsSource),
+            nameof(OffsetPercent),
+            nameof(ItemTemplate),
+        };
+        Grid _activeIndicatorContainer;
+
+        public CarouselScrollViewLayout()
         {
-            public CarouselViewSelectedItemChangedEventArgs(int selectedIndex, object selectedObject)
-            {
-                SelectedIndex = selectedIndex;
-                SelectedObject = selectedObject;
-            }
-            public int SelectedIndex { get; private set; }
-            public object SelectedObject { get; private set; }
+            InitializeComponent();
+            _init = true;
+            InitActiveIndicator();
+            Render();
+            scroll.Scrolled += OnScrollViewScrolled;
         }
+
+        ~CarouselScrollViewLayout()
+        {
+            scroll.Scrolled -= OnScrollViewScrolled;
+        }
+
+        public event EventHandler<SelectedItemChangedEventArgs> ItemSelected;
+
+        /// <summary>
+        /// Percent of control's width for this carousel view
+        /// </summary>
+        /// <value>The offset percent.</value>
+        public double OffsetPercent
+        {
+            get { return (double)GetValue(OffsetPercentProperty); }
+            set { SetValue(OffsetPercentProperty, value); }
+        }
+
+        public static readonly BindableProperty OffsetPercentProperty = BindableProperty.Create(nameof(OffsetPercent), typeof(double), typeof(CarouselScrollViewLayout), 0.2);
+
+        public DataTemplate ItemTemplate
+        {
+            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+            set { SetValue(ItemTemplateProperty, value); }
+        }
+
+        public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(CarouselScrollViewLayout), null);
+
+        public IEnumerable ItemsSource
+        {
+            get { return (IEnumerable)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
+        }
+        public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable), typeof(CarouselScrollViewLayout), null);
+
+
+        public int SelectedIndex
+        {
+            get { return (int)GetValue(SelectedIndexProperty); }
+            set { SetValue(SelectedIndexProperty, value); }
+        }
+        public static readonly BindableProperty SelectedIndexProperty = BindableProperty.Create(nameof(SelectedIndex), typeof(int), typeof(CarouselScrollViewLayout), -1, propertyChanged: SelectedIndexChanged);
+
+        public Color IndicatorColor
+        {
+            get { return (Color)GetValue(IndicatorColorProperty); }
+            set { SetValue(IndicatorColorProperty, value); }
+        }
+        public static readonly BindableProperty IndicatorColorProperty = BindableProperty.Create(nameof(IndicatorColor), typeof(Color), typeof(CarouselScrollViewLayout), Color.White);
+
+        public Color IndicatorActiveColor
+        {
+            get { return (Color)GetValue(IndicatorActiveColorProperty); }
+            set { SetValue(IndicatorActiveColorProperty, value); }
+        }
+
+        public static readonly BindableProperty IndicatorActiveColorProperty = BindableProperty.Create(nameof(IndicatorColor), typeof(Color), typeof(CarouselScrollViewLayout), Color.Gray);
+        public double IndicatorContainerWidth
+        {
+            get { return (double)GetValue(IndicatorContainerWidthProperty); }
+            set { SetValue(IndicatorContainerWidthProperty, value); }
+        }
+
+        //tod: rename to container
+        public static readonly BindableProperty IndicatorContainerWidthProperty = BindableProperty.Create(nameof(IndicatorContainerWidth), typeof(double), typeof(CarouselScrollViewLayout), 16.0);
+
+        public double IndicatorSize
+        {
+            get { return (double)GetValue(IndicatorSizeProperty); }
+            set { SetValue(IndicatorSizeProperty, value); }
+        }
+
+        public static readonly BindableProperty IndicatorSizeProperty = BindableProperty.Create(nameof(IndicatorSize), typeof(double), typeof(CarouselScrollViewLayout), 8.0, propertyChanged: IndicatorSizeChanged);
+
+        private static void IndicatorSizeChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (bindable is CarouselScrollViewLayout carouselView && newValue is int)
+                carouselView.OnPropertyChanged(nameof(IndicatorRadius));
+        }
+
+        public double IndicatorRadius => IndicatorSize / 2.0;
+        public bool IsIndicatorVisible
+        {
+            get { return (bool)GetValue(IsIndicatorVisibleProperty); }
+            set { SetValue(IsIndicatorVisibleProperty, value); }
+        }
+        public static readonly BindableProperty IsIndicatorVisibleProperty = BindableProperty.Create(nameof(IsIndicatorVisible), typeof(bool), typeof(CarouselScrollViewLayout), true);
+
+
         #region Precision
-        const double _4 = 0.0001;
-        const double _5 = 0.00001;
-        const double _6 = 0.000001;
-        const double _7 = 0.0000001;
-        const double _8 = 0.00000001;
-        const double _9 = 0.000000001;
+        const double _9 = 0.000000001; // 1 * 10^-9
         /// <summary>
         /// Compare 2 double numbers with desired precision
         /// </summary>
@@ -45,42 +133,21 @@ namespace XDemo.UI.Controls.ExtendedElements
             return Math.Abs(left - right) < _9;
         }
         #endregion
-        /// <summary>
-        /// Mark initialized for propertyChanged event to check its logics
-        /// </summary>
-        bool _init;
-        /// <summary>
-        /// Changes from these properties will fire render action
-        /// </summary>
-        static string[] _rerenderProperty =
-        {
-            nameof(ItemSource),
-            nameof(OffsetPercent),
-            nameof(ItemTemplate),
-        };
-        Grid _activeIndicatorContainer;
-        public OffsetCarouselView()
-        {
-            InitializeComponent();
-            _init = true;
-            InitActiveIndicator();
-            Render();
-            scroll.Scrolled += Scroll_Scrolled;
-        }
 
-        void Scroll_Scrolled(object sender, ScrolledEventArgs e)
+        void OnScrollViewScrolled(object sender, ScrolledEventArgs e)
         {
             SetIndicatorPosition();
         }
+
         void SetIndicatorPosition()
         {
             GetIndexFromScrollX(out int indexInt, out double indexRemain);
             var index = indexInt + indexRemain;
-            var leftMargin = index * IndicatorWidth;
+            var leftMargin = index * IndicatorContainerWidth;
             //fix on last item
             var lastSnapX = (stack.Children.Count - 2) * ItemWidth - OffsetWidth;
             if (Equals9DigitPrecision(scroll.ScrollX, lastSnapX))
-                leftMargin = (stackIndicator.Children.Count - 1) * IndicatorWidth;
+                leftMargin = (stackIndicator.Children.Count - 1) * IndicatorContainerWidth;
             ActiveIndicatorPosition = new Thickness { Left = leftMargin };
         }
 
@@ -119,7 +186,7 @@ namespace XDemo.UI.Controls.ExtendedElements
             dotContainer.SetBinding(WidthRequestProperty, new Binding
             {
                 Source = this,
-                Path = nameof(IndicatorWidth),
+                Path = nameof(IndicatorContainerWidth),
             });
             dotContainer.SetBinding(MarginProperty, new Binding
             {
@@ -129,6 +196,7 @@ namespace XDemo.UI.Controls.ExtendedElements
             dotContainer.Children.Add(dot);
             _activeIndicatorContainer = dotContainer;
         }
+
         private Thickness _activeIndicatorPosition = new Thickness();
         public Thickness ActiveIndicatorPosition
         {
@@ -154,98 +222,19 @@ namespace XDemo.UI.Controls.ExtendedElements
                 OnPropertyChanged(nameof(OffsetWidth));
             }
         }
+
         /// <summary>
         /// Width calculated from offset percent
         /// </summary>
         /// <value>The width of the offset.</value>
         public double OffsetWidth => Width - ItemWidth;
-        /// <summary>
-        /// Percent of control's width for this carousel view
-        /// </summary>
-        /// <value>The offset percent.</value>
-        public double OffsetPercent
-        {
-            get { return (double)GetValue(OffsetPercentProperty); }
-            set { SetValue(OffsetPercentProperty, value); }
-        }
-        public static readonly BindableProperty OffsetPercentProperty =
-  BindableProperty.Create(nameof(OffsetPercent), typeof(double), typeof(OffsetCarouselView), 0.2);
-
-        public DataTemplate ItemTemplate
-        {
-            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
-            set { SetValue(ItemTemplateProperty, value); }
-        }
-        public static readonly BindableProperty ItemTemplateProperty =
-  BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(OffsetCarouselView), null);
-
-        public IEnumerable ItemSource
-        {
-            get { return (IEnumerable)GetValue(ItemSourceProperty); }
-            set { SetValue(ItemSourceProperty, value); }
-        }
-        public static readonly BindableProperty ItemSourceProperty =
-  BindableProperty.Create(nameof(ItemSource), typeof(IEnumerable), typeof(OffsetCarouselView), null);
-
-
-        public int SelectedIndex
-        {
-            get { return (int)GetValue(SelectedIndexProperty); }
-            set { SetValue(SelectedIndexProperty, value); }
-        }
-        public static readonly BindableProperty SelectedIndexProperty =
-  BindableProperty.Create(nameof(SelectedIndex), typeof(int), typeof(OffsetCarouselView), -1, propertyChanged: SelectedIndexChanged);
-
-        public Color IndicatorColor
-        {
-            get { return (Color)GetValue(IndicatorColorProperty); }
-            set { SetValue(IndicatorColorProperty, value); }
-        }
-        public static readonly BindableProperty IndicatorColorProperty =
-  BindableProperty.Create(nameof(IndicatorColor), typeof(Color), typeof(OffsetCarouselView), Color.White);
-        public Color IndicatorActiveColor
-        {
-            get { return (Color)GetValue(IndicatorActiveColorProperty); }
-            set { SetValue(IndicatorActiveColorProperty, value); }
-        }
-        public static readonly BindableProperty IndicatorActiveColorProperty =
-  BindableProperty.Create(nameof(IndicatorColor), typeof(Color), typeof(OffsetCarouselView), Color.Gray);
-        public double IndicatorWidth
-        {
-            get { return (double)GetValue(IndicatorWidthProperty); }
-            set { SetValue(IndicatorWidthProperty, value); }
-        }
-        public static readonly BindableProperty IndicatorWidthProperty =
-  BindableProperty.Create(nameof(IndicatorWidth), typeof(double), typeof(OffsetCarouselView), 16.0);
-        public double IndicatorSize
-        {
-            get { return (double)GetValue(IndicatorSizeProperty); }
-            set { SetValue(IndicatorSizeProperty, value); }
-        }
-        public static readonly BindableProperty IndicatorSizeProperty =
-  BindableProperty.Create(nameof(IndicatorSize), typeof(double), typeof(OffsetCarouselView), 8.0, propertyChanged: IndicatorSizeChanged);
-
-        private static void IndicatorSizeChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            if (bindable is OffsetCarouselView carouselView && newValue is int)
-                carouselView.OnPropertyChanged(nameof(IndicatorRadius));
-        }
-
-        public double IndicatorRadius => IndicatorSize / 2.0;
-        public bool IsIndicatorVisible
-        {
-            get { return (bool)GetValue(IsIndicatorVisibleProperty); }
-            set { SetValue(IsIndicatorVisibleProperty, value); }
-        }
-        public static readonly BindableProperty IsIndicatorVisibleProperty =
-  BindableProperty.Create(nameof(IsIndicatorVisible), typeof(bool), typeof(OffsetCarouselView), true);
-
+    
         public object ScrollToObject
         {
             get
             {
                 if (SelectedIndex == -1) return null;
-                var selectedObj = ItemSource?.OfType<object>()?.ElementAt(SelectedIndex);
+                var selectedObj = ItemsSource?.OfType<object>()?.ElementAt(SelectedIndex);
                 return selectedObj;
             }
         }
@@ -263,7 +252,7 @@ namespace XDemo.UI.Controls.ExtendedElements
 
         private static void SelectedIndexChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (bindable is OffsetCarouselView carouselView && newValue is int newNum)
+            if (bindable is CarouselScrollViewLayout carouselView && newValue is int newNum)
             {
                 carouselView.OnPropertyChanged(nameof(carouselView.ScrollToObject));
                 var needScroll = carouselView.VerifyScrollOnIndexChanged();
@@ -334,7 +323,7 @@ namespace XDemo.UI.Controls.ExtendedElements
             base.OnPropertyChanged(propertyName);
             if (_init)
             {
-                if (_rerenderProperty.Contains(propertyName))
+                if (_rerenderProperties.Contains(propertyName))
                 {
                     Render();
                 }
@@ -369,12 +358,12 @@ namespace XDemo.UI.Controls.ExtendedElements
         {
             var willNotlRender = Equals9DigitPrecision(OffsetPercent, 1) ||
             ItemTemplate == null ||
-                ItemSource == null;
+                ItemsSource == null;
             return willNotlRender;
         }
         void RenderCarousel()
         {
-            foreach (var item in ItemSource)
+            foreach (var item in ItemsSource)
             {
                 var template = ItemTemplate.CreateContent();
                 if (!(template is ViewCell cell)) continue;
@@ -440,7 +429,7 @@ namespace XDemo.UI.Controls.ExtendedElements
                 dotContainer.SetBinding(WidthRequestProperty, new Binding
                 {
                     Source = this,
-                    Path = nameof(IndicatorWidth),
+                    Path = nameof(IndicatorContainerWidth),
                 });
                 dotContainer.Children.Add(dot);
                 stackIndicator.Children.Add(dotContainer);
@@ -459,7 +448,7 @@ namespace XDemo.UI.Controls.ExtendedElements
         void Handle_Tapped(object sender, System.EventArgs e)
         {
             SelectedObject = ScrollToObject;
-            ItemSelected?.Invoke(this, new CarouselViewSelectedItemChangedEventArgs(SelectedIndex, SelectedObject));
+            ItemSelected?.Invoke(this, new SelectedItemChangedEventArgs(SelectedIndex, SelectedObject));
         }
     }
 }

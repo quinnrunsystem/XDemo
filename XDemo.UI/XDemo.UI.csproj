@@ -53,6 +53,7 @@
     <Folder Include="Models\Validations\Base\" />
     <Folder Include="Models\Validations\DefinedRules\" />
     <Folder Include="Views\Samples" />
+    <Folder Include="Controls\GroupedElements\CarouselScrollViews\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Common\HomePage.xaml" />
