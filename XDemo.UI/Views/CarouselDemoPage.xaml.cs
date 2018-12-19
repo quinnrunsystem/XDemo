@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Xamarin.Forms;
-using XDemo.UI.Controls.ExtendedElements;
+﻿using XDemo.UI.Controls.GroupedElements.CarouselScrollViews;
 using XDemo.UI.Views.Base;
 
 namespace XDemo.UI.Views
@@ -13,7 +9,7 @@ namespace XDemo.UI.Views
         {
             InitializeComponent();
         }
-        void CarouselView_ItemSelected(object sender, OffsetCarouselView.CarouselViewSelectedItemChangedEventArgs e)
+        void CarouselView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedObject is string imgString)
                 selectedImage.Source = imgString;

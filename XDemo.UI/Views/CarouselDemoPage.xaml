@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Name="main"
     xmlns:extendedElements="clr-namespace:XDemo.UI.Controls.ExtendedElements"
+    xmlns:groupedElements="clr-namespace:XDemo.UI.Controls.GroupedElements.CarouselScrollViews;assembly=XDemo.UI"
     x:Class="XDemo.UI.Views.CarouselDemoPage">
     <Grid
         RowSpacing="0">
@@ -17,13 +18,13 @@
                 Height="0.34*" />
         </Grid.RowDefinitions>
         <!--CarouselView Implementation-->
-        <extendedElements:OffsetCarouselView
+        <groupedElements:CarouselScrollViewLayout
             x:Name="carouselView"
             BackgroundColor="#ffccff"
             ItemSelected="CarouselView_ItemSelected"
             OffsetPercent="0.1"
-            ItemSource="{Binding Source={x:Reference main}, Path=Source}">
-            <extendedElements:OffsetCarouselView.ItemTemplate>
+            ItemsSource="{Binding Source={x:Reference main}, Path=Source}">
+            <groupedElements:CarouselScrollViewLayout.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Grid>
@@ -43,8 +44,8 @@
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
-            </extendedElements:OffsetCarouselView.ItemTemplate>
-        </extendedElements:OffsetCarouselView>
+            </groupedElements:CarouselScrollViewLayout.ItemTemplate>
+        </groupedElements:CarouselScrollViewLayout>
         <!--Demo using CarouselView's properties-->
         <Image
             Grid.Row="1"

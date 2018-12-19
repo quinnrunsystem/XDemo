@@ -97,7 +97,9 @@
     <Compile Include="Services\Implementations\Fingerprints\CryptoObjectHelper.cs" />
     <Compile Include="Services\Implementations\Fingerprints\SimpleCompatAuthCallback.cs" />
     <Compile Include="Services\Implementations\Fingerprints\SimpleAuthCallback.cs" />
-    <Compile Include="Renderers\ExtendedElements\CarouselScrollViewRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\CarouselScrollViews\CarouselScrollViewRenderer.cs" />
+    <Compile Include="Renderers\ExtendedElements\CarouselScrollViews\CustomScrollViewContainer.cs" />
+    <Compile Include="Renderers\ExtendedElements\CarouselScrollViews\CustomAndroidHorizontalScrollView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -159,6 +161,7 @@
     <Folder Include="Renderers\ExtendedElements\" />
     <Folder Include="Renderers\GroupedElements\" />
     <Folder Include="Services\Implementations\Fingerprints\" />
+    <Folder Include="Renderers\ExtendedElements\CarouselScrollViews\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XDemo.UI\XDemo.UI.csproj">
