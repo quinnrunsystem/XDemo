@@ -97,6 +97,7 @@
     <Compile Include="Services\Implementations\Fingerprints\CryptoObjectHelper.cs" />
     <Compile Include="Services\Implementations\Fingerprints\SimpleCompatAuthCallback.cs" />
     <Compile Include="Services\Implementations\Fingerprints\SimpleAuthCallback.cs" />
+    <Compile Include="Renderers\ExtendedElements\CarouselScrollViewRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -143,6 +144,10 @@
     <AndroidResource Include="Resources\drawable-xhdpi\emptystar.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\fullstar.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\halfstar.png" />
+    <AndroidResource Include="Resources\drawable\img_4.png" />
+    <AndroidResource Include="Resources\drawable\img_1.png" />
+    <AndroidResource Include="Resources\drawable\img_2.png" />
+    <AndroidResource Include="Resources\drawable\img_3.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable-hdpi\" />

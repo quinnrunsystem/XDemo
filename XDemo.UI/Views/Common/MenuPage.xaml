@@ -39,6 +39,10 @@
                         <RowDefinition
                             Height="1" />
                         <RowDefinition
+                            Height="100" />
+                        <RowDefinition
+                            Height="1" />
+                        <RowDefinition
                             Height="*" />
                     </Grid.RowDefinitions>
                     <Button
@@ -61,6 +65,13 @@
                         x:Name="buttonToViewRefresh" />
                     <BoxView
                         Grid.Row="5"
+                        BackgroundColor="{StaticResource PrimaryDark}" />
+                    <Button
+                        Grid.Row="6"
+                        Text="Carousel View"
+                        x:Name="buttonToViewCarousel" />
+                    <BoxView
+                        Grid.Row="7"
                         BackgroundColor="{StaticResource PrimaryDark}" />
                 </Grid>
             </ScrollView>
