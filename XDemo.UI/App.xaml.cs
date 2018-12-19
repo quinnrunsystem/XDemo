@@ -80,8 +80,7 @@ namespace XDemo.UI
             containerRegistry.RegisterForNavigation<RefreshablePage>(nameof(RefreshablePageViewModel));
             containerRegistry.RegisterForNavigation<ChangePasswordPopupPage>(nameof(ChangePasswordPopupPageViewModel));
             containerRegistry.RegisterForNavigation<BottomTabPage>(nameof(BottomTabPageViewModel));
-
-            containerRegistry.RegisterForNavigation<CarouselDemoPage>(nameof(LoginPageViewModel));
+            containerRegistry.RegisterForNavigation<CarouselDemoPage>(nameof(CarouselDemoPageViewModel));
         }
 
         /// <summary>
