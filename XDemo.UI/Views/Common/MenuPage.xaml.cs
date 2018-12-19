@@ -14,6 +14,7 @@ namespace XDemo.UI.Views.Common
             buttonToViewA.Clicked += OnMenuButtonClickedAsync;
             buttonToViewB.Clicked += OnMenuButtonClickedAsync;
             buttonToViewRefresh.Clicked += OnMenuButtonClickedAsync;
+            buttonToViewCarousel.Clicked += OnMenuButtonClickedAsync;
         }
 
         private async void OnMenuButtonClickedAsync(object sender, EventArgs e)
@@ -34,6 +35,11 @@ namespace XDemo.UI.Views.Common
             else if (sender.Equals(buttonToViewRefresh))
             {
                 await vm.PushPage(nameof(RefreshablePageViewModel));
+                IsPresented = false;
+            }
+            else if (sender.Equals(buttonToViewCarousel))
+            {
+                await vm.PushPage(nameof(CarouselDemoPageViewModel));
                 IsPresented = false;
             }
         }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="XDemo.UI.Controls.ExtendedElements.OffsetCarouselView"
+    x:Name="main"
+    xmlns:extendedElements="clr-namespace:XDemo.UI.Controls.ExtendedElements">
+    <Grid
+        RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="0.9*" />
+            <RowDefinition
+                Height="0.1*" />
+        </Grid.RowDefinitions>
+        <!--CarouselView-->
+        <extendedElements:HorizontalScrollView
+            x:Name="scroll"
+            Grid.RowSpan="2"
+            VerticalScrollBarVisibility="Never"
+            HorizontalScrollBarVisibility="Never">
+            <StackLayout
+                x:Name="stack"
+                Orientation="Horizontal"
+                Spacing="0">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Tapped="Handle_Tapped" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+        </extendedElements:HorizontalScrollView>
+        <!--Indicator-->
+        <StackLayout
+            x:Name="stackIndicator"
+            Grid.Row="1"
+            IsVisible="{Binding Source={x:Reference main}, Path=IsIndicatorVisible}"
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="CenterAndExpand"
+            Orientation="Horizontal"
+            Spacing="0">
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer
+                    Tapped="Handle_Tapped" />
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+        <!--Active dot-->
+        <Grid
+            x:Name="gridActiveIndicator"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            IsVisible="{Binding Source={x:Reference stackIndicator}, Path=IsVisible}"
+            WidthRequest="{Binding Source={x:Reference stackIndicator}, Path=Width}"
+            HeightRequest="{Binding Source={x:Reference stackIndicator}, Path=Height}"
+            Grid.Row="1" />
+    </Grid>
+</ContentView>

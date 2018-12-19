@@ -118,6 +118,7 @@
     <Compile Include="Renderers\ExtendedElements\Pages\ViewExtensions.cs" />
     <Compile Include="Services\Implementations\TouchIdService.cs" />
     <None Include="Errors.README.txt" />
+    <Compile Include="Renderers\ExtendedElements\CarouselScrollViewRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -252,6 +253,10 @@
     <BundleResource Include="Resources\unchecked%402x.png" />
     <BundleResource Include="Resources\unchecked_checkbox.png" />
     <BundleResource Include="Resources\unchecked_checkbox%402x.png" />
+    <BundleResource Include="Resources\img_4.png" />
+    <BundleResource Include="Resources\img_1.png" />
+    <BundleResource Include="Resources\img_2.png" />
+    <BundleResource Include="Resources\img_3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
