@@ -25,14 +25,15 @@ namespace XDemo.Droid.Services.Implementations.Fingerprints
             this.fingerprint = fingerprint;
         }
 
-        public void Start(FingerprintManager manager, FingerprintManager.CryptoObject cryptoObject)
+        public CancellationSignal Start(FingerprintManager manager, FingerprintManager.CryptoObject cryptoObject)
         {
             CancellationSignal cancellationSignal = new CancellationSignal();
             if(CrossCurrentActivity.Current.Activity.CheckSelfPermission(Manifest.Permission.UseFingerprint) != Android.Content.PM.Permission.Granted)
             {
-                return;
+                return cancellationSignal;
             }
             manager.Authenticate(cryptoObject, cancellationSignal, 0, this, null);
+            return cancellationSignal;
         }
 
         public override void OnAuthenticationError([GeneratedEnum] FingerprintState errorCode, ICharSequence errString)

@@ -20,7 +20,6 @@ namespace XDemo.UI.ViewModels.Common
         private readonly IPageDialogService _pageDialogService;
         private readonly IPhotoService _photoService;
         private readonly ILocalAuthenticationService _localAuthService;
-
         public LoginPageViewModel(ISecurityService securityService, IPageDialogService pageDialogService,
         INavigationService navigationService, IPhotoService photoService, ILocalAuthenticationService localAuthService) : base(navigationService)
         {
@@ -71,7 +70,7 @@ namespace XDemo.UI.ViewModels.Common
             if (result == FingerprintResult.Succeed)
                 await GoToMainPageAsync();
             else if (result == FingerprintResult.Error)
-                _localAuthService.CancelAuthenticate();
+                _localAuthService?.CancelAuthenticate();
         }
 
 

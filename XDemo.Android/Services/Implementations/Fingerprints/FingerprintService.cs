@@ -15,16 +15,17 @@ using System.Diagnostics;
 using Javax.Crypto;
 using Android.Security.Keystore;
 using XDemo.Core.Infrastructure.Logging;
+using XDemo.UI.ViewModels.Common;
+using Android.OS;
 
 namespace XDemo.Droid.Services.Implementations.Fingerprints
 {
 
     public class FingerprintService : ILocalAuthenticationService, IFingerprint
     {
-        Android.Support.V4.OS.CancellationSignal _cancellationSignalCompat;
+        CancellationSignal _cancellationSignal;
         AlertDialog _alertDialog;
         ILocalAuthentication _localAuthentication;
-        int _numberOfFingerprintScans = 0;
         KeyStore _keyStore;
         string _androidKeyStore = "AndroidKeyStore";
         string _keyName = "androidHive";
@@ -77,7 +78,7 @@ namespace XDemo.Droid.Services.Implementations.Fingerprints
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
 
@@ -100,7 +101,7 @@ namespace XDemo.Droid.Services.Implementations.Fingerprints
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 return false;
             }
         }
@@ -118,15 +119,14 @@ namespace XDemo.Droid.Services.Implementations.Fingerprints
                     var manager = CrossCurrentActivity.Current.Activity.GetSystemService(Context.FingerprintService) as FingerprintManager;
                     FingerprintManager.CryptoObject cryptoObject = new FingerprintManager.CryptoObject(_cipher);
                     FingerprintHandler fingerprintHandler = new FingerprintHandler(this);
-                    fingerprintHandler.Start(manager, cryptoObject);
-                    _numberOfFingerprintScans = 0;
+                    _cancellationSignal = fingerprintHandler.Start(manager, cryptoObject);
                 }
             }
         }
 
         public void CancelAuthenticate()
         {
-            _cancellationSignalCompat?.Cancel();
+            _cancellationSignal?.Cancel();
             ShowDialogError();
         }
 
@@ -137,24 +137,30 @@ namespace XDemo.Droid.Services.Implementations.Fingerprints
             _alertDialog.SetMessage("Touch the fingerprint scanner to login");
             _alertDialog.SetButton(-1, "Cancel", (sender, e) =>
             {
-                _cancellationSignalCompat?.Cancel();
+                _cancellationSignal?.Cancel();
                 _alertDialog.Dismiss();
             });
+            _alertDialog.SetCancelable(false);
             _alertDialog.SetIcon(Android.Resource.Drawable.IcSecure);
             _alertDialog.Show();
         }
 
         void ShowDialogError()
         {
-            AlertDialog alertDialog = new AlertDialog.Builder(CrossCurrentActivity.Current.Activity).Create();
-            alertDialog.SetTitle("Login fail");
-            alertDialog.SetMessage("Can not login with fingerprints");
-            alertDialog.SetButton(-1, "OK", (sender, e) =>
+            CrossCurrentActivity.Current.Activity.RunOnUiThread(() =>
             {
-                alertDialog.Dismiss();
+
+                AlertDialog alertDialog = new AlertDialog.Builder(CrossCurrentActivity.Current.Activity).Create();
+                alertDialog.SetTitle("Login fail");
+                alertDialog.SetMessage("Can not login with fingerprints");
+                alertDialog.SetButton(-1, "OK", (sender, e) =>
+                {
+                    alertDialog.Dismiss();
+                });
+                alertDialog.SetCancelable(false);
+                alertDialog.SetIcon(Android.Resource.Drawable.IcLockPowerOff);
+                alertDialog?.Show();
             });
-            alertDialog.SetIcon(Android.Resource.Drawable.IcLockPowerOff);
-            alertDialog.Show();
         }
 
 
@@ -162,9 +168,8 @@ namespace XDemo.Droid.Services.Implementations.Fingerprints
         {
             if (result == FingerprintResult.Error || result == FingerprintResult.Succeed)
             {
-                _numberOfFingerprintScans = 0;
                 _alertDialog?.Dismiss();
-                _cancellationSignalCompat?.Cancel();
+                _cancellationSignal?.Cancel();
 
             }
 
