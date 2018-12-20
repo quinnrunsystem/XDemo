@@ -12,10 +12,51 @@
 namespace XDemo.Core.BusinessServices.Interfaces.Hardwares.LocalAuthentications
 {
     /// <summary>
+    /// Fingerprint result.
+    /// </summary>
+    public enum FingerprintResult
+    {
+        /// <summary>
+        /// The succeed.
+        /// </summary>
+        Succeed,
+        /// <summary>
+        /// The failed.
+        /// </summary>
+        Failed,
+        /// <summary>
+        /// The help.
+        /// </summary>
+        Help,
+        /// <summary>
+        /// The error.
+        /// </summary>
+        Error
+    }
+
+    /// <summary>
+    /// Local authentication.
+    /// </summary>
+    public interface ILocalAuthentication
+    {
+        /// <summary>
+        /// Authentications the fingerprint result.
+        /// </summary>
+        /// <param name="result">Result.</param>
+        void AuthenticationFingerprintResult(FingerprintResult result);
+    }
+
+    /// <summary>
     /// interact with device fingerprint/faceId
     /// </summary>
     public interface ILocalAuthenticationService
     {
+        /// <summary>
+        /// Setlocals the authentication.
+        /// </summary>
+        /// <param name="localAuthentication">Local authentication.</param>
+        void setlocalAuthentication(ILocalAuthentication localAuthentication);
+
         /// <summary>
         /// indicate that the device has compabity hardware
         /// </summary>
@@ -23,22 +64,15 @@ namespace XDemo.Core.BusinessServices.Interfaces.Hardwares.LocalAuthentications
         bool IsSupported();
 
         /// <summary>
-        /// if hardware supported, check if has fingerprint/faceid was configuarated
-        /// </summary>
-        /// <returns><c>true</c>, if enrolled was ised, <c>false</c> otherwise.</returns>
-        bool IsEnrolled();
-
-        /// <summary>
-        /// Authenticates async.
-        /// </summary>
-        /// <returns>The async.</returns>
-        /// <param name="reason">Reason.</param>
-        Task<LocalAuthResult> AuthenticateAsync(string reason);
-        /// <summary>
         /// for test synchronus call.
         /// todo: remove
         /// </summary>
         /// <param name="reason">Reason.</param>
-        void AuthenticateAndroid(string reason);
+        void AuthenticFingerprint(string reason);
+
+        /// <summary>
+        /// Cancels the authenticate.
+        /// </summary>
+        void CancelAuthenticate();
     }
 }

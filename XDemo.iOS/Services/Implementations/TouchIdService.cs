@@ -9,72 +9,7 @@ namespace XDemo.iOS.Services.Implementations
 {
     public class TouchIdService : ILocalAuthenticationService
     {
-        public async Task<LocalAuthResult> AuthenticateAsync(string reason)
-        {
-            var context = new LAContext
-            {
-                LocalizedFallbackTitle = "Fallback" // iOS 8
-            };
-            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
-            {
-                context.LocalizedCancelTitle = "Cancel"; // iOS 10
-            }
-            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
-            {
-                context.LocalizedReason = reason; // iOS 11
-            }
-            var rs = await AuthOnMainThreadAsync(context, reason);
-            context.Dispose();
-            return rs;
-        }
-
-        /// <summary>
-        /// Auths the on main thread.
-        /// </summary>
-        /// <returns>The on main thread.</returns>
-        /// <param name="context">Context.</param>
-        /// <param name="reason">Reason can not be null or empty</param>
-        private Task<LocalAuthResult> AuthOnMainThreadAsync(LAContext context, string reason)
-        {
-            var tcs = new TaskCompletionSource<LocalAuthResult>();
-            var result = new LocalAuthResult(false);
-
-            /* ==================================================================================================
-             * indicate not allow null or empty reason
-             * ================================================================================================*/
-            if (string.IsNullOrWhiteSpace(reason))
-            {
-                result = new LocalAuthResult(false, "Your reason can not be null or empty");
-                tcs.SetResult(result);
-                return tcs.Task;
-            }
-
-            /* ==================================================================================================
-             * indicate the hardware
-             * ================================================================================================*/
-            if (!context.CanEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, out NSError authError))
-            {
-                result = new LocalAuthResult(false, authError?.ToString());
-                tcs.SetResult(result);
-                return tcs.Task;
-            }
-
-            /* ==================================================================================================
-             * begin auth
-             * ================================================================================================*/
-            var nsReason = new NSString(reason);
-            var evaluateTask = context.EvaluatePolicyAsync(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, nsReason);
-            evaluateTask.ContinueWith(t =>
-            {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    var rs = t.Result;
-                    result = new LocalAuthResult(rs.Item1, rs.Item2?.ToString());
-                    tcs.SetResult(result);
-                });
-            });
-            return tcs.Task;
-        }
+        ILocalAuthentication localAuthentication;
 
         public bool IsSupported()
         {
@@ -89,14 +24,77 @@ namespace XDemo.iOS.Services.Implementations
             }
         }
 
-        public bool IsEnrolled()
+        public void AuthenticFingerprint(string reason)
         {
-            throw new System.NotImplementedException();
+            var context = new LAContext
+            {
+                LocalizedFallbackTitle = "Fallback" // iOS 8
+            };
+            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            {
+                context.LocalizedCancelTitle = "Cancel"; // iOS 10
+            }
+            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
+            {
+                context.LocalizedReason = reason; // iOS 11
+            }
+            AuthOnMainThread(context, reason);
         }
 
-        public void AuthenticateAndroid(string reason)
+        private void AuthOnMainThread(LAContext context, string reason)
         {
-            throw new System.NotImplementedException("Do not support on iOS");
+            var tcs = new TaskCompletionSource<LocalAuthResult>();
+            var result = new LocalAuthResult(false);
+
+            /* ==================================================================================================
+             * indicate not allow null or empty reason
+             * ================================================================================================*/
+            if (string.IsNullOrWhiteSpace(reason))
+            {
+                localAuthentication.AuthenticationFingerprintResult(FingerprintResult.Error);
+            }
+
+            /* ==================================================================================================
+             * indicate the hardware
+             * ================================================================================================*/
+            if (!context.CanEvaluatePolicy(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, out NSError authError))
+            {
+                localAuthentication.AuthenticationFingerprintResult(FingerprintResult.Help);
+            }
+
+            /* ==================================================================================================
+             * begin auth
+             * ================================================================================================*/
+            var nsReason = new NSString(reason);
+            var evaluateTask = context.EvaluatePolicyAsync(LAPolicy.DeviceOwnerAuthenticationWithBiometrics, nsReason);
+            evaluateTask.ContinueWith(t =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    if(t.Result.Item1)
+                        localAuthentication.AuthenticationFingerprintResult(FingerprintResult.Succeed);
+                    else
+                        localAuthentication.AuthenticationFingerprintResult(FingerprintResult.Error);
+                });
+            });
+        }
+
+        public void setlocalAuthentication(ILocalAuthentication localAuthentication)
+        {
+            this.localAuthentication = localAuthentication;
+        }
+
+        public void CancelAuthenticate()
+        {
+            var alert = UIAlertController.Create("Login fail", "Can not login with fingerprint", UIAlertControllerStyle.Alert);
+            alert.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+
+            var topController = UIApplication.SharedApplication.KeyWindow.RootViewController;
+            while (topController.PresentedViewController != null)
+            {
+                topController = topController.PresentedViewController;
+            }
+            topController.PresentViewController(alert, true, null);
         }
     }
 }

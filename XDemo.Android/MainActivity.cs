@@ -5,6 +5,7 @@ using Android.OS;
 using FFImageLoading.Forms.Platform;
 using Android.Views;
 using Xamarin.Forms;
+using Plugin.CurrentActivity;
 
 namespace XDemo.Droid
 {
@@ -33,6 +34,8 @@ namespace XDemo.Droid
              * init the FFImageLoading component
              * ================================================================================================*/
             CachedImageRenderer.Init(true);
+
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
             /* ==================================================================================================
              * set the app info secure in app switcher

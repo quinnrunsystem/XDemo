@@ -10,10 +10,11 @@ using XDemo.Core.Storage;
 using XDemo.UI.Models.Validations.Base;
 using XDemo.UI.Models.Validations.DefinedRules;
 using XDemo.Core.BusinessServices.Interfaces.Hardwares.LocalAuthentications;
+using XDemo.Core.Infrastructure.Logging;
 
 namespace XDemo.UI.ViewModels.Common
 {
-    public class LoginPageViewModel : ViewModelBase
+    public class LoginPageViewModel : ViewModelBase, ILocalAuthentication
     {
         private readonly ISecurityService _securityService;
         private readonly IPageDialogService _pageDialogService;
@@ -40,7 +41,6 @@ namespace XDemo.UI.ViewModels.Common
             //example using local setting
             UserName.Value = setting.SavedUserId;
             Password.Value = setting.SavedPassword;
-
             /* ==================================================================================================
              * DONT USE LIKE THIS => BC THE SETTING VALUE WILL BE READ MANY TIMES (NOT GOOD)
              * UserName = StorageContext.Current.LoginSetting.SavedUserId;
@@ -55,21 +55,25 @@ namespace XDemo.UI.ViewModels.Common
 
         private ICommand _authCommand;
 
-        public ICommand AuthCommand => _authCommand ?? (_authCommand = new Command(async () => await AuthCommandExecute()));
+        public ICommand AuthCommand => _authCommand ?? (_authCommand = new Command(() => AuthCommandExecute()));
 
-        private async Task AuthCommandExecute()
+        private void AuthCommandExecute()
         {
-            var isEnrolled = _localAuthService.IsEnrolled();
 
             var isSupported = _localAuthService.IsSupported();
-            _localAuthService.AuthenticateAndroid("sdsd");
+            _localAuthService.setlocalAuthentication(this);
+            _localAuthService.AuthenticFingerprint("Login with fingerprint");
 
-            //var authRs = await _localAuthService.AuthenticateAsync("Test for touch id");
-            //if (authRs.IsSuccess)
-            //    await GoToMainPageAsync();
-            //else
-            //await _pageDialogService.DisplayAlertAsync("Error", authRs.ErrorMessage, "Ok");
         }
+
+        public async void AuthenticationFingerprintResult(FingerprintResult result)
+        {
+            if (result == FingerprintResult.Succeed)
+                await GoToMainPageAsync();
+            else if (result == FingerprintResult.Error)
+                _localAuthService.CancelAuthenticate();
+        }
+
 
         #endregion
 
